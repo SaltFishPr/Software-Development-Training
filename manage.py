@@ -18,6 +18,9 @@ def main():
 
 def fun2():
     pass
+def fun1():
+    print("git")
+
 
 if __name__ == '__main__':
     main()
