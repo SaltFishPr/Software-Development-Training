@@ -24,27 +24,7 @@
   <!-- End Layout styles -->
   <link rel="shortcut icon" href="../static/assets/images/favicon.png" />
 
-  <script>
-    window.onload = function () {
-      // $.ajax({
-      //   url: "user_center_info", data: post_data, success: function (data) {
-      //     user = data['user']
-      //     user_name = user['name']
-      //     user_grade = user['grade']
-      //     borrow = data['borrow']
-      //     borrow_name = borrow['name']
-      //     borrow_status = borrow['status']
-      //     borrow_time_1 = borrow['time_1']
-      //     borrow_time_2 = borrow['time_2']
-      //   }
-      // });
-    }
 
-
-
-
-
-  </script>
 
 </head>
 
@@ -396,9 +376,10 @@
               </div>
             </div>
           </div>
-          <!-- content-wrapper ends -->
-          <!-- partial:../../partials/_footer.html -->
-          <!-- <footer class="footer">
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <!-- <footer class="footer">
             <div class="container-fluid clearfix">
               <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright &copy; 2019.Company
                 name All rights reserved.<a target="_blank"
@@ -408,68 +389,72 @@
               </span>
             </div>
           </footer> -->
-          <!-- partial -->
-        </div>
-        <!-- main-panel ends -->
+
+        <!-- partial -->
       </div>
-      <!-- page-body-wrapper ends -->
+      <!-- main-panel ends -->
     </div>
-    <!-- container-scroller -->
-    <!-- plugins:js -->
-    <script src="../static/assets/vendors/js/vendor.bundle.base.js"></script>
-    <script src="../static/assets/vendors/js/vendor.bundle.addons.js"></script>
-    <!-- endinject -->
-    <!-- Plugin js for this page-->
-    <!-- End plugin js for this page-->
-    <!-- inject:js -->
-    <script src="../static/assets/js/shared/off-canvas.js"></script>
-    <script src="../static/assets/js/shared/misc.js"></script>
-    <!-- endinject -->
-    <!-- Custom js for this page-->
-    <!-- End custom js for this page-->
+    <!-- page-body-wrapper ends -->
   </div>
+  <!-- container-scroller -->
+  <!-- plugins:js -->
+  <script src="../static/assets/vendors/js/vendor.bundle.base.js"></script>
+  <script src="../static/assets/vendors/js/vendor.bundle.addons.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page-->
+  <!-- End plugin js for this page-->
+  <!-- inject:js -->
+  <script src="../static/assets/js/shared/off-canvas.js"></script>
+  <script src="../static/assets/js/shared/misc.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <!-- End custom js for this page-->
 </body>
 
 
 
 <script>
-  var user = {
-    'name': "jl",
-    'grade': "79级"
-  }
-  var borrow = {
-    'name': "joy of life",
-    'status': "借阅中",
-    'time_1': "10点",
-    'time_2': "20点"
-  }
+  // var user = {
+  //   'name': "jl",
+  //   'grade': "79级"
+  // }
+  // var borrow = {
+  //   'name': "joy of life",
+  //   'status': "借阅中",
+  //   'time_1': "10点",
+  //   'time_2': "20点"
+  // }
 
-  borrow_list = new Array()
-  borrow_list[0] = borrow
-  borrow_list[1] = borrow
-  borrow_list[2] = borrow
+  // borrow_list = new Array()
+  // borrow_list[0] = borrow
+  // borrow_list[1] = borrow
+  // borrow_list[2] = borrow
 
-  var data = {
-    'user': user,
-    'borrow_list': borrow_list
-  }
+  // var data = {
+  //   'user': user,
+  //   'borrow_list': borrow_list
+  // }
 
   function user_info_load(data) {
-    user = data['user']
+    user = data['user_info']
     user_name = user['name']
     user_grade = user['grade']
     document.getElementById("user_name").innerText = user_name
     document.getElementById("user_name_img_place").innerText = user_name
     document.getElementById("user_grade").innerText = user_grade
   }
-  user_info_load(data)
+  // user_info_load(data)
 
   function borrow_info_load(data) {
     borrow_list = data['borrow_list']
     var table = document.getElementById("myTable");
     // table.deleteTFoot();
     // var footer = table.createTFoot();
-    for (var i = 0; i < borrow_list.length; i++) {
+      var borrow_list_length = 0;
+    for (var item in borrow_list) {
+      borrow_list_length++;
+    }
+    for (var i = 0; i < borrow_list_length; i++) {
       var row = table.insertRow(0);
       var cell1 = row.insertCell(0);
       var cell2 = row.insertCell(1);
@@ -483,7 +468,18 @@
     }
   }
 
-  borrow_info_load(data)
+  // borrow_info_load(data)
+
+  window.onload = function () {
+
+    $.ajax({
+      url: "user_center_info", success: function (data) {
+        user_info_load(data)
+        borrow_info_load(data)
+
+      }
+    });
+  }
 </script>
 
 </html>

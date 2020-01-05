@@ -24,27 +24,7 @@
   <!-- End Layout styles -->
   <link rel="shortcut icon" href="../static/assets/images/favicon.png" />
 
-  <script>
-    window.onload = function () {
-      // $.ajax({
-      //   url: "user_center_info", data: post_data, success: function (data) {
-      //     user = data['user']
-      //     user_name = user['name']
-      //     user_grade = user['grade']
-      //     borrow = data['borrow']
-      //     borrow_name = borrow['name']
-      //     borrow_status = borrow['status']
-      //     borrow_time_1 = borrow['time_1']
-      //     borrow_time_2 = borrow['time_2']
-      //   }
-      // });
-    }
 
-
-
-
-
-  </script>
 
 </head>
 
@@ -326,49 +306,33 @@
               <div class="card-body">
                 <h4 class="card-title">Basic form</h4>
                 <p class="card-description"> Basic form elements </p>
+                <div class="form-group">
+                  <label for="exampleInputName1">Account</label>
+                  <input type="text" class="form-control" id="exampleInputName1" placeholder="Name" readonly="readonly">
+                </div>
                 <form class="forms-sample">
                   <div class="form-group">
                     <label for="exampleInputName1">Name</label>
-                    <input type="text" class="form-control" id="exampleInputName1" placeholder="Name">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputEmail3">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
+                    <input type="text" class="form-control" id="username" placeholder="Name">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword4">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword4" placeholder="Password">
+                    <input type="password" class="form-control" id="password" placeholder="Password">
                   </div>
-                  <div class="form-group">
-                    <label>File upload</label>
-                    <input type="file" name="img[]" class="file-upload-default">
-                    <div class="input-group col-xs-12">
-                      <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
-                      <span class="input-group-append">
-                        <button class="file-upload-browse btn btn-info" type="button">Upload</button>
-                      </span>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputCity1">City</label>
-                    <input type="text" class="form-control" id="exampleInputCity1" placeholder="Location">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleTextarea1">Textarea</label>
-                    <textarea class="form-control" id="exampleTextarea1" rows="2"></textarea>
-                  </div>
-                  <button type="submit" class="btn btn-success mr-2">Submit</button>
-                  <button class="btn btn-light">Cancel</button>
+                  <!-- <button class="btn btn-success mr-2" onclick="user_data_update()">Submit</button> -->
                 </form>
+                <div class="form-group">
+                  <input type="submit" value="Login" class="btn btn-success mr-2" onclick="user_data_update()">
+                </div>
               </div>
             </div>
           </div>
 
 
-
-          <!-- content-wrapper ends -->
-          <!-- partial:../../partials/_footer.html -->
-          <!-- <footer class="footer">
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <!-- <footer class="footer">
             <div class="container-fluid clearfix">
               <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright &copy; 2019.Company
                 name All rights reserved.<a target="_blank"
@@ -378,81 +342,106 @@
               </span>
             </div>
           </footer> -->
-          <!-- partial -->
-        </div>
-        <!-- main-panel ends -->
       </div>
-      <!-- page-body-wrapper ends -->
+      <!-- partial -->
     </div>
-    <!-- container-scroller -->
-    <!-- plugins:js -->
-    <script src="../static/assets/vendors/js/vendor.bundle.base.js"></script>
-    <script src="../static/assets/vendors/js/vendor.bundle.addons.js"></script>
-    <!-- endinject -->
-    <!-- Plugin js for this page-->
-    <!-- End plugin js for this page-->
-    <!-- inject:js -->
-    <script src="../static/assets/js/shared/off-canvas.js"></script>
-    <script src="../static/assets/js/shared/misc.js"></script>
-    <!-- endinject -->
-    <!-- Custom js for this page-->
-    <!-- End custom js for this page-->
+    <!-- main-panel ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+  <!-- plugins:js -->
+  <script src="../static/assets/vendors/js/vendor.bundle.base.js"></script>
+  <script src="../static/assets/vendors/js/vendor.bundle.addons.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page-->
+  <!-- End plugin js for this page-->
+  <!-- inject:js -->
+  <script src="../static/assets/js/shared/off-canvas.js"></script>
+  <script src="../static/assets/js/shared/misc.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <!-- End custom js for this page-->
 </body>
 
 
 
 <script>
-  var user = {
-    'name': "jl",
-    'grade': "79级"
-  }
-  var borrow = {
-    'name': "joy of life",
-    'status': "借阅中",
-    'time_1': "10点",
-    'time_2': "20点"
-  }
+  // var user = {
+  //   'name': "jl",
+  //   'grade': "79级"
+  // }
+  // var borrow = {
+  //   'name': "joy of life",
+  //   'status': "借阅中",
+  //   'time_1': "10点",
+  //   'time_2': "20点"
+  // }
 
-  borrow_list = new Array()
-  borrow_list[0] = borrow
-  borrow_list[1] = borrow
-  borrow_list[2] = borrow
+  // borrow_list = new Array()
+  // borrow_list[0] = borrow
+  // borrow_list[1] = borrow
+  // borrow_list[2] = borrow
 
-  var data = {
-    'user': user,
-    'borrow_list': borrow_list
-  }
+  // var data = {
+  //   'user': user,
+  //   'borrow_list': borrow_list
+  // }
 
-  function user_info_load(data) {
-    user = data['user']
-    user_name = user['name']
-    user_grade = user['grade']
-    document.getElementById("user_name").innerText = user_name
-    document.getElementById("user_name_img_place").innerText = user_name
-    document.getElementById("user_grade").innerText = user_grade
-  }
-  user_info_load(data)
+  // function user_info_load(data) {
+  //   user = data['user']
+  //   user_name = user['name']
+  //   user_grade = user['grade']
+  //   document.getElementById("user_name").innerText = user_name
+  //   document.getElementById("user_name_img_place").innerText = user_name
+  //   document.getElementById("user_grade").innerText = user_grade
+  // }
+  // user_info_load(data)
 
-  function borrow_info_load(data) {
-    borrow_list = data['borrow_list']
-    var table = document.getElementById("myTable");
-    // table.deleteTFoot();
-    // var footer = table.createTFoot();
-    for (var i = 0; i < borrow_list.length; i++) {
-      var row = table.insertRow(0);
-      var cell1 = row.insertCell(0);
-      var cell2 = row.insertCell(1);
-      var cell3 = row.insertCell(2);
-      var cell4 = row.insertCell(3);
-      cell1.innerHTML = borrow_list[i]['name'];
-      cell2.innerHTML = borrow_list[i]['status'];
-      cell3.innerHTML = borrow_list[i]['time_1'];
-      cell4.innerHTML = borrow_list[i]['time_2'];
+  // function borrow_info_load(data) {
+  //   borrow_list = data['borrow_list']
+  //   var table = document.getElementById("myTable");
+  //   // table.deleteTFoot();
+  //   // var footer = table.createTFoot();
+  //   for (var i = 0; i < borrow_list.length; i++) {
+  //     var row = table.insertRow(0);
+  //     var cell1 = row.insertCell(0);
+  //     var cell2 = row.insertCell(1);
+  //     var cell3 = row.insertCell(2);
+  //     var cell4 = row.insertCell(3);
+  //     cell1.innerHTML = borrow_list[i]['name'];
+  //     cell2.innerHTML = borrow_list[i]['status'];
+  //     cell3.innerHTML = borrow_list[i]['time_1'];
+  //     cell4.innerHTML = borrow_list[i]['time_2'];
+
+  //   }
+  // }
+
+  // borrow_info_load(data)
+
+  function user_data_update() {
+    username = (document.getElementById("username").value)
+    password = (document.getElementById("username").value)
+    if (username == "" && password == "") {
+      alert("请先输入修改数据")
+      return
+    }
+    post_data = {
+      'username': username,
+      'password': password
 
     }
-  }
+    $.ajax({
+      url: "user_data_update", data: post_data, success: function (data) {
+        if (data['dict']['flag'] == 1) {
+          alert("修改成功")
+        } else {
+          alert("修改失败")
+        }
+      }
+    });
 
-  borrow_info_load(data)
+  }
 </script>
 
 </html>
