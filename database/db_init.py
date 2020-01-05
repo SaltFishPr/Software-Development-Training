@@ -1,14 +1,17 @@
 import sqlite3
 import os
 
-database_path=os.path.dirname(__file__)+r'\PMS'
+database_path = os.path.dirname(__file__) + r'\PMS'
 print(database_path)
+
+
 def connect():
     mydb = sqlite3.connect(database_path)
     return mydb
 
+
 def creat_user_table():
-    mydb=connect()
+    mydb = connect()
     mycursor = mydb.cursor()
     mycursor.execute("CREATE TABLE User ("
                      "account VARCHAR(20) PRIMARY KEY,"
@@ -19,6 +22,7 @@ def creat_user_table():
     mycursor.close()
     mydb.close()
 
+
 def del_user_table():
     mydb = connect()
     mycursor = mydb.cursor()
@@ -27,8 +31,9 @@ def del_user_table():
     mycursor.close()
     mydb.close()
 
+
 def creat_periodical_table():
-    mydb=connect()
+    mydb = connect()
     mycursor = mydb.cursor()
     mycursor.execute("CREATE TABLE Periodical ("
                      "key INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -46,16 +51,18 @@ def creat_periodical_table():
     mycursor.close()
     mydb.close()
 
+
 def del_periodical_table():
-    mydb =connect()
+    mydb = connect()
     mycursor = mydb.cursor()
     sql = "DROP TABLE IF EXISTS Periodical"
     mycursor.execute(sql)
     mycursor.close()
     mydb.close()
 
+
 def creat_record_table():
-    mydb=connect()
+    mydb = connect()
     mycursor = mydb.cursor()
     mycursor.execute("CREATE TABLE Record ("
                      "account VARCHAR(20),"
@@ -69,8 +76,9 @@ def creat_record_table():
     mycursor.close()
     mydb.close()
 
+
 def del_record_table():
-    mydb =connect()
+    mydb = connect()
     mycursor = mydb.cursor()
     sql = "DROP TABLE IF EXISTS Record"
     mycursor.execute(sql)

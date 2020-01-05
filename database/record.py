@@ -34,10 +34,10 @@ def update_borrow_time(account, key, order_time):
     mycursor = mydb.cursor()
     borrow_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     sql = "UPDATE record SET borrow_time='%s'  Where account = '%s' AND key='%s' AND order_time='%s'" % (
-    borrow_time, account, key, order_time)
+        borrow_time, account, key, order_time)
     mycursor.execute(sql)
     sql = "UPDATE record SET borrow_flag= 1  Where account = '%s' AND key='%s' AND order_time='%s'" % (
-    account, key, order_time)
+        account, key, order_time)
     mycursor.execute(sql)
     mydb.commit()
     mycursor.close()
@@ -50,10 +50,10 @@ def update_return_time(account, key, borrow_time):
     mycursor = mydb.cursor()
     return_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     sql = "UPDATE record SET return_time='%s' Where account = '%s' AND key='%s' AND borrow_time='%s'" % (
-    return_time, account, key, borrow_time)
+        return_time, account, key, borrow_time)
     mycursor.execute(sql)
     sql = "UPDATE record SET return_flag=1 Where account = '%s' AND key='%s' AND borrow_time='%s'" % (
-    account, key, borrow_time)
+        account, key, borrow_time)
     mycursor.execute(sql)
     mydb.commit()
     mycursor.close()
@@ -65,7 +65,7 @@ def ask_record(account, key, order_flag, borrow_flag, return_flag):
     mydb = db_init.connect()
     mycursor = mydb.cursor()
     sql = "SELECT * FROM record WHERE account = '%s' AND key='%s' AND order_flag='%s' AND borrow_flag='%s' AND return_flag='%s'" % (
-    account, key, order_flag, borrow_flag, return_flag)
+        account, key, order_flag, borrow_flag, return_flag)
     mycursor.execute(sql)
     results = mycursor.fetchall()
     mycursor.close()
@@ -83,18 +83,21 @@ def ask_record_by_account(account):
     mycursor.close()
     mydb.close()
     return results
+
+
 def ask_key_by_account(account):
     mydb = db_init.connect()
     mycursor = mydb.cursor()
     sql = "SELECT key FROM Record WHERE account = '%s' " % (account)
     mycursor.execute(sql)
     results = mycursor.fetchall()
-    key=[]
+    key = []
     for row in results:
         key.append(row[0])
     mycursor.close()
     mydb.close()
     return key
+
 
 def get_info_account(account):
     mydb = db_init.connect()
@@ -105,6 +108,7 @@ def get_info_account(account):
     mycursor.close()
     mydb.close()
     return len(results)
+
 
 if __name__ == '__main__':
     pass

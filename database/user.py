@@ -138,7 +138,8 @@ def ask_user_grade(account):
     mydb.close()
     return grade
 
-#得到用户的名字
+
+# 得到用户的名字
 def get_name_by_account(account):
     mydb = db_init.connect()
     mycursor = mydb.cursor()
@@ -150,6 +151,7 @@ def get_name_by_account(account):
     mycursor.close()
     mydb.close()
     return name
+
 
 if __name__ == '__main__':
     print(get_name_by_account('jl'))
