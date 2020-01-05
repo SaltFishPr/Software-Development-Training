@@ -114,8 +114,40 @@ def journal_admin_store_page(request):
     return render(request, 'journal_admin_store_page.html')
 
 
-
 def user_center_info(request):
     account = request.get_signed_cookie('account', salt="666")
+    name = user.ask_user_name(account)
+    grarde = user.ask_user_grade(account)
+    user_info = {
+        'name': name,
+        'grade': grarde
+    }
+    borrow_list = []
+    borrow = {
+        'name': "",
+        'status': "",
+        'time_1': "",
+        'time_2': ""
+    }
+    borrow = dict()
+    borrow['name'] = 'science'
+    borrow['status'] = '借阅中'
+    borrow['time_1'] = '1点'
+    borrow['time_2'] = '未归还'
+    borrow_list.append(borrow)
+    borrow = dict()
+    borrow['name'] = 'nature'
+    borrow['status'] = '已经归还'
+    borrow['time_1'] = '1点'
+    borrow['time_2'] = '2点'
+    borrow_list.append(borrow)
+    print(borrow_list)
+    data = {
+        'user_info': user_info,
+        'borrow_list': borrow_list
+    }
+    return JsonResponse(data)
 
-    pass
+
+def user_data_update(request):
+    username=request.GET.get()

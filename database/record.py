@@ -83,8 +83,28 @@ def ask_record_by_account(account):
     mycursor.close()
     mydb.close()
     return results
+def ask_key_by_account(account):
+    mydb = db_init.connect()
+    mycursor = mydb.cursor()
+    sql = "SELECT key FROM Record WHERE account = '%s' " % (account)
+    mycursor.execute(sql)
+    results = mycursor.fetchall()
+    key=[]
+    for row in results:
+        key.append(row[0])
+    mycursor.close()
+    mydb.close()
+    return key
 
+def get_info_account(account):
+    mydb = db_init.connect()
+    mycursor = mydb.cursor()
+    sql = "SELECT key FROM Record WHERE account  = '%s'" % (account)
+    mycursor.execute(sql)
+    results = mycursor.fetchall()
+    mycursor.close()
+    mydb.close()
+    return len(results)
 
 if __name__ == '__main__':
-    result = ask_record('123', 1, 1, 1, 1)
-    print(result)
+    pass

@@ -436,7 +436,7 @@
   // }
 
   function user_info_load(data) {
-    user = data['user']
+    user = data['user_info']
     user_name = user['name']
     user_grade = user['grade']
     document.getElementById("user_name").innerText = user_name
@@ -450,7 +450,11 @@
     var table = document.getElementById("myTable");
     // table.deleteTFoot();
     // var footer = table.createTFoot();
-    for (var i = 0; i < borrow_list.length; i++) {
+      var borrow_list_length = 0;
+    for (var item in borrow_list) {
+      borrow_list_length++;
+    }
+    for (var i = 0; i < borrow_list_length; i++) {
       var row = table.insertRow(0);
       var cell1 = row.insertCell(0);
       var cell2 = row.insertCell(1);

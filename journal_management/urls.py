@@ -47,5 +47,6 @@ urlpatterns = [
     url('user_borrow_page',views.user_borrow_page),
     url('journal_admin_store_page',views.journal_admin_store_page),
     url('user_center_info',views.user_center_info),
+    url('user_data_update',views.user_data_update),
     url('',views.login_page)
 ]
