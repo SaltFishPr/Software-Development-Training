@@ -16,6 +16,8 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
+def fun2():
+    pass
 
 if __name__ == '__main__':
     main()
