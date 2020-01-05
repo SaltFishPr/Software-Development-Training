@@ -24,13 +24,28 @@
   <!-- End Layout styles -->
   <link rel="shortcut icon" href="../static/assets/images/favicon.png" />
 
+  <script>
+    window.onload = function () {
+      // $.ajax({
+      //   url: "user_center_info", data: post_data, success: function (data) {
+      //     user = data['user']
+      //     user_name = user['name']
+      //     user_grade = user['grade']
+      //     borrow = data['borrow']
+      //     borrow_name = borrow['name']
+      //     borrow_status = borrow['status']
+      //     borrow_time_1 = borrow['time_1']
+      //     borrow_time_2 = borrow['time_2']
+      //   }
+      // });
+    }
 
-    <script>
 
-        function cookie () {
-            console.log($.cookie('jl'))
-        }
-    </script>
+
+
+
+  </script>
+
 </head>
 
 <body>
@@ -201,7 +216,7 @@
                 <!-- <div class="dot-indicator bg-success"></div> -->
               </div>
               <div class="text-wrapper">
-                <p class="profile-name">userName</p>
+                <p class="profile-name" id="user_name_img_place">userName</p>
                 <!-- <p class="designation">Premium user</p> -->
               </div>
             </a>
@@ -306,25 +321,37 @@
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
-          123
-          {{ pageData }}
-          <button type="button" class="btn btn-primary btn-fw">Primary</button>
-          <div class="col-lg-6 grid-margin stretch-card">
+
+          <center>
+            <span>
+              <label id="user_name">
+              </label>
+            </span>
+            <span>
+              <label id="user_grade">
+
+              </label>
+            </span>
+          </center>
+
+
+
+          <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">Basic Table</h4>
+                <h4 class="card-title">借阅信息</h4>
                 <p class="card-description"> Add class <code>.table</code> </p>
                 <table class="table">
                   <thead>
                     <tr>
-                      <th>123</th>
-                      <th>456.</th>
-                      <th>Created</th>
-                      <th>Status</th>
+                      <th>名字</th>
+                      <th>状态</th>
+                      <th>借阅时间</th>
+                      <th>归还时间</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
+                  <tbody id="myTable">
+                    <!-- <tr>
                       <td>Jacob</td>
                       <td>53275531</td>
                       <td>12 May 2017</td>
@@ -363,7 +390,7 @@
                       <td>
                         <label class="badge badge-warning">In progress</label>
                       </td>
-                    </tr>
+                    </tr> -->
                   </tbody>
                 </table>
               </div>
@@ -400,6 +427,63 @@
     <!-- endinject -->
     <!-- Custom js for this page-->
     <!-- End custom js for this page-->
+  </div>
 </body>
+
+
+
+<script>
+  var user = {
+    'name': "jl",
+    'grade': "79级"
+  }
+  var borrow = {
+    'name': "joy of life",
+    'status': "借阅中",
+    'time_1': "10点",
+    'time_2': "20点"
+  }
+
+  borrow_list = new Array()
+  borrow_list[0] = borrow
+  borrow_list[1] = borrow
+  borrow_list[2] = borrow
+
+  var data = {
+    'user': user,
+    'borrow_list': borrow_list
+  }
+
+  function user_info_load(data) {
+    user = data['user']
+    user_name = user['name']
+    user_grade = user['grade']
+    document.getElementById("user_name").innerText = user_name
+    document.getElementById("user_name_img_place").innerText = user_name
+    document.getElementById("user_grade").innerText = user_grade
+  }
+  user_info_load(data)
+
+  function borrow_info_load(data) {
+    borrow_list = data['borrow_list']
+    var table = document.getElementById("myTable");
+    // table.deleteTFoot();
+    // var footer = table.createTFoot();
+    for (var i = 0; i < borrow_list.length; i++) {
+      var row = table.insertRow(0);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+      var cell4 = row.insertCell(3);
+      cell1.innerHTML = borrow_list[i]['name'];
+      cell2.innerHTML = borrow_list[i]['status'];
+      cell3.innerHTML = borrow_list[i]['time_1'];
+      cell4.innerHTML = borrow_list[i]['time_2'];
+
+    }
+  }
+
+  borrow_info_load(data)
+</script>
 
 </html>

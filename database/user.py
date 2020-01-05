@@ -140,4 +140,4 @@ def ask_user_grade(account):
 
 
 if __name__ == '__main__':
-    del_user('adsad')
+    print(ask_user_grade('jl'))

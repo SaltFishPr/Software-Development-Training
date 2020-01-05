@@ -60,8 +60,16 @@ def AskRecord(account,key,order_flag,borrow_flag,return_flag):
     mydb.close()
     return results
 
-
-
+#用户借阅信息查询
+def ask_record_by_account(account):
+    mydb = db_init.connect()
+    mycursor = mydb.cursor()
+    sql = "SELECT * FROM Record WHERE account = '%s' "%(account)
+    mycursor.execute(sql)
+    results = mycursor.fetchall()
+    mycursor.close()
+    mydb.close()
+    return results
 
 if __name__ == '__main__':
     result=AskRecord('123',1,1,1,1)
