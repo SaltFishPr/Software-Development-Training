@@ -5,8 +5,8 @@ from database import db_init
 def add_user(account, password, username, identity, grade):
     mydb = db_init.connect()
     mycursor = mydb.cursor()
-    sql = "INSERT INTO User (account,password,name,identity,grade) VALUES ('%s','%s','%s','%s','%s')" % (
-    account, password, username, identity, grade)
+    sql = "INSERT INTO user (account,password,name,identity,grade) VALUES ('%s','%s','%s','%s','%s')" % (
+        account, password, username, identity, grade)
     mycursor.execute(sql)
     mydb.commit()
     mycursor.close()
@@ -17,7 +17,7 @@ def add_user(account, password, username, identity, grade):
 def check_account_exsit(account):
     mydb = db_init.connect()
     mycursor = mydb.cursor()
-    sql = "SELECT * FROM User WHERE account  = '%s'" % (account)
+    sql = "SELECT * FROM user WHERE account  = '%s'" % (account)
     mycursor.execute(sql)
     values = mycursor.fetchall()
     mycursor.close()
@@ -32,7 +32,7 @@ def check_account_exsit(account):
 def check_password_exsit(account):
     mydb = db_init.connect()
     mycursor = mydb.cursor()
-    sql = "SELECT password FROM User WHERE account  = '%s'" % (account)
+    sql = "SELECT password FROM user WHERE account  = '%s'" % (account)
     mycursor.execute(sql)
     results = mycursor.fetchall()
     for row in results:
@@ -46,7 +46,7 @@ def check_password_exsit(account):
 def del_user(account):
     mydb = db_init.connect()
     mycursor = mydb.cursor()
-    sql = "DELETE FROM User WHERE account = '%s'" % (account)
+    sql = "DELETE FROM user WHERE account = '%s'" % (account)
     mycursor.execute(sql)
     mydb.commit()
     mycursor.close()
@@ -57,7 +57,7 @@ def del_user(account):
 def update_user_password(account, newpwd):
     mydb = db_init.connect()
     mycursor = mydb.cursor()
-    sql = "UPDATE User SET password='%s' WHERE account = '%s'" % (newpwd, account)
+    sql = "UPDATE user SET password='%s' WHERE account = '%s'" % (newpwd, account)
     mycursor.execute(sql)
     mydb.commit()
     mycursor.close()
@@ -68,7 +68,7 @@ def update_user_password(account, newpwd):
 def update_user_name(account, newname):
     mydb = db_init.connect()
     mycursor = mydb.cursor()
-    sql = "UPDATE User SET name='%s' WHERE account = '%s'" % (newname, account)
+    sql = "UPDATE user SET name='%s' WHERE account = '%s'" % (newname, account)
     mycursor.execute(sql)
     mydb.commit()
     mycursor.close()
@@ -79,7 +79,7 @@ def update_user_name(account, newname):
 def update_user_identity(account, newidentity):
     mydb = db_init.connect()
     mycursor = mydb.cursor()
-    sql = "UPDATE User SET identity='%s' WHERE account ='%s'" % (newidentity, account)
+    sql = "UPDATE user SET identity='%s' WHERE account ='%s'" % (newidentity, account)
     mycursor.execute(sql)
     mydb.commit()
     mycursor.close()
@@ -90,7 +90,7 @@ def update_user_identity(account, newidentity):
 def update_user_grade(account, newgrade):
     mydb = db_init.connect()
     mycursor = mydb.cursor()
-    sql = "UPDATE User SET grade='%s' WHERE account = '%s'" % (newgrade, account)
+    sql = "UPDATE user SET grade='%s' WHERE account = '%s'" % (newgrade, account)
     mycursor.execute(sql)
     mydb.commit()
     mycursor.close()
@@ -101,7 +101,7 @@ def update_user_grade(account, newgrade):
 def ask_user_name(account):
     mydb = db_init.connect()
     mycursor = mydb.cursor()
-    sql = "SELECT name FROM USer WHERE account  = '%s'" % (account)
+    sql = "SELECT name FROM user WHERE account  = '%s'" % (account)
     mycursor.execute(sql)
     results = mycursor.fetchall()
     for row in results:
@@ -115,7 +115,7 @@ def ask_user_name(account):
 def ask_user_identity(account):
     mydb = db_init.connect()
     mycursor = mydb.cursor()
-    sql = "SELECT identity FROM USer WHERE account  = '%s'" % (account)
+    sql = "SELECT identity FROM user WHERE account  = '%s'" % (account)
     mycursor.execute(sql)
     results = mycursor.fetchall()
     for row in results:
@@ -129,7 +129,7 @@ def ask_user_identity(account):
 def ask_user_grade(account):
     mydb = db_init.connect()
     mycursor = mydb.cursor()
-    sql = "SELECT grade FROM USer WHERE account  = '%s'" % (account)
+    sql = "SELECT grade FROM user WHERE account  = '%s'" % (account)
     mycursor.execute(sql)
     results = mycursor.fetchall()
     for row in results:

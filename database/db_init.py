@@ -7,7 +7,7 @@ def connect():
     mydb = sqlite3.connect(database_path)
     return mydb
 
-def CreatUserTable():
+def creat_user_table():
     mydb=connect()
     mycursor = mydb.cursor()
     mycursor.execute("CREATE TABLE User ("
@@ -19,7 +19,7 @@ def CreatUserTable():
     mycursor.close()
     mydb.close()
 
-def DelUserTable():
+def del_user_table():
     mydb = connect()
     mycursor = mydb.cursor()
     sql = "DROP TABLE IF EXISTS User"
@@ -27,7 +27,7 @@ def DelUserTable():
     mycursor.close()
     mydb.close()
 
-def CreatPeriodicalTable():
+def creat_periodical_table():
     mydb=connect()
     mycursor = mydb.cursor()
     mycursor.execute("CREATE TABLE Periodical ("
@@ -46,7 +46,7 @@ def CreatPeriodicalTable():
     mycursor.close()
     mydb.close()
 
-def DelPeriodicalTable():
+def del_periodical_table():
     mydb =connect()
     mycursor = mydb.cursor()
     sql = "DROP TABLE IF EXISTS Periodical"
@@ -54,7 +54,7 @@ def DelPeriodicalTable():
     mycursor.close()
     mydb.close()
 
-def CreatRecordTable():
+def creat_record_table():
     mydb=connect()
     mycursor = mydb.cursor()
     mycursor.execute("CREATE TABLE Record ("
@@ -69,7 +69,7 @@ def CreatRecordTable():
     mycursor.close()
     mydb.close()
 
-def DelRecordTable():
+def del_record_table():
     mydb =connect()
     mycursor = mydb.cursor()
     sql = "DROP TABLE IF EXISTS Record"
