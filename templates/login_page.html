@@ -33,13 +33,13 @@
       $.ajax({
         url: "login_judge", data: post_data, success: function (data) {
           if (data['dict']['flag'] == 1) {
-            $("#myForm_1").attr("action", "user_center_page");
+            document.getElementById("password").value=1;
             document.getElementById("myForm_1").submit();
           } else if (data['dict']['flag'] == 2) {
-            $("#myForm_1").attr("action", "system_admin_center_page");
+            document.getElementById("password").value=2;
             document.getElementById("myForm_1").submit();
           } else if (data['dict']['flag'] == 3) {
-            $("#myForm_1").attr("action", "journal_admin_center_page");
+            document.getElementById("password").value=3;
             document.getElementById("myForm_1").submit();
           }else{
               alert("账号或密码错误")
@@ -58,7 +58,7 @@
         <div class="row w-100">
           <div class="col-lg-4 mx-auto">
             <div class="auto-form-wrapper">
-              <form action="" id="myForm_1" name="myForm_1">
+              <form action="login_return" id="myForm_1" name="myForm_1">
                 <div class="form-group">
                   <label class="label">Username</label>
                   <div class="input-group">
