@@ -150,4 +150,37 @@ def user_center_info(request):
 
 
 def user_data_update(request):
-    username=request.GET.get()
+    account=request.get_signed_cookie('account',salt='666')
+    name=request.GET.get('username')
+    pwd=request.GET.get('password')
+    dict1 = {
+        'flag': -1
+    }
+    data = {
+        'dict': dict1
+    }
+    if name =="":
+        if name==user.get_name_by_account(account):
+            dict1['flag'] = 0
+            return JsonResponse(data)
+        user.update_user_password(account,pwd)
+    elif pwd =="":
+        if pwd==user.check_password_exsit(account):
+            dict1['flag']=0
+            return JsonResponse(data)
+        user.update_user_name(account,name)
+    else:
+        if name == user.get_name_by_account(account):
+            if pwd == user.check_password_exsit(account):
+                dict1['flag'] = 0
+                return JsonResponse(data)
+            else:
+                user.update_user_password(account, pwd)
+        else:
+            if pwd == user.check_password_exsit(account):
+                user.update_user_name(account, name)
+            else:
+                user.update_user_password(account, pwd)
+                user.update_user_name(account, name)
+    dict1['flag'] = 1
+    return JsonResponse(data)
