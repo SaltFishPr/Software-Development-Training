@@ -189,3 +189,6 @@ def admin_user_update(request):
 def admin_users_info(request):
     data = JsonPack.get_user_info()
     return JsonResponse(data)
+
+def account_select_load(request):
+    pass

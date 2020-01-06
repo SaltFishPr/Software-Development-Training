@@ -337,13 +337,11 @@ class JsonPack(object):
     @classmethod
     def get_user_info(cls):
         """
-
-        :return:
+        管理员得到(读者)和(期刊管理员)的信息
+        :return:data
         """
         reader_list=[]
         journal_admin_list=[]
-
-
         reader_results=UserDB.get_info_by_identity('reader')
         journal_admin_results=UserDB.get_info_by_identity('journal_admin')
         for i in range(len(reader_results)):
