@@ -124,7 +124,7 @@ class RecordDB(DBBase):
     def get_key_by_account(cls, account):
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
-        sql = "SELECT key FROM Record WHERE account = '%s' " % account
+        sql = "SELECT key FROM record WHERE account = '%s' " % account
         mycursor.execute(sql)
         results = mycursor.fetchall()
         key = []
@@ -138,7 +138,7 @@ class RecordDB(DBBase):
     def get_info_length(cls, account):
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
-        sql = "SELECT key FROM Record WHERE account  = '%s'" % account
+        sql = "SELECT key FROM record WHERE account  = '%s'" % account
         mycursor.execute(sql)
         results = mycursor.fetchall()
         mycursor.close()

@@ -218,7 +218,7 @@ class UserDB(DBBase):
         """
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
-        sql = "SELECT name FROM USer WHERE account  = '%s'" % account
+        sql = "SELECT name FROM user WHERE account  = '%s'" % account
         mycursor.execute(sql)
         results = mycursor.fetchall()
         name = results[0][0]
@@ -226,24 +226,16 @@ class UserDB(DBBase):
         mydb.close()
         return name
 
-
     @classmethod
-    def get_info_by_identity(cls,identity):
+    def get_info_by_identity(cls, identity):
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
-        sql = "SELECT * FROM USer WHERE identity  = '%s'" % identity
+        sql = "SELECT * FROM user WHERE identity  = '%s'" % identity
         mycursor.execute(sql)
         results = mycursor.fetchall()
         mycursor.close()
         mydb.close()
         return results
-
-
-
-
-
-
-
 
 
 if __name__ == '__main__':
