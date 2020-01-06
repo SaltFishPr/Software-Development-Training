@@ -217,7 +217,7 @@ class JsonPack(object):
         return data
 
     @classmethod
-    def config_journal(clf,name,year,stage):
+    def config_journal(cls, name, year, stage):
         """
 
         :param name:
@@ -225,6 +225,7 @@ class JsonPack(object):
         :param stage:
         :return:
         """
+
 
 if __name__ == '__main__':
     pass
