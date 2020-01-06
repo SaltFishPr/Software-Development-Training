@@ -2,7 +2,6 @@ import sqlite3
 import os
 
 database_path = os.path.dirname(__file__) + r'\PMS'
-print(database_path)
 
 
 class DBBase(object):

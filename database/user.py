@@ -2,6 +2,20 @@ from database.db_base import DBBase
 
 
 class UserDB(DBBase):
+    @classmethod
+    def check_user_exist(cls, account):
+        mydb = DBBase.connect()
+        mycursor = mydb.cursor()
+        sql = "SELECT * FROM user WHERE account  = '%s'" % account
+        mycursor.execute(sql)
+        results = mycursor.fetchall()
+        mycursor.close()
+        mydb.close()
+        if not results:
+            return False
+        else:
+            return True
+        pass
 
     @classmethod
     def add_user(cls, account, password, username, identity, grade):
@@ -123,6 +137,18 @@ class UserDB(DBBase):
         mydb.close()
 
     @classmethod
+    def get_user_password(cls, account):
+        mydb = DBBase.connect()
+        mycursor = mydb.cursor()
+        sql = "SELECT password FROM user WHERE account  = '%s'" % account
+        mycursor.execute(sql)
+        results = mycursor.fetchall()
+        password = results[0][0]
+        mycursor.close()
+        mydb.close()
+        return password
+
+    @classmethod
     def get_user_name(cls, account):
         """
         得到用户的昵称
@@ -173,20 +199,23 @@ class UserDB(DBBase):
         mydb.close()
         return grade
 
-
-# 得到用户的名字
-def get_name_by_account(account):
-    mydb = db_init.connect()
-    mycursor = mydb.cursor()
-    sql = "SELECT name FROM USer WHERE account  = '%s'" % (account)
-    mycursor.execute(sql)
-    results = mycursor.fetchall()
-    for row in results:
-        name = row[0]
-    mycursor.close()
-    mydb.close()
-    return name
+    @classmethod
+    def get_name_by_account(cls, account):
+        """
+        得到用户的昵称
+        :param account: 用户账户
+        :return: 用户昵称
+        """
+        mydb = DBBase.connect()
+        mycursor = mydb.cursor()
+        sql = "SELECT name FROM USer WHERE account  = '%s'" % account
+        mycursor.execute(sql)
+        results = mycursor.fetchall()
+        name = results[0][0]
+        mycursor.close()
+        mydb.close()
+        return name
 
 
 if __name__ == '__main__':
-    print(get_name_by_account('jl'))
+    print(UserDB.check_user_exist('sssasda'))

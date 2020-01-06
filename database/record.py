@@ -83,7 +83,6 @@ class RecordDB(DBBase):
         mycursor.close()
         mydb.close()
 
-    # 查询记录
     @classmethod
     def get_record(cls, account, key, order_flag, borrow_flag, return_flag):
         """
@@ -97,8 +96,8 @@ class RecordDB(DBBase):
         """
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
-        sql = "SELECT * FROM record WHERE account = '%s' AND key='%s' AND order_flag='%s' AND borrow_flag='%s' AND return_flag='%s'" % (
-            account, key, order_flag, borrow_flag, return_flag)
+        sql = "SELECT * FROM record WHERE account = '%s' AND key='%s' AND order_flag='%s' AND borrow_flag='%s' AND " \
+              "return_flag='%s'" % (account, key, order_flag, borrow_flag, return_flag)
         mycursor.execute(sql)
         results = mycursor.fetchall()
         mycursor.close()
