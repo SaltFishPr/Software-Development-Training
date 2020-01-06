@@ -117,6 +117,7 @@ class JsonPack(object):
         }
         return data
 
+
     @classmethod
     def update_user_check(cls, account, name, pwd):
         """
@@ -159,6 +160,73 @@ class JsonPack(object):
                     UserDB.update_user_password(account, pwd)
                     UserDB.update_user_name(account, name)
                     dict1['flag'] = 1
+        return data
+
+    @classmethod
+    def get_journal_info(cls):
+        """
+        返回所有的期刊数据，只取名字
+        :return:data
+        """
+        journal_list = []
+        data = {
+            'journal_list': journal_list
+        }
+        journal = {
+            'name': "",
+            'year': "null",
+            'stage': "null"
+        }
+        results = JournalDB.get_journal()
+        len_info = len(JournalDB.get_journal())
+        for i in range(len_info):
+            journal = dict()
+            journal['name'] = results[i][4]
+            journal['year'] = "null"
+            journal['stage'] = "null"
+            journal_list.append(journal)
+        return data
+
+    @classmethod
+    def get_journal_year(cls, name):
+        """
+        根据期刊的名字得到期刊的年
+        :param name:
+        :return:data
+        """
+        journal_list = []
+        data = {
+            'journal_list': journal_list
+        }
+
+        results = JournalDB.get_year_by_name(name)
+        for temp in results:
+            journal = dict()
+            journal['name'] = 'science'
+            journal['year'] = temp
+            journal['stage'] = 'null'
+            journal_list.append(journal)
+        return data
+
+    @classmethod
+    def get_journal_stage(clf, name, year):
+        """
+        根据期刊的名字和年得到期刊的所有期
+        :param name:
+        :param year:
+        :return:
+        """
+        journal_list = []
+        data = {
+            'journal_list': journal_list
+        }
+        results = JournalDB.get_stage_by_nameandyear(name, year)
+        for temp in results:
+            journal = dict()
+            journal['name'] = name
+            journal['year'] = year
+            journal['stage'] = temp
+            journal_list.append(journal)
         return data
 
 

@@ -19,6 +19,8 @@ from django.contrib import admin
 from django.urls import path
 from journal_management_system import views
 
+
+
 urlpatterns = [
     path(r'admin/', admin.site.urls),
     # path('', views.page),
@@ -30,19 +32,24 @@ urlpatterns = [
     # path('font-awesome.html', views.test_icon),
     # url('index_v1', views.test)
 
-    url('login_page', views.login_page),
-    url('login_judge', views.login_judge),
-    url('login_return', views.login_return),
-    url('register_judge', views.register_judge),
-    url('register_return', views.register_return),
-    url('register_page', views.register_page),
-    url('user_center_page', views.user_center_page),
-    url('system_admin_center_page', views.system_admin_center_page),
-    url('journal_admin_center_page', views.journal_admin_center_page),
-    url('user_data_page', views.user_data_page),
-    url('user_borrow_page', views.user_borrow_page),
-    url('journal_admin_store_page', views.journal_admin_store_page),
-    url('user_center_info', views.user_center_info),
-    url('user_data_update', views.user_data_update),
-    url('', views.login_page)
+
+
+    url('login_page',views.login_page),
+    url('login_judge',views.login_judge),
+    url('login_return',views.login_return),
+    url('register_judge',views.register_judge),
+    url('register_return',views.register_return),
+    url('register_page',views.register_page),
+    url('user_center_page',views.user_center_page),
+    url('system_admin_center_page',views.system_admin_center_page),
+    url('journal_admin_center_page',views.journal_admin_center_page),
+    url('user_data_page',views.user_data_page),
+    url('user_borrow_page',views.user_borrow_page),
+    url('journal_admin_store_page',views.journal_admin_store_page),
+    url('user_center_info',views.user_center_info),
+    url('user_data_update',views.user_data_update),
+    url('journal_search_load',views.journal_search_load),
+    url('journal_name_search',views.journal_name_search),
+    url('journal_year_search',views.journal_year_search),
+    url('',views.login_page)
 ]

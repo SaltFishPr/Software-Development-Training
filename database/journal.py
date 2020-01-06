@@ -14,6 +14,45 @@ class JournalDB(DBBase):
         mydb.close()
         return name
 
+    @classmethod
+    def get_journal(cls):
+        mydb = DBBase.connect()
+        mycursor = mydb.cursor()
+        sql = "SELECT * FROM journal"
+        mycursor.execute(sql)
+        results = mycursor.fetchall()
+        mycursor.close()
+        mydb.close()
+        return results
+
+    @classmethod
+    def get_year_by_name(cls, name):
+        mydb = DBBase.connect()
+        mycursor = mydb.cursor()
+        sql = "SELECT year FROM journal WHERE name = '%s' " % name
+        mycursor.execute(sql)
+        results = mycursor.fetchall()
+        year = []
+        for i in range(len(results)):
+            year.append(results[i][0])
+        mycursor.close()
+        mydb.close()
+        return year
+
+    @classmethod
+    def get_stage_by_nameandyear(cls, name, year):
+        mydb = DBBase.connect()
+        mycursor = mydb.cursor()
+        sql = "SELECT stage FROM journal WHERE name = '%s' AND year='%d'" % (name, year)
+        mycursor.execute(sql)
+        results = mycursor.fetchall()
+        stage = []
+        for i in range(len(results)):
+            stage.append(results[i][0])
+        mycursor.close()
+        mydb.close()
+        return stage
+
 
 if __name__ == '__main__':
-    pass
+    print(JournalDB.get_stage_by_nameandyear('science', 1999))

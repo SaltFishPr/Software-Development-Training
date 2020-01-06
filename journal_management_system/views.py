@@ -77,7 +77,6 @@ def login_return(request):
 # 跳转到用户中心
 def user_center_page(request):
     ret = request.get_signed_cookie('account', salt="666")
-    print(ret)
     return render(request, 'user_center_page.html')
 
 
@@ -126,9 +125,35 @@ def user_center_info(request):
     return JsonResponse(data)
 
 
+# 用户数据更新
 def user_data_update(request):
     account = request.get_signed_cookie('account', salt='666')
     name = request.GET.get('username')
     pwd = request.GET.get('password')
     data = JsonPack.update_user_check(account, name, pwd)
+    return JsonResponse(data)
+
+
+#得到期刊的信息
+def journal_search_load(request):
+    data=JsonPack.get_journal_info()
+    print(data)
+    return JsonResponse(data)
+
+#根据年搜索期刊
+
+def journal_name_search(request):
+    print('345')
+    name=request.GET.get('name')
+    print(name)
+    data = JsonPack.get_journal_year(name)
+    print(data)
+    return JsonResponse(data)
+
+def journal_year_search(request):
+    print('123')
+    name=request.GET.get('name')
+    year=int(request.GET.get('year'))
+    data = JsonPack.get_journal_stage(name,year)
+    print(data)
     return JsonResponse(data)
