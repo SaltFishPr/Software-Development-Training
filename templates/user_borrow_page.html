@@ -308,7 +308,7 @@
                     <div class="form-group row">
                       <label class="col-sm-3 col-form-label">Name</label>
                       <div class="col-sm-9">
-                        <select class="form-control" id="name_select" onchange="journal_name_search()">
+                        <select class="form-control" id="name_select" onclick="journal_name_search()">
                           <option>258</option>
                         </select>
                       </div>
@@ -331,7 +331,7 @@
                     <div class="form-group row">
                       <label class="col-sm-3 col-form-label">Stage</label>
                       <div class="col-sm-9">
-                        <select class="form-control" id="stage_select" onchange="journal_stage_search()">
+                        <select class="form-control" id="stage_select" onclick="journal_stage_search()">
                         </select>
                       </div>
                     </div>
@@ -581,14 +581,18 @@
         journal_card_load(data)
       }
     });
+    $.ajax({
+      url: "user_borrow_info", data: post_data, success: function (data) {
+        user_borrow_info(data)
+      }
+    });
+
   }
   function user_borrow_info(data) {
     user = data['user_info']
     user_name = user['name']
     user_grade = user['grade']
-    user_account = user['account']
     document.getElementById("username").innerText = user_name
-    document.getElementById("account").innerText = user_account
     document.getElementById("user_grade_img_place").innerText = user_grade
   }
 
