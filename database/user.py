@@ -228,4 +228,9 @@ class UserDB(DBBase):
 
 
 if __name__ == '__main__':
-    print(UserDB.check_user_exist('jl'))
+    # dict_test = {
+    #     'grade': 1
+    # }
+    # UserDB.get_user_info('user', dict_test)
+    pass
+    # print(UserDB.check_user_exist('jl'))
