@@ -173,19 +173,27 @@ def user_data_info(request):
     data = JsonPack.push_user_info_data(account)
     return JsonResponse(data)
 
+
 def admin_info(request):
     account = request.get_signed_cookie('account', salt='666')
     data = JsonPack.push_user_info_data(account)
     return JsonResponse(data)
+
 
 def admin_user_update(request):
     account = request.GET.get('account')
     name = request.GET.get('name')
     grade = request.GET.get('grade')
     identity = request.GET.get('identity')
-    data = JsonPack.modify_user_info(account,name,grade,identity)
+    data = JsonPack.modify_user_info(account, name, grade, identity)
     return JsonResponse(data)
+
 
 def admin_users_info(request):
     data = JsonPack.get_user_info()
+    return JsonResponse(data)
+
+
+def account_select_load(request):
+    data = JsonPack.get_all_user_info()
     return JsonResponse(data)
