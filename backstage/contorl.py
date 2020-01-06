@@ -310,6 +310,11 @@ class JsonPack(object):
         name_flag = 0
         grade_flag = 0
         identity_flag = 0
+        if UserDB.check_user_exist(account) == False:
+            data = {
+                'flag': 0
+            }
+            return data
         if name != "" and name != UserDB.get_user_name(account):
             UserDB.update_user_name(account, name)
             name_flag = 1
@@ -360,6 +365,27 @@ class JsonPack(object):
         }
         return data
 
+    @classmethod
+    def get_all_user_info(cls):
+        """
+        管理员得到全部的用户信息进行修改操作
+        :return: data
+        """
+        account_list = []
+        data = {
+            'account_list': account_list
+        }
+
+        get_user_dict = {
+
+        }
+        user_results = UserDB.get_info_by_dict('User', get_user_dict)
+        for i in range(len(user_results)):
+            user_account = dict()
+            user_account['account'] = user_results[i][0]
+            account_list.append(user_account)
+        return data
+
 
 if __name__ == '__main__':
-    print(JsonPack.get_user_info())
+    print(JsonPack.get_all_user_info())
