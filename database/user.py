@@ -4,6 +4,11 @@ from database.db_base import DBBase
 class UserDB(DBBase):
     @classmethod
     def check_user_exist(cls, account):
+        """
+        新建账户时检测账户是否已经存在
+        :param account: 用户账户
+        :return: bool
+        """
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
         sql = "SELECT * FROM user WHERE account  = '%s'" % account
@@ -138,6 +143,11 @@ class UserDB(DBBase):
 
     @classmethod
     def get_user_password(cls, account):
+        """
+
+        :param account: 用户账户
+        :return: 用户密码
+        """
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
         sql = "SELECT password FROM user WHERE account  = '%s'" % account
