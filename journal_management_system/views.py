@@ -218,6 +218,7 @@ def user_register(request):
     identity = request.GET.get('identity')
     grade = int(request.GET.get('grade'))
     data = JsonPack.register_check(account,password,name,identity,grade)
+    print(data)
     return JsonResponse(data)
 
 def user_delete(request):
