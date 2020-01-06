@@ -197,7 +197,7 @@
               </div>
               <div class="text-wrapper">
                 <p class="profile-name" id="user_name_img_place">userName</p>
-                <!-- <p class="designation">Premium user</p> -->
+                <p class="designation" id="user_grade_img_place">Premium user</p>
               </div>
             </a>
           </li>
@@ -308,7 +308,7 @@
                 <p class="card-description"> Basic form elements </p>
                 <div class="form-group">
                   <label for="exampleInputName1">Account</label>
-                  <input type="text" class="form-control" id="exampleInputName1" placeholder="Name" readonly="readonly">
+                  <input type="text" class="form-control" id="account" placeholder="Name" readonly="readonly">
                 </div>
                 <form class="forms-sample">
                   <div class="form-group">
@@ -440,6 +440,25 @@
         }
       }
     });
+
+    function user_data_info(data) {
+      user = data['user_info']
+      user_name = user['name']
+      user_grade = user['grade']
+      user_account = user['account']
+      document.getElementById("username").innerText = user_name
+      document.getElementById("account").innerText = user_account
+      document.getElementById("user_grade_img_place").innerText = user_grade
+    }
+
+    window.onload = function () {
+      $.ajax({
+        url: "user_data_info", success: function (data) {
+          user_data_info(data)
+        }
+      });
+    }
+
 
   }
 </script>
