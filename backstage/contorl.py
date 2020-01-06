@@ -3,7 +3,10 @@
 from database.user import UserDB
 from database.record import RecordDB
 from database.journal import JournalDB
-
+from backstage.users import User
+from backstage.users import Admin
+from backstage.users import Reader
+from backstage.users import PeriodicalAdmin
 
 class JsonPack(object):
     @classmethod
@@ -411,13 +414,22 @@ class JsonPack(object):
 
 
     @classmethod
-    def check_del_user(cls,account):
+    def check_del_user(cls,cur_account,account):
+        """
+        注销不能注销当前用户
+        :param cur_account: 当前用户
+        :param account: 要注销的用户
+        :return:
+        """
         dict1 = {
             'flag': -1
         }
         data = {
             'dict': dict1
         }
+        if cur_account == account:
+            dict1['flag'] = 0
+            return data
         # 执行数据库的删除操作
         if UserDB.check_user_exist(account):  # 如果存在该用户
             UserDB.del_user(account)
@@ -425,5 +437,23 @@ class JsonPack(object):
         else:#用户不存在
             dict1['flag'] = 0
         return data
+
+    @classmethod
+    def get_user_identity(cls,cur_account):
+        """
+        根据当前的用户得到相应权限的对象
+        :param cur_account: 当前用户
+        :return: users类下面的三种对象
+        """
+        identity=UserDB.get_user_identity(cur_account)
+        if identity == 'admin':
+            admin = Admin(cur_account)
+            return admin
+        elif identity == 'journal_admin':
+            journal_admin = PeriodicalAdmin(cur_account)
+            return journal_admin
+        else:
+            reader = Reader(cur_account)
+            return reader
 if __name__ == '__main__':
-    print(JsonPack.get_all_user_info())
+    print(JsonPack.get_user_info())

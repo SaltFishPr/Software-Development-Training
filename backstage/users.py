@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from backstage.journals import Journal
-
+from database.user import UserDB
 
 class User(object):
     def __init__(self, account, password, name):
@@ -32,6 +32,26 @@ class Admin(User):
     def _remove_account(self):
         pass
 
+
+    def get_all_user_info(self):
+        """
+        管理员得到全部的用户信息进行修改操作
+        :return: data
+        """
+        account_list = []
+        data = {
+            'account_list': account_list
+        }
+
+        get_user_dict = {
+
+        }
+        user_results = UserDB.get_info_by_dict('User', get_user_dict)
+        for i in range(len(user_results)):
+            user_account = dict()
+            user_account['account'] = user_results[i][0]
+            account_list.append(user_account)
+        return data
 
 class PeriodicalAdmin(User):
     def __init__(self, account, password, name):

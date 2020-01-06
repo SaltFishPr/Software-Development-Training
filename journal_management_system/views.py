@@ -201,7 +201,10 @@ def admin_users_info(request):
 
 
 def account_select_load(request):
-    data = JsonPack.get_all_user_info()
+    cur_account = request.get_signed_cookie('account',salt='666')
+
+    a=JsonPack.get_user_identity()
+    data=a.get_all_user_info()
     return JsonResponse(data)
 
 
@@ -222,6 +225,7 @@ def user_register(request):
     return JsonResponse(data)
 
 def user_delete(request):
+    cur_account = request.get_signed_cookie('account',salt='666')
     account = request.GET.get('account')
-    data = JsonPack.check_del_user(account)
+    data = JsonPack.check_del_user(cur_account,account)
     return JsonResponse(data)
