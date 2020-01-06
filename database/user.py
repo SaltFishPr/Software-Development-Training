@@ -227,5 +227,24 @@ class UserDB(DBBase):
         return name
 
 
+    @classmethod
+    def get_info_by_identity(cls,identity):
+        mydb = DBBase.connect()
+        mycursor = mydb.cursor()
+        sql = "SELECT * FROM USer WHERE identity  = '%s'" % identity
+        mycursor.execute(sql)
+        results = mycursor.fetchall()
+        mycursor.close()
+        mydb.close()
+        return results
+
+
+
+
+
+
+
+
+
 if __name__ == '__main__':
-    print(UserDB.check_user_exist('jl'))
+    print(UserDB.get_info_by_identity('journal_admin'))
