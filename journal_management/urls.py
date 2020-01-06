@@ -48,5 +48,7 @@ urlpatterns = [
     url('journal_name_search', views.journal_name_search),
     url('journal_year_search', views.journal_year_search),
     url('journal_stage_search', views.journal_stage_search),
+    url('user_borrow_info',views.user_borrow_info),
+    url('user_data_info',views.user_data_info),
     url('', views.login_page)
 ]

@@ -141,7 +141,6 @@ def journal_search_load(request):
 
 
 # 根据年搜索期刊
-
 def journal_name_search(request):
     name = request.GET.get('name')
     data = JsonPack.get_journal_year(name)
@@ -160,4 +159,16 @@ def journal_stage_search(request):
     year = int(request.GET.get('year'))
     stage = int(request.GET.get('stage'))
     data = JsonPack.confirm_journal(name, year, stage)
+    return JsonResponse(data)
+
+
+def user_borrow_info(request):
+    account = request.get_signed_cookie('account', salt='666')
+    data = JsonPack.push_borrow_info(account)
+    return JsonResponse(data)
+
+
+def user_data_info(request):
+    account = request.get_signed_cookie('account', salt='666')
+    data = JsonPack.push_user_info_data(account)
     return JsonResponse(data)

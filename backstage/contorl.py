@@ -212,7 +212,7 @@ class JsonPack(object):
         根据期刊的名字和年得到期刊的所有期
         :param name:
         :param year:
-        :return:
+        :return:data
         """
         journal_list = []
         data = {
@@ -234,7 +234,7 @@ class JsonPack(object):
         :param name:期刊名字
         :param year:期刊的发行年限
         :param stage:发行年限下的期号
-        :return:
+        :return:data
         """
         journal_list = []
         data = {
@@ -246,6 +246,39 @@ class JsonPack(object):
         journal['year'] = year
         journal['stage'] = results[0][3]
         journal_list.append(journal)
+        return data
+
+    @classmethod
+    def push_borrow_info(cls, account):
+        """
+        给前端需要的借阅中心信息
+        :param account: 用户账户
+        :return: data
+        """
+        user = {
+            'name': UserDB.get_user_name(account),
+            'grade': UserDB.get_user_grade(account)
+        }
+        data = {
+            'user_info': user
+        }
+        return data
+
+    @classmethod
+    def push_user_info_data(cls, account):
+        """
+        把数据提交给user_data_page
+        :param account: 用户账号
+        :return: data
+        """
+        user = {
+            'name': UserDB.get_user_name(account),
+            'grade': UserDB.get_user_grade(account),
+            'account': account
+        }
+        data = {
+            'user_info': user
+        }
         return data
 
 
