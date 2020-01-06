@@ -3,6 +3,10 @@
 from database.user import UserDB
 from database.record import RecordDB
 from database.journal import JournalDB
+from backstage.users import User
+from backstage.users import Reader
+from backstage.users import JournalAdmin
+from backstage.users import Admin
 
 
 class JsonPack(object):
@@ -161,6 +165,18 @@ class JsonPack(object):
             'user_info': user_info
         }
         return data
+
+    @classmethod
+    def get_object_by_account(cls, cur_account):
+        if UserDB.get_user_identity(cur_account) == 'reader':
+            reader = Reader(cur_account)
+            return reader
+        elif UserDB.get_user_identity(cur_account) == 'admin':
+            admin = Admin(cur_account)
+            return admin
+        else:
+            journal_admin = JournalAdmin(cur_account)
+            return journal_admin
 
 
 if __name__ == '__main__':

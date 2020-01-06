@@ -15,20 +15,23 @@ class User(object):
         return self._identity
 
     def get_self_info(self, account, choice):
-        data = {
+        user = {
 
+        }
+        data = {
+            'user_info': user
         }
         get_user_dict = {
             'account': account
         }
         user_info_results = UserDB.get_info_by_dict('User', get_user_dict)
         if choice == 'account_name_grade':
-            data['account'] = user_info_results[0][0]
-            data['name'] = user_info_results[0][2]
-            data['grade'] = user_info_results[0][4]
+            user['account'] = user_info_results[0][0]
+            user['name'] = user_info_results[0][2]
+            user['grade'] = user_info_results[0][4]
         elif choice == 'name_grade':
-            data['name'] = user_info_results[0][2]
-            data['grade'] = user_info_results[0][4]
+            user['name'] = user_info_results[0][2]
+            user['grade'] = user_info_results[0][4]
 
         return data
 
@@ -147,7 +150,7 @@ class Admin(User):
             'identity': 'reader'
         }
         for user_info in UserDB.get_info_by_dict('User', get_user_dict):
-            reader_list.append({'account':list(user_info)[0],
+            reader_list.append({'account': list(user_info)[0],
                                 'name': list(user_info)[2],
                                 'grade': list(user_info)[4]})
         get_user_dict = {
@@ -155,15 +158,15 @@ class Admin(User):
         }
         for user_info in UserDB.get_info_by_dict('User', get_user_dict):
             journal_admin_list.append({'account': list(user_info)[0],
-                                'name': list(user_info)[2],
-                                'grade': list(user_info)[4]})
+                                       'name': list(user_info)[2],
+                                       'grade': list(user_info)[4]})
         data = {
             'reader_list': reader_list,
             'journal_admin_list': journal_admin_list,
         }
         return data
 
-    def modify_user_info(self,account, name, grade, identity):
+    def modify_user_info(self, account, name, grade, identity):
         """
         系统管理员修改用户的信息
         :param account: 所修改的用户名
@@ -180,13 +183,13 @@ class Admin(User):
                 'flag': 0
             }
             return data
-        if name is not None and name != UserDB.get_user_name(account):
+        if name != "" and name != UserDB.get_user_name(account):
             UserDB.update_user_name(account, name)
             name_flag = 1
-        if grade is not None and grade != UserDB.get_user_grade(account):
+        if grade != "" and grade != UserDB.get_user_grade(account):
             UserDB.update_user_grade(account, grade)
             grade_flag = 1
-        if identity is not None and identity != UserDB.get_user_identity(account):
+        if identity != "" and identity != UserDB.get_user_identity(account):
             UserDB.update_user_identity(account, identity)
             identity_flag = 1
         if name_flag or grade_flag or identity_flag:
@@ -199,8 +202,6 @@ class Admin(User):
                 'flag': 0
             }
             return data
-
-
 
     # 冻结账户
     def _freeze_account(self):
@@ -275,14 +276,17 @@ class Reader(User):
             # 1 0 0预约未借阅
             # x 1 0  借阅 未归还
             # x 1 1 归还
-            if RecordDB.get_record_by_account(self._account)[i][5] == 1 and RecordDB.get_record_by_account(self._account)[i][
-                6] == 0 and RecordDB.get_record_by_account(self._account)[i][7] == 0:
+            if RecordDB.get_record_by_account(self._account)[i][5] == 1 and \
+                    RecordDB.get_record_by_account(self._account)[i][
+                        6] == 0 and RecordDB.get_record_by_account(self._account)[i][7] == 0:
                 borrow['status'] = '预约未借阅'
-            elif RecordDB.get_record_by_account(self._account)[i][6] == 1 and RecordDB.get_record_by_account(self._account)[i][
-                7] == 0:
+            elif RecordDB.get_record_by_account(self._account)[i][6] == 1 and \
+                    RecordDB.get_record_by_account(self._account)[i][
+                        7] == 0:
                 borrow['status'] = '借阅中'
-            elif RecordDB.get_record_by_account(self._account)[i][6] == 1 and RecordDB.get_record_by_account(self._account)[i][
-                7] == 1:
+            elif RecordDB.get_record_by_account(self._account)[i][6] == 1 and \
+                    RecordDB.get_record_by_account(self._account)[i][
+                        7] == 1:
                 borrow['status'] = '已归还'
             else:
                 borrow['status'] = '异常情况'
@@ -305,11 +309,11 @@ class Reader(User):
         }
         return data
 
-
     # 预约
     def _order(self):
         pass
 
 
 if __name__ == '__main__':
-    pass
+    user_obj = Admin('jl')
+    print(user_obj.get_self_info('jl', 'account_name_grade'))

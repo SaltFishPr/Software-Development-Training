@@ -121,7 +121,8 @@ def user_center_info(request):
     # borrow['time_2'] = '2点'
     # borrow_list.append(borrow)
     # print(borrow_list)
-    data = JsonPack.get_reader_center_info(account)
+    user_obj = JsonPack.get_object_by_account(account)
+    data = user_obj.get_record_info()
     return JsonResponse(data)
 
 
@@ -130,7 +131,8 @@ def user_data_update(request):
     account = request.get_signed_cookie('account', salt='666')
     name = request.GET.get('username')
     pwd = request.GET.get('password')
-    data = JsonPack.update_user_check(account, name, pwd)
+    user_obj = JsonPack.get_object_by_account(account)
+    data = user_obj.check_info_update(account, name, pwd)
     return JsonResponse(data)
 
 
@@ -164,53 +166,56 @@ def journal_stage_search(request):
 
 def user_borrow_info(request):
     account = request.get_signed_cookie('account', salt='666')
-    data = JsonPack.push_borrow_info(account)
+    user_obj = JsonPack.get_object_by_account(account)
+    data = user_obj.get_self_info(account, 'name_grade')
     return JsonResponse(data)
 
 
 def user_data_info(request):
     account = request.get_signed_cookie('account', salt='666')
-    data = JsonPack.push_user_info_data(account)
+    user_obj = JsonPack.get_object_by_account(account)
+    data = user_obj.get_self_info(account, 'account_name_grade')
     return JsonResponse(data)
 
 
 def admin_info(request):
     account = request.get_signed_cookie('account', salt='666')
-    data = JsonPack.push_user_info_data(account)
+    user_obj = JsonPack.get_object_by_account(account)
+    data = user_obj.get_self_info(account, 'account_name_grade')
+
     return JsonResponse(data)
 
 
 def admin_user_update(request):
+    cur_account = request.get_signed_cookie('account', salt='666')
+    admin = JsonPack.get_object_by_account(cur_account)
     account = request.GET.get('account')
-    print(account)
     name = request.GET.get('name')
-    print(type(name))
-    print(name)
     grade = (request.GET.get('grade'))
-    print(grade)
     identity = request.GET.get('identity')
-    print(identity)
-    data = JsonPack.modify_user_info(account, name, grade, identity)
-    print(data)
+    data = admin.modify_user_info(account, name, grade, identity)
     return JsonResponse(data)
 
 
 def admin_users_info(request):
-    data = JsonPack.get_user_info()
+    cur_account = request.get_signed_cookie('account', salt='666')
+    admin = JsonPack.get_object_by_account(cur_account)
+    data = admin.get_user_info_group_by_identity()
     return JsonResponse(data)
 
 
 def account_select_load(request):
-    cur_account = request.get_signed_cookie('account',salt='666')
-
-    a=JsonPack.get_user_identity()
-    data=a.get_all_user_info()
+    cur_account = request.get_signed_cookie('account', salt='666')
+    admin = JsonPack.get_object_by_account(cur_account)
+    data = admin.get_all_user_info()
     return JsonResponse(data)
 
 
 def account_info_load(request):
+    cur_account = request.get_signed_cookie('account', salt='666')
     account = request.GET.get('account')
-    data = JsonPack.get_data_by_account(account)
+    user_obj = JsonPack.get_object_by_account(cur_account)
+    data = user_obj.get_data_by_account(account)
     return JsonResponse(data)
 
 
@@ -220,12 +225,13 @@ def user_register(request):
     name = request.GET.get('name')
     identity = request.GET.get('identity')
     grade = int(request.GET.get('grade'))
-    data = JsonPack.register_check(account,password,name,identity,grade)
-    print(data)
+    data = JsonPack.register_check(account, password, name, identity, grade)
     return JsonResponse(data)
 
+
 def user_delete(request):
-    cur_account = request.get_signed_cookie('account',salt='666')
+    cur_account = request.get_signed_cookie('account', salt='666')
     account = request.GET.get('account')
-    data = JsonPack.check_del_user(cur_account,account)
+    admin = JsonPack.get_object_by_account(cur_account)
+    data = admin.remove_account(account)
     return JsonResponse(data)
