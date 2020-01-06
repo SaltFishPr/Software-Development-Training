@@ -216,6 +216,15 @@ class JsonPack(object):
             journal_list.append(journal)
         return data
 
+    @classmethod
+    def config_journal(clf,name,year,stage):
+        """
+
+        :param name:
+        :param year:
+        :param stage:
+        :return:
+        """
 
 if __name__ == '__main__':
     pass

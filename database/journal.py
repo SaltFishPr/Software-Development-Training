@@ -54,5 +54,8 @@ class JournalDB(DBBase):
         return stage
 
 
+    @classmethod
+    def get_journal_by_stage(cls):
+        pass
 if __name__ == '__main__':
     print(JournalDB.get_stage_by_nameandyear('science', 1999))

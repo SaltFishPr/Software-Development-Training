@@ -134,28 +134,27 @@ def user_data_update(request):
     return JsonResponse(data)
 
 
-# 得到期刊的信息
+#得到期刊的信息
 def journal_search_load(request):
-    data = JsonPack.get_journal_info()
-    print(data)
+    data=JsonPack.get_journal_info()
     return JsonResponse(data)
 
-
-# 根据年搜索期刊
+#根据年搜索期刊
 
 def journal_name_search(request):
-    print('345')
-    name = request.GET.get('name')
-    print(name)
+    name=request.GET.get('name')
     data = JsonPack.get_journal_year(name)
-    print(data)
     return JsonResponse(data)
-
 
 def journal_year_search(request):
-    print('123')
+    name=request.GET.get('name')
+    year=int(request.GET.get('year'))
+    data = JsonPack.get_journal_stage(name,year)
+    return JsonResponse(data)
+
+
+def journal_stage_search(request):
     name = request.GET.get('name')
     year = int(request.GET.get('year'))
-    data = JsonPack.get_journal_stage(name, year)
-    print(data)
-    return JsonResponse(data)
+    stage = int(request.GET.get('stage'))
+    pass
