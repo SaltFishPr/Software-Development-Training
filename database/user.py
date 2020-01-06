@@ -104,8 +104,7 @@ def ask_user_name(account):
     sql = "SELECT name FROM user WHERE account  = '%s'" % (account)
     mycursor.execute(sql)
     results = mycursor.fetchall()
-    for row in results:
-        name = row[0]
+    name = results[0][0]
     mycursor.close()
     mydb.close()
     return name
@@ -154,4 +153,4 @@ def get_name_by_account(account):
 
 
 if __name__ == '__main__':
-    print(get_name_by_account('jl'))
+    print(ask_user_name('jl'))

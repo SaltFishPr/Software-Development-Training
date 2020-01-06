@@ -1,7 +1,8 @@
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from database import user
-
+from database import record
+from database import journal
 
 # 跳转到注册界面
 def register_page(request):
@@ -84,8 +85,6 @@ def login_return(request):
 
 # 跳转到用户中心
 def user_center_page(request):
-    ret = request.get_signed_cookie('account', salt="666")
-    print(ret)
     return render(request, 'user_center_page.html')
 
 
@@ -101,6 +100,7 @@ def journal_admin_center_page(request):
 
 # 跳转到用户数据界面
 def user_data_page(request):
+
     return render(request, 'user_data_page.html')
 
 
@@ -117,7 +117,7 @@ def journal_admin_store_page(request):
 def user_center_info(request):
     account = request.get_signed_cookie('account', salt="666")
     name = user.ask_user_name(account)
-    grarde = user.ask_user_grade(account)
+    grarde = str(user.ask_user_grade(account))+('级')
     user_info = {
         'name': name,
         'grade': grarde
@@ -129,19 +129,49 @@ def user_center_info(request):
         'time_1': "",
         'time_2': ""
     }
-    borrow = dict()
-    borrow['name'] = 'science'
-    borrow['status'] = '借阅中'
-    borrow['time_1'] = '1点'
-    borrow['time_2'] = '未归还'
-    borrow_list.append(borrow)
-    borrow = dict()
-    borrow['name'] = 'nature'
-    borrow['status'] = '已经归还'
-    borrow['time_1'] = '1点'
-    borrow['time_2'] = '2点'
-    borrow_list.append(borrow)
-    print(borrow_list)
+    info_len=record.get_info_account(account)
+    key_list = record.ask_key_by_account(account)
+    for i in range(info_len):
+        borrow = dict()
+        borrow['name'] = journal.get_name_by_key(key_list[i])
+        # 1 0 0预约未借阅
+        # x 1 0  借阅 未归还
+        # x 1 1 归还
+        if record.ask_record_by_account(account)[i][5] == 1 and record.ask_record_by_account(account)[i][6] == 0 and \
+                record.ask_record_by_account(account)[i][7] == 0:
+            borrow['status'] = '预约未借阅'
+        elif record.ask_record_by_account(account)[i][6] == 1 and record.ask_record_by_account(account)[i][7] == 0:
+            borrow['status'] = '借阅中'
+        elif record.ask_record_by_account(account)[i][6] == 1 and record.ask_record_by_account(account)[i][7] == 1:
+            borrow['status'] = '已归还'
+        else:
+            borrow['status']='异常情况'
+        if borrow['status'] == '预约未借阅':
+            borrow['time_1'] = '未借阅'
+            borrow['time_2'] = '未借阅'
+        elif borrow['status'] == '借阅中':
+            borrow['time_1'] = record.ask_record_by_account(account)[i][3]
+            borrow['time_2'] = '未归还'
+        elif borrow['status'] == '已归还':
+            borrow['time_1'] = record.ask_record_by_account(account)[i][3]
+            borrow['time_2'] = record.ask_record_by_account(account)[i][4]
+        else:
+            borrow['time_1']='异常情况'
+            borrow['time_2']='异常情况'
+        borrow_list.append(borrow)
+    # borrow = dict()
+    # borrow['name'] = 'science'
+    # borrow['status'] = '借阅中'
+    # borrow['time_1'] = '1点'
+    # borrow['time_2'] = '未归还'
+    # borrow_list.append(borrow)
+    # borrow = dict()
+    # borrow['name'] = 'nature'
+    # borrow['status'] = '已经归还'
+    # borrow['time_1'] = '1点'
+    # borrow['time_2'] = '2点'
+    # borrow_list.append(borrow)
+    # print(borrow_list)
     data = {
         'user_info': user_info,
         'borrow_list': borrow_list
