@@ -197,7 +197,7 @@
               </div>
               <div class="text-wrapper">
                 <p class="profile-name" id="user_name_img_place">userName</p>
-                <!-- <p class="designation">Premium user</p> -->
+                <p class="designation" id="user_grade_img_place">Premium user</p>
               </div>
             </a>
           </li>
@@ -442,6 +442,7 @@
     document.getElementById("user_name").innerText = user_name
     document.getElementById("user_name_img_place").innerText = user_name
     document.getElementById("user_grade").innerText = user_grade
+    document.getElementById("user_grade_img_place").innerText = user_grade
   }
   // user_info_load(data)
 
@@ -450,7 +451,7 @@
     var table = document.getElementById("myTable");
     // table.deleteTFoot();
     // var footer = table.createTFoot();
-      var borrow_list_length = 0;
+    var borrow_list_length = 0;
     for (var item in borrow_list) {
       borrow_list_length++;
     }
