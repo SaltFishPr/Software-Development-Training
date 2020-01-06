@@ -49,4 +49,5 @@ class DBBase(object):
 
 
 if __name__ == '__main__':
-    print(database_path)
+    # print(database_path)
+    print(DBBase.get_info_by_dict('user',{'account': 'jl'}))
