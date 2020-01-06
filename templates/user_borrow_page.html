@@ -309,6 +309,7 @@
                       <label class="col-sm-3 col-form-label">Name</label>
                       <div class="col-sm-9">
                         <select class="form-control" id="name_select" onchange="journal_name_search()">
+                          <option>258</option>
                         </select>
                       </div>
                     </div>
@@ -319,7 +320,7 @@
                     <div class="form-group row">
                       <label class="col-sm-3 col-form-label">Year</label>
                       <div class="col-sm-9">
-                        <select class="form-control" id="year_select" onchange="journal_year_search()">
+                        <select class="form-control" id="year_select" onclick="journal_year_search()">
                         </select>
                       </div>
                     </div>
@@ -403,8 +404,22 @@
     for (var i = 0; i < journal_list_length; i++) {
       var sec = document.getElementById("name_select")
       var journal_name = journal_list[i]['name']
-        console.log(journal_name)
-      sec.options.add(new Option(journal_name, null))
+      var flag = 0;
+      for (var j = 0; j < sec.options.length; j++) {
+        var r = sec.options[j].value
+        if (journal_name == r) {
+          flag = 1
+          break;
+        }
+      }
+      if (flag == 1) {
+        continue;
+      }
+      var op = document.createElement("option")
+      op.setAttribute("value", journal_name)
+      op.innerText = journal_name
+      sec.appendChild(op)
+      console.log(document.getElementById("name_select").value)
     }
   }
   function journal_year_select_load(data) {
@@ -413,10 +428,29 @@
     for (var item in journal_list) {
       journal_list_length++;
     }
+    // for (var i = 0; i < journal_list_length; i++) {
+    //   var sec = document.getElementById("year_select")
+    //   var journal_year = journal_list[i]['year']
+    //   sec.options.add(new Option(journal_year, null))
+    // }
     for (var i = 0; i < journal_list_length; i++) {
       var sec = document.getElementById("year_select")
       var journal_year = journal_list[i]['year']
-      sec.options.add(new Option(journal_year, null))
+      var flag = 0;
+      for (var j = 0; j < sec.options.length; j++) {
+        var r = sec.options[j].value
+        if (journal_year == r) {
+          flag = 1
+          break;
+        }
+      }
+      if (flag == 1) {
+        continue;
+      }
+      var op = document.createElement("option")
+      op.setAttribute("value", journal_year)
+      op.innerText = journal_year
+      sec.appendChild(op)
     }
   }
   function journal_stage_select_load(data) {
@@ -492,10 +526,9 @@
   function journal_name_search() {
     document.getElementById("year_select").options.length = 0
     document.getElementById("stage_select").options.length = 0
-      console.log(document.getElementById("name_select").value)
+    console.log(document.getElementById("name_select").value)
     post_data = {
       'name': document.getElementById("name_select").value,
-      'year': document.getElementById("year_select").value
     }
     $.ajax({
       url: "journal_name_search", data: post_data, success: function (data) {
@@ -510,11 +543,22 @@
     post_data = {
       'name': document.getElementById("name_select").value,
       'year': document.getElementById("year_select").value,
-      'stage': document.getElementById("stage_select").value,
     }
     $.ajax({
       url: "journal_year_search", data: post_data, success: function (data) {
         journal_stage_select_load(data)
+        journal_card_load(data)
+      }
+    });
+  }
+  function journal_stage_search() {
+    post_data = {
+      'name': document.getElementById("name_select").value,
+      'year': document.getElementById("year_select").value,
+      'stage': document.getElementById("stage_select").value,
+    }
+    $.ajax({
+      url: "journal_stage_search", data: post_data, success: function (data) {
         journal_card_load(data)
       }
     });
