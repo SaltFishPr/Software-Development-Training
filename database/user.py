@@ -218,4 +218,4 @@ class UserDB(DBBase):
 
 
 if __name__ == '__main__':
-    print(UserDB.check_user_exist('sssasda'))
+    print(UserDB.check_user_exist('jl'))
