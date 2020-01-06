@@ -213,7 +213,7 @@ class JsonPack(object):
         根据期刊的名字和年得到期刊的所有期
         :param name:
         :param year:
-        :return:
+        :return:data
         """
         journal_list = []
         data = {
@@ -229,13 +229,13 @@ class JsonPack(object):
         return data
 
     @classmethod
-    def confirm_journal(clf,name,year,stage):
+    def confirm_journal(cls,name,year,stage):
         """
         根据三个参数得到一个确定的期刊
         :param name:期刊名字
         :param year:期刊的发行年限
         :param stage:发行年限下的期号
-        :return:
+        :return:data
         """
         journal_list = []
         data = {
