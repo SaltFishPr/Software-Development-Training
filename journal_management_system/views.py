@@ -44,8 +44,8 @@ def login_page(request):
 
 # 确认登陆
 def login_judge(request):
-    Username = str(request.GET.get('username'))
-    Password = str(request.GET.get('password'))
+    user_name = str(request.GET.get('username'))
+    pass_word = str(request.GET.get('password'))
 
     # if (user.UserDB.check_account(Username,Password) == str(Password)):
     #     dict1['flag'] = 1
@@ -56,7 +56,7 @@ def login_judge(request):
     #
     # else:
     #     dict1['flag'] = 0
-    data = JsonPack.login_check(Username, Password)
+    data = JsonPack.login_check(user_name, pass_word)
     return JsonResponse(data)
 
 
@@ -134,22 +134,24 @@ def user_data_update(request):
     return JsonResponse(data)
 
 
-#得到期刊的信息
+# 得到期刊的信息
 def journal_search_load(request):
-    data=JsonPack.get_journal_info()
+    data = JsonPack.get_journal_info()
     return JsonResponse(data)
 
-#根据年搜索期刊
+
+# 根据年搜索期刊
 
 def journal_name_search(request):
-    name=request.GET.get('name')
+    name = request.GET.get('name')
     data = JsonPack.get_journal_year(name)
     return JsonResponse(data)
 
+
 def journal_year_search(request):
-    name=request.GET.get('name')
-    year=int(request.GET.get('year'))
-    data = JsonPack.get_journal_stage(name,year)
+    name = request.GET.get('name')
+    year = int(request.GET.get('year'))
+    data = JsonPack.get_journal_stage(name, year)
     return JsonResponse(data)
 
 
@@ -157,5 +159,5 @@ def journal_stage_search(request):
     name = request.GET.get('name')
     year = int(request.GET.get('year'))
     stage = int(request.GET.get('stage'))
-    data = JsonPack.confirm_journal(name,year,stage)
+    data = JsonPack.confirm_journal(name, year, stage)
     return JsonResponse(data)
