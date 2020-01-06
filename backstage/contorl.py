@@ -117,7 +117,6 @@ class JsonPack(object):
         }
         return data
 
-
     @classmethod
     def update_user_check(cls, account, name, pwd):
         """
