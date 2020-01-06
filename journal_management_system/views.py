@@ -1,7 +1,8 @@
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
-from database import user
-
+from database.user import UserDB
+from database.record import RecordDB
+from database.journal import JournalDB
 
 # 跳转到注册界面
 def register_page(request):
@@ -17,16 +18,16 @@ def register_judge(request):
     identity = 'reader'
     grade = 1
     dict1 = {
-
+        'flag':-1
     }
     data = {
         'dict': dict1
     }
     # 执行数据库的插入操作
-    if (user.check_account_exsit(account) == True):  # 如果存在相同的账户
+    if (UserDB.check_user_exist(account)):  # 如果存在相同的账户
         dict1['flag'] = 0
     else:
-        user.add_user(account, password, name, identity, grade)
+        UserDB.add_user(account, password, name, identity, grade)
         dict1['flag'] = 1
     return JsonResponse(data)
 
@@ -53,18 +54,24 @@ def login_judge(request):
     }
     Username = str(request.GET.get('username'))
     Password = str(request.GET.get('password'))
-    if (user.check_account_exsit(Username) == False):
+    if (UserDB.check_account(Username,Password) == False):
         dict1['flag'] = -1
     else:
-        if (user.check_password_exsit(Username) == str(Password)):
-            dict1['flag'] = 1
-            if user.get_user_identity(Username) == 'admin':
-                dict1['flag'] = 2
-            elif user.get_user_identity(Username) == 'journal_admin':
-                dict1['flag'] = 3
-
+        if UserDB.get_user_identity(Username) =='admin':
+            dict1['flag'] = 2
+        elif UserDB.get_user_identity(Username) =='journal_admin':
+            dict1['flag'] =3
         else:
-            dict1['flag'] = 0
+            dict1['flag'] = 1
+        # if (user.UserDB.check_account(Username,Password) == str(Password)):
+        #     dict1['flag'] = 1
+        #     if user.UserDB.check_account(Username,Password) == 'admin':
+        #         dict1['flag'] = 2
+        #     elif user.UserDB.check_account(Username,Password) == 'journal_admin':
+        #         dict1['flag'] = 3
+        #
+        # else:
+        #     dict1['flag'] = 0
     return JsonResponse(data)
 
 
@@ -116,8 +123,8 @@ def journal_admin_store_page(request):
 
 def user_center_info(request):
     account = request.get_signed_cookie('account', salt="666")
-    name = user.get_user_name(account)
-    grarde = user.get_user_grade(account)
+    name = UserDB.get_user_name(account)
+    grarde = UserDB.get_user_grade(account)
     user_info = {
         'name': name,
         'grade': grarde
@@ -129,20 +136,20 @@ def user_center_info(request):
         'time_1': "",
         'time_2': ""
     }
-    info_len=record.get_info_account(account)
-    key_list = record.ask_key_by_account(account)
+    info_len=RecordDB.get_info_length(account)
+    key_list = RecordDB.get_key_by_account(account)
     for i in range(info_len):
         borrow = dict()
-        borrow['name'] = journal.get_name_by_key(key_list[i])
+        borrow['name'] = JournalDB.get_name_by_key(key_list[i])
         # 1 0 0预约未借阅
         # x 1 0  借阅 未归还
         # x 1 1 归还
-        if record.ask_record_by_account(account)[i][5] == 1 and record.ask_record_by_account(account)[i][6] == 0 and \
-                record.ask_record_by_account(account)[i][7] == 0:
+        if RecordDB.get_record_by_account(account)[i][5] == 1 and RecordDB.get_record_by_account(account)[i][6] == 0 and \
+                RecordDB.get_record_by_account(account)[i][7] == 0:
             borrow['status'] = '预约未借阅'
-        elif record.ask_record_by_account(account)[i][6] == 1 and record.ask_record_by_account(account)[i][7] == 0:
+        elif RecordDB.get_record_by_account(account)[i][6] == 1 and RecordDB.get_record_by_account(account)[i][7] == 0:
             borrow['status'] = '借阅中'
-        elif record.ask_record_by_account(account)[i][6] == 1 and record.ask_record_by_account(account)[i][7] == 1:
+        elif RecordDB.get_record_by_account(account)[i][6] == 1 and RecordDB.get_record_by_account(account)[i][7] == 1:
             borrow['status'] = '已归还'
         else:
             borrow['status']='异常情况'
@@ -150,11 +157,11 @@ def user_center_info(request):
             borrow['time_1'] = '未借阅'
             borrow['time_2'] = '未借阅'
         elif borrow['status'] == '借阅中':
-            borrow['time_1'] = record.ask_record_by_account(account)[i][3]
+            borrow['time_1'] = RecordDB.get_record_by_account(account)[i][3]
             borrow['time_2'] = '未归还'
         elif borrow['status'] == '已归还':
-            borrow['time_1'] = record.ask_record_by_account(account)[i][3]
-            borrow['time_2'] = record.ask_record_by_account(account)[i][4]
+            borrow['time_1'] = RecordDB.get_record_by_account(account)[i][3]
+            borrow['time_2'] = RecordDB.get_record_by_account(account)[i][4]
         else:
             borrow['time_1']='异常情况'
             borrow['time_2']='异常情况'
@@ -190,27 +197,27 @@ def user_data_update(request):
         'dict': dict1
     }
     if name =="":
-        if name==user.get_user_name(account):
+        if name==UserDB.get_user_name(account):
             dict1['flag'] = 0
             return JsonResponse(data)
-        user.update_user_password(account,pwd)
+        UserDB.update_user_password(account,pwd)
     elif pwd =="":
-        if pwd==user.check_password_exsit(account):
+        if pwd==UserDB.get_user_password(account):
             dict1['flag']=0
             return JsonResponse(data)
-        user.update_user_name(account,name)
+        UserDB.update_user_name(account,name)
     else:
-        if name == user.get_user_name(account):
-            if pwd == user.check_password_exsit(account):
+        if name == UserDB.get_user_name(account):
+            if pwd == UserDB.get_user_password(account):
                 dict1['flag'] = 0
                 return JsonResponse(data)
             else:
-                user.update_user_password(account, pwd)
+                UserDB.update_user_password(account, pwd)
         else:
-            if pwd == user.check_password_exsit(account):
-                user.update_user_name(account, name)
+            if pwd == UserDB.get_user_password(account):
+                UserDB.update_user_name(account, name)
             else:
-                user.update_user_password(account, pwd)
-                user.update_user_name(account, name)
+                UserDB.update_user_password(account, pwd)
+                UserDB.update_user_name(account, name)
     dict1['flag'] = 1
     return JsonResponse(data)

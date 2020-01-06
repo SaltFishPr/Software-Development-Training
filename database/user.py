@@ -20,6 +20,7 @@ class UserDB(DBBase):
             return False
         else:
             return True
+        pass
 
     @classmethod
     def add_user(cls, account, password, username, identity, grade):
@@ -227,4 +228,4 @@ class UserDB(DBBase):
 
 
 if __name__ == '__main__':
-    print()
+    print(UserDB.check_user_exist('jl'))
