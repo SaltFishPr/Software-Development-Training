@@ -182,10 +182,15 @@ def admin_info(request):
 
 def admin_user_update(request):
     account = request.GET.get('account')
+    print(account)
     name = request.GET.get('name')
-    grade = request.GET.get('grade')
+    print(name)
+    grade = (request.GET.get('grade'))
+    print(grade)
     identity = request.GET.get('identity')
+    print(identity)
     data = JsonPack.modify_user_info(account, name, grade, identity)
+    print(data)
     return JsonResponse(data)
 
 

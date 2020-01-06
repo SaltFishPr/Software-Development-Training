@@ -395,7 +395,7 @@
                     <div class="form-group row">
                       <label class="col-sm-2 col-form-label">account</label>
                       <div class="col-sm-4">
-                        <input type="text" class="form-control" placeholder="1" id="user_account">
+                        <input type="text" class="form-control"  id="user_account">
                       </div>
                       <div class="col-sm-4">
                         <select class="form-control" id="account_select" onchange="user_account_load()">
@@ -410,7 +410,7 @@
                     <div class="form-group row">
                       <label class="col-sm-2 col-form-label">name</label>
                       <div class="col-sm-4">
-                        <input type="text" class="form-control" placeholder="2" id="user_name">
+                        <input type="text" class="form-control"  id="user_name">
                       </div>
                       <div class="col-sm-4">
                         <input type="submit" value="修改" class="btn btn-success mr-2" onclick="user_name_update()">
@@ -423,7 +423,7 @@
                     <div class="form-group row">
                       <label class="col-sm-2 col-form-label">grade</label>
                       <div class="col-sm-4">
-                        <input type="text" class="form-control" placeholder="3" id="user_grade">
+                        <input type="text" class="form-control"  id="user_grade">
                       </div>
                       <div class="col-sm-4">
                         <input type="submit" value="修改" class="btn btn-success mr-2" onclick="user_grade_update()">
@@ -436,7 +436,7 @@
                     <div class="form-group row">
                       <label class="col-sm-2 col-form-label">identity</label>
                       <div class="col-sm-4">
-                        <select class="form-control" id="identity_select">
+                        <select class="form-control" id="user_identity">
                           <option>reader</option>
                           <option>journal_admin</option>
                           <option>system_admin</option>
@@ -590,18 +590,18 @@
     }
   }
   function user_account_load() {
-    document.getElementById("user_account").innerHTML = document.getElementById("account_select").value
+    document.getElementById("user_account").value = document.getElementById("account_select").value
   }
 
   function admin_user_update() {
     post_data = {
       'account': document.getElementById("user_account").value,
-      'name': document.getElementById("user_name"),
-      'grade': document.getElementById("user_grade"),
-      'identity': document.getElementById("user_identity"),
+      'name': document.getElementById("user_name").value,
+      'grade': document.getElementById("user_grade").value,
+      'identity': document.getElementById("user_identity").value,
     }
     $.ajax({
-      url: "admin_user_update", success: function (data) {
+      url: "admin_user_update", data:post_data,  success: function (data) {
         if (data['flag'] == 1) {
           alert("修改成功")
         } else {
@@ -613,10 +613,10 @@
   function user_name_update() {
     post_data = {
       'account': document.getElementById("user_account").value,
-      'name': document.getElementById("user_name"),
+      'name': document.getElementById("user_name").value,
     }
     $.ajax({
-      url: "user_name_update", success: function (data) {
+      url: "user_name_update", data:post_data, success: function (data) {
         if (data['flag'] == 1) {
           alert("修改成功")
         } else {
@@ -628,10 +628,10 @@
   function user_grade_update() {
     post_data = {
       'account': document.getElementById("user_account").value,
-      'grade': document.getElementById("user_grade"),
+      'grade': document.getElementById("user_grade").value,
     }
     $.ajax({
-      url: "user_grade_update", success: function (data) {
+      url: "user_grade_update",  data:post_data,success: function (data) {
         if (data['flag'] == 1) {
           alert("修改成功")
         } else {
@@ -643,10 +643,10 @@
   function user_identity_update() {
     post_data = {
       'account': document.getElementById("user_account").value,
-      'identity': document.getElementById("user_identity"),
+      'identity': document.getElementById("user_identity").value,
     }
     $.ajax({
-      url: "user_identity_update", success: function (data) {
+      url: "user_identity_update",  data:post_data,success: function (data) {
         if (data['flag'] == 1) {
           alert("修改成功")
         } else {

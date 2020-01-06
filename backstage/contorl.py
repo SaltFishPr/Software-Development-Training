@@ -311,21 +311,28 @@ class JsonPack(object):
         grade_flag = 0
         identity_flag = 0
         if UserDB.check_user_exist(account) == False:
+            print("帐号错误")
             data = {
                 'flag': 0
             }
             return data
+        print("准备name检测")
         if name != "" and name != UserDB.get_user_name(account):
             UserDB.update_user_name(account, name)
             name_flag = 1
+            print("name 成功")
+        print("准备grade检测")
         if grade != "" and grade != UserDB.get_user_grade(account):
             UserDB.update_user_grade(account, grade)
             grade_flag = 1
+            print("grade 成功")
+        print("准备identity检测")
         if identity != "" and identity != UserDB.get_user_identity(account):
             UserDB.update_user_identity(account, identity)
             identity_flag = 1
-
+            print("identity 成功")
         if name_flag + grade_flag + identity_flag == 0:
+            print("修改错误")
             data = {
                 'flag': 0
             }
@@ -334,6 +341,8 @@ class JsonPack(object):
             data = {
                 'flag': 1
             }
+            print("输出一下data")
+            print(data)
             return data
 
     @classmethod
