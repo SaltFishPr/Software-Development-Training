@@ -247,4 +247,9 @@ class UserDB(DBBase):
 
 
 if __name__ == '__main__':
-    print(UserDB.get_info_by_identity('journal_admin'))
+    # dict_test = {
+    #     'grade': 1
+    # }
+    # UserDB.get_user_info('user', dict_test)
+    pass
+    # print(UserDB.check_user_exist('jl'))

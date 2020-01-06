@@ -281,10 +281,8 @@ class JsonPack(object):
         }
         return data
 
-
-
     @classmethod
-    def put_admin_info(cls,account):
+    def put_admin_info(cls, account):
         """
         把数据提交给登录的系统 管理员
         :param account: 系统管理员的账户
@@ -300,7 +298,7 @@ class JsonPack(object):
         return data
 
     @classmethod
-    def modify_user_info(cls,account,name,grade,identity):
+    def modify_user_info(cls, account, name, grade, identity):
         """
         系统管理员修改用户的信息
         :param account: 所修改的用户名
@@ -309,30 +307,29 @@ class JsonPack(object):
         :param identity: 修改后的权限
         :return: data
         """
-        name_flag=0
-        grade_flag=0
-        identity_flag=0
-        if name !="" and name!= UserDB.get_user_name(account):
-            UserDB.update_user_name(account,name)
-            name_flag=1
-        if grade !="" and grade !=UserDB.get_user_grade(account):
-            UserDB.update_user_grade(account,grade)
-            grade_flag=1
-        if identity !="" and identity != UserDB.get_user_identity(account):
-            UserDB.update_user_identity(account,identity)
-            identity_flag=1
+        name_flag = 0
+        grade_flag = 0
+        identity_flag = 0
+        if name != "" and name != UserDB.get_user_name(account):
+            UserDB.update_user_name(account, name)
+            name_flag = 1
+        if grade != "" and grade != UserDB.get_user_grade(account):
+            UserDB.update_user_grade(account, grade)
+            grade_flag = 1
+        if identity != "" and identity != UserDB.get_user_identity(account):
+            UserDB.update_user_identity(account, identity)
+            identity_flag = 1
 
-        if name_flag + grade_flag +identity_flag == 0:
-            data={
-                'flag':0
+        if name_flag + grade_flag + identity_flag == 0:
+            data = {
+                'flag': 0
             }
             return data
         else:
-            data={
-                'flag':1
+            data = {
+                'flag': 1
             }
             return data
-
 
     @classmethod
     def get_user_info(cls):
@@ -340,30 +337,28 @@ class JsonPack(object):
 
         :return:
         """
-        reader_list=[]
-        journal_admin_list=[]
+        reader_list = []
+        journal_admin_list = []
 
-
-        reader_results=UserDB.get_info_by_identity('reader')
-        journal_admin_results=UserDB.get_info_by_identity('journal_admin')
+        reader_results = UserDB.get_info_by_identity('reader')
+        journal_admin_results = UserDB.get_info_by_identity('journal_admin')
         for i in range(len(reader_results)):
-            reader=dict()
-            reader['account']=reader_results[i][0]
-            reader['name']=reader_results[i][2]
-            reader['grade']=reader_results[i][4]
+            reader = dict()
+            reader['account'] = reader_results[i][0]
+            reader['name'] = reader_results[i][2]
+            reader['grade'] = reader_results[i][4]
             reader_list.append(reader)
         for i in range(len(journal_admin_results)):
-            journal_admin=dict()
-            journal_admin['account']=journal_admin_results[i][0]
-            journal_admin['name']=journal_admin_results[i][2]
-            journal_admin['grade']=journal_admin_results[i][4]
+            journal_admin = dict()
+            journal_admin['account'] = journal_admin_results[i][0]
+            journal_admin['name'] = journal_admin_results[i][2]
+            journal_admin['grade'] = journal_admin_results[i][4]
             journal_admin_list.append(journal_admin)
         data = {
             'reader_list': reader_list,
             'journal_admin_list': journal_admin_list,
         }
         return data
-
 
 
 if __name__ == '__main__':
