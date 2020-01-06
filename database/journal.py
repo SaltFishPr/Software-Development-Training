@@ -78,8 +78,8 @@ class JournalDB(DBBase):
 
 if __name__ == '__main__':
     pass
-    # dict_test = {
-    #     'name': 'science'
-    # }
-    # JournalDB.get_user_info("journal", dict_test)
+    dict_test = {
+        'name': 'nature'
+    }
+    print(JournalDB.get_info_by_dict("journal", dict_test))
     # print(JournalDB.get_journal_by_stage('science', 1999, 1))

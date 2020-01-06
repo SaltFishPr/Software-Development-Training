@@ -22,23 +22,27 @@ class DBBase(object):
         """
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
-        sql1 = "SELECT * FROM " + table_name + " WHERE "
-        keys = list(args.keys())
-        values = list(args.values())
-        sql2 = ""
-        # 前面的参数后面要加AND
-        for i in range(len(args) - 1):
-            if isinstance(values[i], str):
-                sql2 = sql2 + keys[i] + " = \'" + values[i] + "\' AND "
-            elif isinstance(values[i], int):
-                sql2 += keys[i] + " = " + str(values[i]) + " AND "
-        # 最后一个参数后面不加AND
-        if isinstance(values[-1], str):
-            sql2 += keys[-1] + " = \'" + values[-1] + '\''
-        elif isinstance(values[-1], int):
-            sql2 += keys[-1] + " = " + str(values[-1])
-        sql = sql1 + sql2
-        print(sql)
+        if args == {}:
+            sql = "SELECT * FROM " + table_name
+            print(sql)
+        else:
+            sql1 = "SELECT * FROM " + table_name + " WHERE "
+            keys = list(args.keys())
+            values = list(args.values())
+            sql2 = ""
+            # 前面的参数后面要加AND
+            for i in range(len(args) - 1):
+                if isinstance(values[i], str):
+                    sql2 = sql2 + keys[i] + " = \'" + values[i] + "\' AND "
+                elif isinstance(values[i], int):
+                    sql2 += keys[i] + " = " + str(values[i]) + " AND "
+            # 最后一个参数后面不加AND
+            if isinstance(values[-1], str):
+                sql2 += keys[-1] + " = \'" + values[-1] + '\''
+            elif isinstance(values[-1], int):
+                sql2 += keys[-1] + " = " + str(values[-1])
+            sql = sql1 + sql2
+            print(sql)
         mycursor.execute(sql)
         results = mycursor.fetchall()
         mycursor.close()
