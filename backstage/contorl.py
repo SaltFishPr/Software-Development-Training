@@ -24,7 +24,7 @@ class JsonPack(object):
             'dict': dict1
         }
         # 执行数据库的插入操作
-        if (UserDB.check_user_exist(account)):  # 如果存在相同的账户
+        if UserDB.check_user_exist(account):  # 如果存在相同的账户
             dict1['flag'] = 0
         else:
             UserDB.add_user(account, pwd, name, identity, grade)
@@ -47,7 +47,7 @@ class JsonPack(object):
             'pageTitle': 8798,
             'pageData': 66
         }
-        if (UserDB.check_account(account, pwd) == False):
+        if not UserDB.check_account(account, pwd):
             dict1['flag'] = -1
         else:
             if UserDB.get_user_identity(account) == 'admin':
@@ -87,8 +87,7 @@ class JsonPack(object):
             # x 1 0  借阅 未归还
             # x 1 1 归还
             if RecordDB.get_record_by_account(account)[i][5] == 1 and RecordDB.get_record_by_account(account)[i][
-                6] == 0 and \
-                    RecordDB.get_record_by_account(account)[i][7] == 0:
+                6] == 0 and RecordDB.get_record_by_account(account)[i][7] == 0:
                 borrow['status'] = '预约未借阅'
             elif RecordDB.get_record_by_account(account)[i][6] == 1 and RecordDB.get_record_by_account(account)[i][
                 7] == 0:
@@ -208,7 +207,7 @@ class JsonPack(object):
         return data
 
     @classmethod
-    def get_journal_stage(clf, name, year):
+    def get_journal_stage(cls, name, year):
         """
         根据期刊的名字和年得到期刊的所有期
         :param name:
