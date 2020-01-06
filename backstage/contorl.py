@@ -310,7 +310,7 @@ class JsonPack(object):
         name_flag = 0
         grade_flag = 0
         identity_flag = 0
-        if UserDB.check_user_exist(account) == False:
+        if not UserDB.check_user_exist(account):
             print("帐号错误")
             data = {
                 'flag': 0
