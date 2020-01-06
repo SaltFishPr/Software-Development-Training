@@ -218,7 +218,7 @@ class JsonPack(object):
         data = {
             'journal_list': journal_list
         }
-        results = JournalDB.get_stage_by_nameandyear(name, year)
+        results = JournalDB.get_stage_by_name_and_year(name, year)
         for temp in results:
             journal = dict()
             journal['name'] = name

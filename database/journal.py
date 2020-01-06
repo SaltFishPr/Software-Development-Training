@@ -40,7 +40,7 @@ class JournalDB(DBBase):
         return year
 
     @classmethod
-    def get_stage_by_nameandyear(cls, name, year):
+    def get_stage_by_name_and_year(cls, name, year):
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
         sql = "SELECT stage FROM journal WHERE name = '%s' AND year='%d'" % (name, year)
@@ -57,7 +57,7 @@ class JournalDB(DBBase):
     def get_journal_by_stage(cls, name, year, stage):
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
-        sql = "SELECT * FROM journal WHERE name = '%s' AND year='%d' AND stage='%d'" % (name, year,stage)
+        sql = "SELECT * FROM journal WHERE name = '%s' AND year='%d' AND stage='%d'" % (name, year, stage)
         mycursor.execute(sql)
         results = mycursor.fetchall()
         mycursor.close()
