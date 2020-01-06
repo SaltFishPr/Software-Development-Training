@@ -193,8 +193,8 @@
                 <!-- <div class="dot-indicator bg-success"></div> -->
               </div>
               <div class="text-wrapper">
-                <p class="profile-name">userName</p>
-                <!-- <p class="designation">Premium user</p> -->
+                <p class="profile-name" id="user_name_img_place">userName</p>
+                <p class="designation" id="user_grade_img_place">Premium user</p>
               </div>
             </a>
           </li>
@@ -459,10 +459,29 @@
     for (var item in journal_list) {
       journal_list_length++;
     }
+    // for (var i = 0; i < journal_list_length; i++) {
+    //   var sec = document.getElementById("stage_select")
+    //   var journal_stage = journal_list[i]['stage']
+    //   sec.options.add(new Option(journal_stage, null))
+    // }
     for (var i = 0; i < journal_list_length; i++) {
       var sec = document.getElementById("stage_select")
       var journal_stage = journal_list[i]['stage']
-      sec.options.add(new Option(journal_stage, null))
+      var flag = 0;
+      for (var j = 0; j < sec.options.length; j++) {
+        var r = sec.options[j].value
+        if (journal_stage == r) {
+          flag = 1
+          break;
+        }
+      }
+      if (flag == 1) {
+        continue;
+      }
+      var op = document.createElement("option")
+      op.setAttribute("value", journal_stage)
+      op.innerText = journal_stage
+      sec.appendChild(op)
     }
   }
 
@@ -562,6 +581,15 @@
         journal_card_load(data)
       }
     });
+  }
+  function user_borrow_info(data) {
+    user = data['user_info']
+    user_name = user['name']
+    user_grade = user['grade']
+    user_account = user['account']
+    document.getElementById("username").innerText = user_name
+    document.getElementById("account").innerText = user_account
+    document.getElementById("user_grade_img_place").innerText = user_grade
   }
 
 
