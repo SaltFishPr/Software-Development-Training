@@ -58,9 +58,9 @@ def login_judge(request):
     else:
         if (user.check_password_exsit(Username) == str(Password)):
             dict1['flag'] = 1
-            if user.ask_user_identity(Username) == 'admin':
+            if user.get_user_identity(Username) == 'admin':
                 dict1['flag'] = 2
-            elif user.ask_user_identity(Username) == 'journal_admin':
+            elif user.get_user_identity(Username) == 'journal_admin':
                 dict1['flag'] = 3
 
         else:
@@ -116,8 +116,8 @@ def journal_admin_store_page(request):
 
 def user_center_info(request):
     account = request.get_signed_cookie('account', salt="666")
-    name = user.ask_user_name(account)
-    grarde = user.ask_user_grade(account)
+    name = user.get_user_name(account)
+    grarde = user.get_user_grade(account)
     user_info = {
         'name': name,
         'grade': grarde
@@ -160,7 +160,7 @@ def user_data_update(request):
         'dict': dict1
     }
     if name =="":
-        if name==user.get_name_by_account(account):
+        if name==user.get_user_name(account):
             dict1['flag'] = 0
             return JsonResponse(data)
         user.update_user_password(account,pwd)
@@ -170,7 +170,7 @@ def user_data_update(request):
             return JsonResponse(data)
         user.update_user_name(account,name)
     else:
-        if name == user.get_name_by_account(account):
+        if name == user.get_user_name(account):
             if pwd == user.check_password_exsit(account):
                 dict1['flag'] = 0
                 return JsonResponse(data)
