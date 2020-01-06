@@ -309,6 +309,8 @@
                       <label class="col-sm-3 col-form-label">Name</label>
                       <div class="col-sm-9">
                         <select class="form-control" id="name_select" onchange="journal_name_search()">
+                          <option>123</option>
+                          <option>456</option>
                         </select>
                       </div>
                     </div>
@@ -478,31 +480,32 @@
 
 
 
-  window.onload = function () {
-    document.getElementById("name_select").options.length = 0
-    $.ajax({
-      url: "journal_search_load", success: function (data) {
-        journal_name_select_load(data)
-        journal_card_load(data)
-        user_borrow_info(data)
+  // window.onload = function () {
+  //   document.getElementById("name_select").options.length = 0
+  //   $.ajax({
+  //     url: "journal_search_load", success: function (data) {
+  //       journal_name_select_load(data)
+  //       journal_card_load(data)
+  //       user_borrow_info(data)
 
-      }
-    });
-  }
+  //     }
+  //   });
+  // }
   function journal_name_search() {
-    document.getElementById("year_select").options.length = 0
-    document.getElementById("stage_select").options.length = 0
-    post_data = {
-      'name': document.getElementById("name_select").value,
-      'year': document.getElementById("year_select").value
-    }
-    $.ajax({
-      url: "journal_name_search", data: post_data, success: function (data) {
-        journal_year_select_load(data)
-        journal_card_load(data)
+    // document.getElementById("year_select").options.length = 0
+    // document.getElementById("stage_select").options.length = 0
+    // post_data = {
+    //   'name': document.getElementById("name_select").value,
+    //   'year': document.getElementById("year_select").value
+    // }
+    // $.ajax({
+    //   url: "journal_name_search", data: post_data, success: function (data) {
+    //     journal_year_select_load(data)
+    //     journal_card_load(data)
 
-      }
-    });
+    //   }
+    // });
+    console.log(document.getElementById("name_select").value)
   }
   function journal_year_search() {
     document.getElementById("stage_select").options.length = 0
