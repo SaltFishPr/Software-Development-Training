@@ -15,7 +15,6 @@ class DBBase(object):
     def get_info_by_dict(cls, table_name, args: dict):
         """
         根据传入的参数自动生成sql语句来查询
-        made by saltfish
         :param table_name: 表名
         :param args: 传入dict，是tables
         :return: 根据选项获得表的所有信息

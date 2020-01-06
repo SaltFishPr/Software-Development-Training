@@ -4,6 +4,11 @@ from database.db_base import DBBase
 class JournalDB(DBBase):
     @classmethod
     def get_name_by_key(cls, key):
+        """
+
+        :param key:
+        :return:
+        """
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
         sql = "SELECT name FROM journal WHERE key = '%d' " % key
@@ -16,6 +21,10 @@ class JournalDB(DBBase):
 
     @classmethod
     def get_journal(cls):
+        """
+
+        :return:
+        """
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
         sql = "SELECT * FROM journal"
@@ -27,6 +36,11 @@ class JournalDB(DBBase):
 
     @classmethod
     def get_year_by_name(cls, name):
+        """
+
+        :param name:
+        :return:
+        """
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
         sql = "SELECT year FROM journal WHERE name = '%s' " % name
@@ -41,6 +55,12 @@ class JournalDB(DBBase):
 
     @classmethod
     def get_stage_by_name_and_year(cls, name, year):
+        """
+
+        :param name:
+        :param year:
+        :return:
+        """
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
         sql = "SELECT stage FROM journal WHERE name = '%s' AND year='%d'" % (name, year)
@@ -55,6 +75,13 @@ class JournalDB(DBBase):
 
     @classmethod
     def get_journal_by_stage(cls, name, year, stage):
+        """
+
+        :param name:
+        :param year:
+        :param stage:
+        :return:
+        """
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
         sql = "SELECT * FROM journal WHERE name = '%s' AND year='%d' AND stage='%d'" % (name, year, stage)
@@ -66,6 +93,13 @@ class JournalDB(DBBase):
 
     @classmethod
     def get_key(cls, name, year, stage):
+        """
+
+        :param name:
+        :param year:
+        :param stage:
+        :return:
+        """
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
         sql = "SELECT key FROM journal WHERE name = '%s' AND year='%d' AND stage='%d'" % (name, year, stage)

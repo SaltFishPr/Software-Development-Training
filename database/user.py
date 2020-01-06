@@ -71,7 +71,7 @@ class UserDB(DBBase):
         """
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
-        sql = "DELETE FROM user WHERE account = '%s'" % (account)
+        sql = "DELETE FROM user WHERE account = '%s'" % account
         mycursor.execute(sql)
         mydb.commit()
         mycursor.close()
@@ -208,23 +208,6 @@ class UserDB(DBBase):
         mycursor.close()
         mydb.close()
         return grade
-
-    @classmethod
-    def get_name_by_account(cls, account):
-        """
-        得到用户的昵称
-        :param account: 用户账户
-        :return: 用户昵称
-        """
-        mydb = DBBase.connect()
-        mycursor = mydb.cursor()
-        sql = "SELECT name FROM user WHERE account  = '%s'" % account
-        mycursor.execute(sql)
-        results = mycursor.fetchall()
-        name = results[0][0]
-        mycursor.close()
-        mydb.close()
-        return name
 
     @classmethod
     def get_info_by_identity(cls, identity):

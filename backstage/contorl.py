@@ -87,13 +87,13 @@ class JsonPack(object):
             # x 1 0  借阅 未归还
             # x 1 1 归还
             if RecordDB.get_record_by_account(account)[i][5] == 1 and RecordDB.get_record_by_account(account)[i][
-                6] == 0 and RecordDB.get_record_by_account(account)[i][7] == 0:
+                    6] == 0 and RecordDB.get_record_by_account(account)[i][7] == 0:
                 borrow['status'] = '预约未借阅'
             elif RecordDB.get_record_by_account(account)[i][6] == 1 and RecordDB.get_record_by_account(account)[i][
-                7] == 0:
+                    7] == 0:
                 borrow['status'] = '借阅中'
             elif RecordDB.get_record_by_account(account)[i][6] == 1 and RecordDB.get_record_by_account(account)[i][
-                7] == 1:
+                    7] == 1:
                 borrow['status'] = '已归还'
             else:
                 borrow['status'] = '异常情况'
@@ -422,8 +422,10 @@ class JsonPack(object):
         if UserDB.check_user_exist(account):  # 如果存在该用户
             UserDB.del_user(account)
             dict1['flag'] = 1
-        else:#用户不存在
+        else:  # 用户不存在
             dict1['flag'] = 0
         return data
+
+
 if __name__ == '__main__':
     print(JsonPack.get_all_user_info())

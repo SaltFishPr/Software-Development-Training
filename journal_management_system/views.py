@@ -100,7 +100,7 @@ def user_borrow_page(request):
     return render(request, 'user_borrow_page.html')
 
 
-#
+# 跳转到期刊管理员库存界面
 def journal_admin_store_page(request):
     return render(request, 'journal_admin_store_page.html')
 
@@ -220,6 +220,7 @@ def user_register(request):
     data = JsonPack.register_check(account,password,name,identity,grade)
     print(data)
     return JsonResponse(data)
+
 
 def user_delete(request):
     account = request.GET.get('account')
