@@ -243,5 +243,5 @@ if __name__ == '__main__':
     #     'grade': 1
     # }
     # UserDB.get_user_info('user', dict_test)
-    pass
+    print(UserDB.check_user_exist('badwoman'))
     # print(UserDB.check_user_exist('jl'))
