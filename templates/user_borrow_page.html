@@ -541,6 +541,11 @@
 
       }
     });
+     $.ajax({
+      url: "user_borrow_info",  success: function (data) {
+        user_borrow_info(data)
+      }
+    });
   }
   function journal_name_search() {
     document.getElementById("year_select").options.length = 0
@@ -581,18 +586,17 @@
         journal_card_load(data)
       }
     });
-    $.ajax({
-      url: "user_borrow_info", data: post_data, success: function (data) {
-        user_borrow_info(data)
-      }
-    });
+
 
   }
+
+
+
   function user_borrow_info(data) {
     user = data['user_info']
     user_name = user['name']
     user_grade = user['grade']
-    document.getElementById("username").innerText = user_name
+    document.getElementById("user_name_img_place").innerText = user_name
     document.getElementById("user_grade_img_place").innerText = user_grade
   }
 

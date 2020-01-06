@@ -229,7 +229,7 @@ class JsonPack(object):
         return data
 
     @classmethod
-    def confirm_journal(cls,name,year,stage):
+    def confirm_journal(cls, name, year, stage):
         """
         根据三个参数得到一个确定的期刊
         :param name:期刊名字
@@ -241,7 +241,7 @@ class JsonPack(object):
         data = {
             'journal_list': journal_list
         }
-        results = JournalDB.get_journal_by_stage(name, year,stage)
+        results = JournalDB.get_journal_by_stage(name, year, stage)
         journal = dict()
         journal['name'] = name
         journal['year'] = year
@@ -249,5 +249,39 @@ class JsonPack(object):
         journal_list.append(journal)
         return data
 
+    @classmethod
+    def push_borrow_info(cls, account):
+        """
+        给前端需要的借阅中心信息
+        :param account: 用户账户
+        :return: data
+        """
+        user = {
+            'name': UserDB.get_user_name(account),
+            'grade': UserDB.get_user_grade(account)
+        }
+        data = {
+            'user_info': user
+        }
+        return data
+
+    @classmethod
+    def push_user_info_data(cls, account):
+        """
+        把数据提交给user_data_page
+        :param account: 用户账号
+        :return: data
+        """
+        user = {
+            'name': UserDB.get_user_name(account),
+            'grade': UserDB.get_user_grade(account),
+            'account': account
+        }
+        data = {
+            'user_info': user
+        }
+        return data
+
+
 if __name__ == '__main__':
-    print(JsonPack.confirm_journal('science',1999,1))
+    print(JsonPack.confirm_journal('science', 1999, 1))
