@@ -54,5 +54,9 @@ urlpatterns = [
     url('admin_user_update',views.admin_user_update),
     url('admin_users_info',views.admin_users_info),
     url('account_select_load',views.account_select_load),
+    url('user_name_update',views.admin_user_update),
+    url('user_grade_update',views.admin_user_update),
+    url('user_identity_update',views.admin_user_update),
+    url('account_info_load',views.account_info_load),
     url('', views.login_page)
 ]

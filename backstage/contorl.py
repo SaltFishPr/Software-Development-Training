@@ -317,17 +317,17 @@ class JsonPack(object):
             }
             return data
         print("准备name检测")
-        if name != "" and name != UserDB.get_user_name(account):
+        if name is not None and name != UserDB.get_user_name(account):
             UserDB.update_user_name(account, name)
             name_flag = 1
             print("name 成功")
         print("准备grade检测")
-        if grade != "" and grade != UserDB.get_user_grade(account):
+        if grade is not None and grade != UserDB.get_user_grade(account):
             UserDB.update_user_grade(account, grade)
             grade_flag = 1
             print("grade 成功")
         print("准备identity检测")
-        if identity != "" and identity != UserDB.get_user_identity(account):
+        if identity is not None and identity != UserDB.get_user_identity(account):
             UserDB.update_user_identity(account, identity)
             identity_flag = 1
             print("identity 成功")
@@ -393,6 +393,15 @@ class JsonPack(object):
             user_account = dict()
             user_account['account'] = user_results[i][0]
             account_list.append(user_account)
+        return data
+
+    @classmethod
+    def get_data_by_account(cls, account):
+        data = {
+            'name': UserDB.get_user_name(account),
+            'grade': UserDB.get_user_grade(account),
+            'identity': UserDB.get_info_by_identity(account)
+        }
         return data
 
 

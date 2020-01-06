@@ -184,6 +184,7 @@ def admin_user_update(request):
     account = request.GET.get('account')
     print(account)
     name = request.GET.get('name')
+    print(type(name))
     print(name)
     grade = (request.GET.get('grade'))
     print(grade)
@@ -201,4 +202,10 @@ def admin_users_info(request):
 
 def account_select_load(request):
     data = JsonPack.get_all_user_info()
+    return JsonResponse(data)
+
+
+def account_info_load(request):
+    account = request.GET.get('account')
+    data = JsonPack.get_data_by_account(account)
     return JsonResponse(data)
