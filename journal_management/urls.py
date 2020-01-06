@@ -51,5 +51,6 @@ urlpatterns = [
     url('journal_search_load',views.journal_search_load),
     url('journal_name_search',views.journal_name_search),
     url('journal_year_search',views.journal_year_search),
+    url('journal_stage_search',views.journal_stage_search),
     url('',views.login_page)
 ]
