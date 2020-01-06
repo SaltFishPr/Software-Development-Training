@@ -395,7 +395,7 @@
                     <div class="form-group row">
                       <label class="col-sm-2 col-form-label">account</label>
                       <div class="col-sm-4">
-                        <input type="text" class="form-control"  id="user_account">
+                        <input type="text" class="form-control" id="user_account">
                       </div>
                       <div class="col-sm-4">
                         <select class="form-control" id="account_select" onchange="user_account_load()">
@@ -410,7 +410,7 @@
                     <div class="form-group row">
                       <label class="col-sm-2 col-form-label">name</label>
                       <div class="col-sm-4">
-                        <input type="text" class="form-control"  id="user_name">
+                        <input type="text" class="form-control" id="user_name">
                       </div>
                       <div class="col-sm-4">
                         <input type="submit" value="修改" class="btn btn-success mr-2" onclick="user_name_update()">
@@ -423,7 +423,7 @@
                     <div class="form-group row">
                       <label class="col-sm-2 col-form-label">grade</label>
                       <div class="col-sm-4">
-                        <input type="text" class="form-control"  id="user_grade">
+                        <input type="text" class="form-control" id="user_grade">
                       </div>
                       <div class="col-sm-4">
                         <input type="submit" value="修改" class="btn btn-success mr-2" onclick="user_grade_update()">
@@ -525,6 +525,7 @@
   function reader_table_load(data) {
     reader_list = data['reader_list']
     var table = document.getElementById("reader_table");
+    table.innerHTML = ""
     // table.deleteTFoot();
     // var footer = table.createTFoot();
     var reader_list_length = 0;
@@ -545,6 +546,7 @@
   function journal_admin_table_load(data) {
     journal_admin_list = data['journal_admin_list']
     var table = document.getElementById("journal_admin_table");
+    table.innerHTML = ""
     // table.deleteTFoot();
     // var footer = table.createTFoot();
     var journal_admin_list_length = 0;
@@ -591,6 +593,17 @@
   }
   function user_account_load() {
     document.getElementById("user_account").value = document.getElementById("account_select").value
+    post_data = {
+      'account': document.getElementById("user_account").value
+    }
+    $.ajax({
+      url: "account_info_load", data: post_data, success: function (data) {
+        document.getElementById("user_name").value = data['name']
+        document.getElementById("user_grade").value = data['grade']
+        document.getElementById("user_identity").value = data['identity']
+
+      }
+    });
   }
 
   function admin_user_update() {
@@ -601,7 +614,7 @@
       'identity': document.getElementById("user_identity").value,
     }
     $.ajax({
-      url: "admin_user_update", data:post_data,  success: function (data) {
+      url: "admin_user_update", data: post_data, success: function (data) {
         if (data['flag'] == 1) {
           alert("修改成功")
         } else {
@@ -614,9 +627,11 @@
     post_data = {
       'account': document.getElementById("user_account").value,
       'name': document.getElementById("user_name").value,
+      'grade': "",
+      'identity': ""
     }
     $.ajax({
-      url: "user_name_update", data:post_data, success: function (data) {
+      url: "admin_user_update", data: post_data, success: function (data) {
         if (data['flag'] == 1) {
           alert("修改成功")
         } else {
@@ -628,10 +643,12 @@
   function user_grade_update() {
     post_data = {
       'account': document.getElementById("user_account").value,
+      'name': "",
       'grade': document.getElementById("user_grade").value,
+      'identity': ""
     }
     $.ajax({
-      url: "user_grade_update",  data:post_data,success: function (data) {
+      url: "admin_user_update", data: post_data, success: function (data) {
         if (data['flag'] == 1) {
           alert("修改成功")
         } else {
@@ -643,10 +660,12 @@
   function user_identity_update() {
     post_data = {
       'account': document.getElementById("user_account").value,
+      'name': "",
+      'grade': "",
       'identity': document.getElementById("user_identity").value,
     }
     $.ajax({
-      url: "user_identity_update",  data:post_data,success: function (data) {
+      url: "admin_user_update", data: post_data, success: function (data) {
         if (data['flag'] == 1) {
           alert("修改成功")
         } else {
