@@ -317,17 +317,17 @@ class JsonPack(object):
             }
             return data
         print("准备name检测")
-        if name is not None and name != UserDB.get_user_name(account):
+        if name !="" and name != UserDB.get_user_name(account):
             UserDB.update_user_name(account, name)
             name_flag = 1
             print("name 成功")
         print("准备grade检测")
-        if grade is not None and grade != UserDB.get_user_grade(account):
+        if grade !="" and grade != UserDB.get_user_grade(account):
             UserDB.update_user_grade(account, grade)
             grade_flag = 1
             print("grade 成功")
         print("准备identity检测")
-        if identity is not None and identity != UserDB.get_user_identity(account):
+        if identity !="" and identity != UserDB.get_user_identity(account):
             UserDB.update_user_identity(account, identity)
             identity_flag = 1
             print("identity 成功")
@@ -397,13 +397,33 @@ class JsonPack(object):
 
     @classmethod
     def get_data_by_account(cls, account):
+        """
+        通过用户账户得到 相应信息 给 管理员用
+        :param account: 用户账户
+        :return: data
+        """
         data = {
             'name': UserDB.get_user_name(account),
             'grade': UserDB.get_user_grade(account),
-            'identity': UserDB.get_info_by_identity(account)
+            'identity': UserDB.get_user_identity(account)
         }
         return data
 
 
+    @classmethod
+    def check_del_user(cls,account):
+        dict1 = {
+            'flag': -1
+        }
+        data = {
+            'dict': dict1
+        }
+        # 执行数据库的删除操作
+        if UserDB.check_user_exist(account):  # 如果存在该用户
+            UserDB.del_user(account)
+            dict1['flag'] = 1
+        else:#用户不存在
+            dict1['flag'] = 0
+        return data
 if __name__ == '__main__':
     print(JsonPack.get_all_user_info())

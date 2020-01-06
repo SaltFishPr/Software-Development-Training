@@ -209,3 +209,18 @@ def account_info_load(request):
     account = request.GET.get('account')
     data = JsonPack.get_data_by_account(account)
     return JsonResponse(data)
+
+
+def user_register(request):
+    account = request.GET.get('account')
+    password = request.GET.get('password')
+    name = request.GET.get('name')
+    identity = request.GET.get('identity')
+    grade = int(request.GET.get('grade'))
+    data = JsonPack.register_check(account,password,name,identity,grade)
+    return JsonResponse(data)
+
+def user_delete(request):
+    account = request.GET.get('account')
+    data = JsonPack.check_del_user(account)
+    return JsonResponse(data)
