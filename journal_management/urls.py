@@ -48,11 +48,11 @@ urlpatterns = [
     url('journal_name_search', views.journal_name_search),
     url('journal_year_search', views.journal_year_search),
     url('journal_stage_search', views.journal_stage_search),
-    url('user_borrow_info',views.user_borrow_info),
-    url('user_data_info',views.user_data_info),
-    url('admin_info',views.admin_info),
-    url('admin_user_update',views.admin_user_update),
-    url('admin_users_info',views.admin_users_info),
-    url('account_select_load',views.account_select_load),
+    url('user_borrow_info', views.user_borrow_info),
+    url('user_data_info', views.user_data_info),
+    url('admin_info', views.admin_info),
+    url('admin_user_update', views.admin_user_update),
+    url('admin_users_info', views.admin_users_info),
+    url('account_select_load', views.account_select_load),
     url('', views.login_page)
 ]
