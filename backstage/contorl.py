@@ -231,10 +231,10 @@ class JsonPack(object):
     @classmethod
     def confirm_journal(clf,name,year,stage):
         """
-
-        :param name:
-        :param year:
-        :param stage:
+        根据三个参数得到一个确定的期刊
+        :param name:期刊名字
+        :param year:期刊的发行年限
+        :param stage:发行年限下的期号
         :return:
         """
         journal_list = []
