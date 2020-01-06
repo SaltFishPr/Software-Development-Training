@@ -308,8 +308,8 @@
                     <div class="form-group row">
                       <label class="col-sm-3 col-form-label">Name</label>
                       <div class="col-sm-9">
-                        <select class="form-control" id="name_select" onclick="journal_name_search()">
-                          <option>258</option>
+                        <select class="form-control" id="name_select" onchange="journal_name_search()">
+                          <option></option>
                         </select>
                       </div>
                     </div>
@@ -320,7 +320,8 @@
                     <div class="form-group row">
                       <label class="col-sm-3 col-form-label">Year</label>
                       <div class="col-sm-9">
-                        <select class="form-control" id="year_select" onclick="journal_year_search()">
+                        <select class="form-control" id="year_select" onchange="journal_year_search()">
+                            <option></option>
                         </select>
                       </div>
                     </div>
@@ -331,7 +332,8 @@
                     <div class="form-group row">
                       <label class="col-sm-3 col-form-label">Stage</label>
                       <div class="col-sm-9">
-                        <select class="form-control" id="stage_select" onclick="journal_stage_search()">
+                        <select class="form-control" id="stage_select" onchange="journal_stage_search()">
+                            <option></option>
                         </select>
                       </div>
                     </div>
@@ -533,7 +535,9 @@
 
 
   window.onload = function () {
-    document.getElementById("name_select").options.length = 0
+    document.getElementById("name_select").options.length = 1
+      document.getElementById("year_select").options.length = 1
+    document.getElementById("stage_select").options.length = 1
     $.ajax({
       url: "journal_search_load", success: function (data) {
         journal_name_select_load(data)
@@ -548,8 +552,8 @@
     });
   }
   function journal_name_search() {
-    document.getElementById("year_select").options.length = 0
-    document.getElementById("stage_select").options.length = 0
+    document.getElementById("year_select").options.length = 1
+    document.getElementById("stage_select").options.length = 1
     console.log(document.getElementById("name_select").value)
     post_data = {
       'name': document.getElementById("name_select").value,
@@ -563,7 +567,7 @@
     });
   }
   function journal_year_search() {
-    document.getElementById("stage_select").options.length = 0
+    document.getElementById("stage_select").options.length = 1
     post_data = {
       'name': document.getElementById("name_select").value,
       'year': document.getElementById("year_select").value,
