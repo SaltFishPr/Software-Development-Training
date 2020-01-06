@@ -193,8 +193,8 @@
                 <!-- <div class="dot-indicator bg-success"></div> -->
               </div>
               <div class="text-wrapper">
-                <p class="profile-name">userName</p>
-                <p class="designation">Premium user</p>
+                <p class="profile-name" id="user_name_img_place">userName</p>
+                <p class="designation" id="user_grade_img_place">Premium user</p>
               </div>
             </a>
           </li>
@@ -287,66 +287,173 @@
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
-          123
-          {{ pageData }}
-          <button type="button" class="btn btn-primary btn-fw">Primary</button>
-          <div class="col-lg-6 grid-margin stretch-card">
+          <div class="col-lg-12 stretch-card">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">Basic Table</h4>
-                <p class="card-description"> Add class <code>.table</code> </p>
-                <table class="table">
+                <h4 class="card-title">读者信息表</h4>
+                <p class="card-description"> Add class <code>.table-{color}</code> </p>
+                <table class="table table-bordered">
                   <thead>
                     <tr>
-                      <th>123</th>
-                      <th>456.</th>
-                      <th>Created</th>
-                      <th>Status</th>
+                      <th>account</th>
+                      <th>name</th>
+                      <th>grade</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <td>Jacob</td>
-                      <td>53275531</td>
-                      <td>12 May 2017</td>
-                      <td>
-                        <label class="badge badge-danger">Pending</label>
-                      </td>
+                  <tbody id="reader_table">
+                    <!-- <tr class="table-info">
+                      <td> 1 </td>
+                      <td> Herman Beck </td>
+                      <td> Photoshop </td>
+                      <td> $ 77.99 </td>
                     </tr>
-                    <tr>
-                      <td>789</td>
-                      <td>53275532</td>
-                      <td>15 May 2017</td>
-                      <td>
-                        <label class="badge badge-warning">In progress</label>
-                      </td>
+                    <tr class="table-warning">
+                      <td> 2 </td>
+                      <td> Messsy Adam </td>
+                      <td> Flash </td>
+                      <td> $245.30 </td>
                     </tr>
-                    <tr>
-                      <td>John</td>
-                      <td>53275533</td>
-                      <td>14 May 2017</td>
-                      <td>
-                        <label class="badge badge-info">Fixed</label>
-                      </td>
+                    <tr class="table-danger">
+                      <td> 3 </td>
+                      <td> John Richards </td>
+                      <td> Premeire </td>
+                      <td> $138.00 </td>
                     </tr>
-                    <tr>
-                      <td>Peter</td>
-                      <td>53275534</td>
-                      <td>16 May 2017</td>
-                      <td>
-                        <label class="badge badge-success">Completed</label>
-                      </td>
+                    <tr class="table-success">
+                      <td> 4 </td>
+                      <td> Peter Meggik </td>
+                      <td> After effects </td>
+                      <td> $ 77.99 </td>
                     </tr>
-                    <tr>
-                      <td>Dave</td>
-                      <td>53275535</td>
-                      <td>20 May 2017</td>
-                      <td>
-                        <label class="badge badge-warning">In progress</label>
-                      </td>
-                    </tr>
+                    <tr class="table-primary">
+                      <td> 5 </td>
+                      <td> Edward </td>
+                      <td> Illustrator </td>
+                      <td> $ 160.25 </td>
+                    </tr> -->
                   </tbody>
                 </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12 stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">期刊管理员信息表</h4>
+                <p class="card-description"> Add class <code>.table-{color}</code> </p>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>account</th>
+                      <th>name</th>
+                      <th>grade</th>
+                    </tr>
+                  </thead>
+                  <tbody id="journal_admin_table">
+                    <!-- <tr class="table-info">
+                      <td> 1 </td>
+                      <td> Herman Beck </td>
+                      <td> Photoshop </td>
+                      <td> $ 77.99 </td>
+                    </tr>
+                    <tr class="table-warning">
+                      <td> 2 </td>
+                      <td> Messsy Adam </td>
+                      <td> Flash </td>
+                      <td> $245.30 </td>
+                    </tr>
+                    <tr class="table-danger">
+                      <td> 3 </td>
+                      <td> John Richards </td>
+                      <td> Premeire </td>
+                      <td> $138.00 </td>
+                    </tr>
+                    <tr class="table-success">
+                      <td> 4 </td>
+                      <td> Peter Meggik </td>
+                      <td> After effects </td>
+                      <td> $ 77.99 </td>
+                    </tr>
+                    <tr class="table-primary">
+                      <td> 5 </td>
+                      <td> Edward </td>
+                      <td> Illustrator </td>
+                      <td> $ 160.25 </td>
+                    </tr> -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 grid-margin">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">用户信息修改</h4>
+                <p class="card-description"> Personal info </p>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label">account</label>
+                      <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="1" id="user_account">
+                      </div>
+                      <div class="col-sm-4">
+                        <select class="form-control" id="account_select" onchange="journal_name_search()">
+                          <option></option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label">name</label>
+                      <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="2" id="user_name">
+                      </div>
+                      <div class="col-sm-4">
+                        <input type="submit" value="修改" class="btn btn-success mr-2">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label">grade</label>
+                      <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="3" id="user_grade">
+                      </div>
+                      <div class="col-sm-4">
+                        <input type="submit" value="修改" class="btn btn-success mr-2">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label">identity</label>
+                      <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="4" id="user_identity">
+                      </div>
+                      <div class="col-sm-4">
+                        <input type="submit" value="修改" class="btn btn-success mr-2">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="col-sm-10">
+                      <div class="form-group row">
+                        <input type="submit" value="全部修改" class="btn btn-success form-control ">
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -383,5 +490,97 @@
   <!-- Custom js for this page-->
   <!-- End custom js for this page-->
 </body>
+<script>
+  function admin_info(data) {
+    user = data['user_info']
+    user_name = user['name']
+    user_grade = user['grade']
+    document.getElementById("user_name_img_place").innerText = user_name
+    document.getElementById("user_grade_img_place").innerText = user_grade
+  }
+  window.onload = function () {
+    $.ajax({
+      url: "admin_info", success: function (data) {
+        admin_info(data)
+      }
+    });
+    $.ajax({
+      url: "admin_users_info", success: function (data) {
+        reader_table_load(data)
+        journal_admin_table_load(data)
+      }
+    });
+
+  }
+  function reader_table_load(data) {
+    reader_list = data['reader_list']
+    var table = document.getElementById("reader_table");
+    // table.deleteTFoot();
+    // var footer = table.createTFoot();
+    var reader_list_length = 0;
+    for (var item in reader_list) {
+      reader_list_length++;
+    }
+    for (var i = 0; i < reader_list_length; i++) {
+      var row = table.insertRow(0);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+      cell1.innerHTML = reader_list[i]['account'];
+      cell2.innerHTML = reader_list[i]['name'];
+      cell3.innerHTML = reader_list[i]['grade'];
+
+    }
+  }
+  function journal_admin_table_load(data) {
+    journal_admin_list = data['journal_admin_list']
+    var table = document.getElementById("journal_admin_table");
+    // table.deleteTFoot();
+    // var footer = table.createTFoot();
+    var journal_admin_list_length = 0;
+    for (var item in journal_admin_list) {
+      journal_admin_list_length++;
+    }
+    for (var i = 0; i < journal_admin_list_length; i++) {
+      var row = table.insertRow(0);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+      cell1.innerHTML = journal_admin_list[i]['account'];
+      cell2.innerHTML = journal_admin_list[i]['name'];
+      cell3.innerHTML = journal_admin_list[i]['grade'];
+
+    }
+  }
+  // function user_name_select_load(data) {
+  //   journal_list = data['journal_list']
+  //   var journal_list_length = 0;
+  //   for (var item in journal_list) {
+  //     journal_list_length++;
+  //   }
+  //   for (var i = 0; i < journal_list_length; i++) {
+  //     var sec = document.getElementById("name_select")
+  //     var journal_name = journal_list[i]['name']
+  //     var flag = 0;
+  //     for (var j = 0; j < sec.options.length; j++) {
+  //       var r = sec.options[j].value
+  //       if (journal_name == r) {
+  //         flag = 1
+  //         break;
+  //       }
+  //     }
+  //     if (flag == 1) {
+  //       continue;
+  //     }
+  //     var op = document.createElement("option")
+  //     op.setAttribute("value", journal_name)
+  //     op.innerText = journal_name
+  //     sec.appendChild(op)
+  //     console.log(document.getElementById("name_select").value)
+  //   }
+  // }
+
+
+</script>
 
 </html>
