@@ -24,7 +24,6 @@ class DBBase(object):
         mycursor = mydb.cursor()
         if args == {}:
             sql = "SELECT * FROM " + table_name
-            #print(sql)
         else:
             sql1 = "SELECT * FROM " + table_name + " WHERE "
             keys = list(args.keys())
@@ -42,7 +41,7 @@ class DBBase(object):
             elif isinstance(values[-1], int):
                 sql2 += keys[-1] + " = " + str(values[-1])
             sql = sql1 + sql2
-            #print(sql)
+        print(sql)
         mycursor.execute(sql)
         results = mycursor.fetchall()
         mycursor.close()
