@@ -12,9 +12,18 @@ class User(object):
         self._identity = 'reader'
 
     def get_identity(self):
+        """
+        得到用户的身份
+        :return:
+        """
         return self._identity
 
-    def get_self_info(self, account, choice):
+    def get_self_info(self, choice):
+        """
+        根据choice得到本账户的信息
+        :param choice: 要得到哪些信息的选项
+        :return:
+        """
         user = {
 
         }
@@ -22,7 +31,7 @@ class User(object):
             'user_info': user
         }
         get_user_dict = {
-            'account': account
+            'account': self._account
         }
         user_info_results = UserDB.get_info_by_dict('User', get_user_dict)
         if choice == 'account_name_grade':
@@ -105,6 +114,11 @@ class Admin(User):
         return data
 
     def remove_account(self, account):
+        """
+        删除指定账户信息
+        :param account: 用户账户
+        :return: flag
+        """
         dict1 = {
             'flag': -1
         }
@@ -113,7 +127,7 @@ class Admin(User):
         }
         # 执行数据库的删除操作
         if UserDB.check_user_exist(account):  # 如果存在该用户
-            UserDB.del_user(account)
+            UserDB.remove_user(account)
             dict1['flag'] = 1
         else:  # 用户不存在
             dict1['flag'] = 0
@@ -316,4 +330,4 @@ class Reader(User):
 
 if __name__ == '__main__':
     user_obj = Admin('jl')
-    print(user_obj.get_self_info('jl', 'account_name_grade'))
+    # print(user_obj.get_self_info('jl', 'account_name_grade'))

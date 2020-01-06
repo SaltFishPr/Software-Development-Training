@@ -167,21 +167,21 @@ def journal_stage_search(request):
 def user_borrow_info(request):
     account = request.get_signed_cookie('account', salt='666')
     user_obj = JsonPack.get_object_by_account(account)
-    data = user_obj.get_self_info(account, 'name_grade')
+    data = user_obj.get_self_info('name_grade')
     return JsonResponse(data)
 
 
 def user_data_info(request):
     account = request.get_signed_cookie('account', salt='666')
     user_obj = JsonPack.get_object_by_account(account)
-    data = user_obj.get_self_info(account, 'account_name_grade')
+    data = user_obj.get_self_info('account_name_grade')
     return JsonResponse(data)
 
 
 def admin_info(request):
     account = request.get_signed_cookie('account', salt='666')
     user_obj = JsonPack.get_object_by_account(account)
-    data = user_obj.get_self_info(account, 'account_name_grade')
+    data = user_obj.get_self_info('account_name_grade')
 
     return JsonResponse(data)
 
