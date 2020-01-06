@@ -157,4 +157,5 @@ def journal_stage_search(request):
     name = request.GET.get('name')
     year = int(request.GET.get('year'))
     stage = int(request.GET.get('stage'))
-    pass
+    data = JsonPack.confirm_journal(name,year,stage)
+    return JsonResponse(data)

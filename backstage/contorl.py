@@ -229,7 +229,7 @@ class JsonPack(object):
         return data
 
     @classmethod
-    def config_journal(clf,name,year,stage):
+    def confirm_journal(clf,name,year,stage):
         """
 
         :param name:
@@ -237,6 +237,17 @@ class JsonPack(object):
         :param stage:
         :return:
         """
+        journal_list = []
+        data = {
+            'journal_list': journal_list
+        }
+        results = JournalDB.get_journal_by_stage(name, year,stage)
+        journal = dict()
+        journal['name'] = name
+        journal['year'] = year
+        journal['stage'] = results[0][3]
+        journal_list.append(journal)
+        return data
 
 if __name__ == '__main__':
-    print(JsonPack.get_journal_year('science'))
+    print(JsonPack.confirm_journal('science',1999,1))
