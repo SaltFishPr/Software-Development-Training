@@ -48,5 +48,8 @@ urlpatterns = [
     url('journal_admin_store_page',views.journal_admin_store_page),
     url('user_center_info',views.user_center_info),
     url('user_data_update',views.user_data_update),
+    url('journal_search_load',views.journal_search_load),
+    url('journal_name_search',views.journal_name_search),
+    url('journal_year_search',views.journal_year_search),
     url('',views.login_page)
 ]

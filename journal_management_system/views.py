@@ -2,6 +2,7 @@ from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from backstage.contorl import JsonPack
 
+
 # 跳转到注册界面
 def register_page(request):
     return render(request, 'user_register_page.html')
@@ -27,7 +28,7 @@ def register_judge(request):
     # else:
     #     UserDB.add_user(account, password, name, identity, grade)
     #     dict1['flag'] = 1
-    data =JsonPack.register_check(account, password, name, identity, grade)
+    data = JsonPack.register_check(account, password, name, identity, grade)
     return JsonResponse(data)
 
 
@@ -43,20 +44,19 @@ def login_page(request):
 
 # 确认登陆
 def login_judge(request):
-
     Username = str(request.GET.get('username'))
     Password = str(request.GET.get('password'))
 
-        # if (user.UserDB.check_account(Username,Password) == str(Password)):
-        #     dict1['flag'] = 1
-        #     if user.UserDB.check_account(Username,Password) == 'admin':
-        #         dict1['flag'] = 2
-        #     elif user.UserDB.check_account(Username,Password) == 'journal_admin':
-        #         dict1['flag'] = 3
-        #
-        # else:
-        #     dict1['flag'] = 0
-    data=JsonPack.login_check(Username,Password)
+    # if (user.UserDB.check_account(Username,Password) == str(Password)):
+    #     dict1['flag'] = 1
+    #     if user.UserDB.check_account(Username,Password) == 'admin':
+    #         dict1['flag'] = 2
+    #     elif user.UserDB.check_account(Username,Password) == 'journal_admin':
+    #         dict1['flag'] = 3
+    #
+    # else:
+    #     dict1['flag'] = 0
+    data = JsonPack.login_check(Username, Password)
     return JsonResponse(data)
 
 
@@ -77,7 +77,6 @@ def login_return(request):
 # 跳转到用户中心
 def user_center_page(request):
     ret = request.get_signed_cookie('account', salt="666")
-    print(ret)
     return render(request, 'user_center_page.html')
 
 
@@ -122,13 +121,39 @@ def user_center_info(request):
     # borrow['time_2'] = '2点'
     # borrow_list.append(borrow)
     # print(borrow_list)
-    data =JsonPack.get_reader_center_info(account)
+    data = JsonPack.get_reader_center_info(account)
     return JsonResponse(data)
 
 
+# 用户数据更新
 def user_data_update(request):
-    account=request.get_signed_cookie('account',salt='666')
-    name=request.GET.get('username')
-    pwd=request.GET.get('password')
-    data=JsonPack.update_user_check(account,name,pwd)
+    account = request.get_signed_cookie('account', salt='666')
+    name = request.GET.get('username')
+    pwd = request.GET.get('password')
+    data = JsonPack.update_user_check(account, name, pwd)
+    return JsonResponse(data)
+
+
+#得到期刊的信息
+def journal_search_load(request):
+    data=JsonPack.get_journal_info()
+    print(data)
+    return JsonResponse(data)
+
+#根据年搜索期刊
+
+def journal_name_search(request):
+    print('345')
+    name=request.GET.get('name')
+    print(name)
+    data = JsonPack.get_journal_year(name)
+    print(data)
+    return JsonResponse(data)
+
+def journal_year_search(request):
+    print('123')
+    name=request.GET.get('name')
+    year=int(request.GET.get('year'))
+    data = JsonPack.get_journal_stage(name,year)
+    print(data)
     return JsonResponse(data)

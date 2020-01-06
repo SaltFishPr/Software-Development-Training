@@ -7,7 +7,7 @@ from database.journal import JournalDB
 
 class JsonPack(object):
     @classmethod
-    def register_check(cls,account,pwd,name,identity,grade):
+    def register_check(cls, account, pwd, name, identity, grade):
         """
         注册账户的时候判断是否注册成功
         :param account: 注册账户名
@@ -32,7 +32,7 @@ class JsonPack(object):
         return data
 
     @classmethod
-    def login_check(cls,account,pwd):
+    def login_check(cls, account, pwd):
         """
         登录判断密码是否正确以及登录时的身份
         :param account: 登录账户检测
@@ -59,7 +59,7 @@ class JsonPack(object):
         return data
 
     @classmethod
-    def get_reader_center_info(cls,account):
+    def get_reader_center_info(cls, account):
         """
         返回读者当前的借阅期刊情况
         :param account: 当前账户
@@ -117,9 +117,8 @@ class JsonPack(object):
         }
         return data
 
-
     @classmethod
-    def update_user_check(cls,account,name,pwd):
+    def update_user_check(cls, account, name, pwd):
         """
         判断更新用户信息是否成功
         :param account: 当前账户
@@ -161,5 +160,74 @@ class JsonPack(object):
                     UserDB.update_user_name(account, name)
                     dict1['flag'] = 1
         return data
+
+    @classmethod
+    def get_journal_info(cls):
+        """
+        返回所有的期刊数据，只取名字
+        :return:data
+        """
+        journal_list = []
+        data = {
+            'journal_list': journal_list
+        }
+        journal = {
+            'name': "",
+            'year': "null",
+            'stage': "null"
+        }
+        results = JournalDB.get_journal()
+        len_info = len(JournalDB.get_journal())
+        for i in range(len_info):
+            journal = dict()
+            journal['name'] = results[i][4]
+            journal['year'] = "null"
+            journal['stage'] = "null"
+            journal_list.append(journal)
+        return data
+
+    @classmethod
+    def get_journal_year(cls, name):
+        """
+        根据期刊的名字得到期刊的年
+        :param name:
+        :return:data
+        """
+        journal_list = []
+        data = {
+            'journal_list': journal_list
+        }
+
+        results = JournalDB.get_year_by_name(name)
+        for temp in results:
+            journal = dict()
+            journal['name'] = 'science'
+            journal['year'] = temp
+            journal['stage'] = 'null'
+            journal_list.append(journal)
+        return data
+
+    @classmethod
+    def get_journal_stage(clf, name, year):
+        """
+        根据期刊的名字和年得到期刊的所有期
+        :param name:
+        :param year:
+        :return:
+        """
+        journal_list = []
+        data = {
+            'journal_list': journal_list
+        }
+        results = JournalDB.get_stage_by_nameandyear(name, year)
+        for temp in results:
+            journal = dict()
+            journal['name'] = name
+            journal['year'] = year
+            journal['stage'] = temp
+            journal_list.append(journal)
+        return data
+
+
 if __name__ == '__main__':
-    pass
+    print(JsonPack.get_journal_year('science'))
