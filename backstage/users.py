@@ -284,7 +284,7 @@ class JournalAdmin(User):
         :return: 操作结果(message)
         """
         journal_info = JournalDB.get_journal_by_name_year_stage(journal_name, journal_year, journal_stage)
-        key = journal_info[1]
+        key = journal_info[0][0]
         get_record_dict = {
             'account': account,
             'key': key
