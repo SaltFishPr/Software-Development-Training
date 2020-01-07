@@ -500,7 +500,7 @@
       var cell3 = row.insertCell(2);
       var cell4 = row.insertCell(3);
       cell1.innerHTML = record_list[i]['user_name'];
-      cell2.innerHTML = record_list[i]['journal_name-year-stage'];
+      cell2.innerHTML = record_list[i]['journal'];
       cell3.innerHTML = record_list[i]['status'];
       cell4.innerHTML = record_list[i]['time'];
 
@@ -539,7 +539,7 @@
 
   // window.onload = function () {
   //   $.ajax({
-  //     url: "journal_admin_info", success: function (data) {
+  //     url: "journal_admin_user_info", success: function (data) {
   //       console.log(data)
   //       journal_table_load(data)
   //       record_table_load(data)

@@ -4,7 +4,7 @@ from backstage.journals import Journal
 from database.user import UserDB
 from database.record import RecordDB
 from database.journal import JournalDB
-from backstage.record import Record
+from backstage.records import Record
 
 class User(object):
     def __init__(self, account):
@@ -246,6 +246,55 @@ class JournalAdmin(User):
         pass
 
 
+    def get_journal_admin_info(self):
+        user_info = {
+            'name': UserDB.get_user_name(self._account),
+            'grade': UserDB.get_user_grade(self._account)
+        }
+        record_list=[]
+        journal_list=[]
+
+        for record_info in RecordDB.get_info_by_dict('record',{}):
+            record_element=dict()
+            user_name=list(record_info)[0]
+            key=list(record_info)[1]
+            status=Record.get_record_status(key)
+            order_time = list(record_info)[2]
+            borrow_time = list(record_info)[3]
+            return_time = list(record_info)[4]
+            time=""
+            record_element['user_name']= user_name
+            record_element['status'] = status
+            record_element['journal'] = JournalDB.get_journal_name_year_stage(key)
+            if status == "预约未借阅":
+                time=order_time
+            elif status == "借阅中":
+                time=borrow_time
+            else:
+                time=return_time
+            record_element['time'] = time
+            record_list.append(record_element)
+
+        for journal_info in JournalDB.get_info_by_dict('journal',{}):
+            journal_element = dict()
+            key = list(journal_info)[0]
+            journal_element['journal'] = JournalDB.get_journal_name_year_stage(key)
+            journal_element['total_num'] = list(journal_info)[9]
+            journal_element['lend_num']= list(journal_info)[8]
+            journal_element['order_num']= list(journal_info)[7]
+            journal_element['stock_num']= list(journal_info)[6]
+            journal_list.append(journal_element)
+        data = {
+            'record_list': record_list,
+            'journal_list': journal_list,
+            'user_info': user_info
+        }
+
+        return data
+
+
+
+
 class Reader(User):
     def __init__(self, account):
         super(Reader, self).__init__(account)
@@ -324,5 +373,5 @@ class Reader(User):
 
 
 if __name__ == '__main__':
-    user_obj = Admin('jl')
-    print(user_obj.remove_account('test1'))
+    user_obj = JournalAdmin('jl')
+    print(user_obj.get_journal_admin_info())

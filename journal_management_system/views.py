@@ -270,5 +270,11 @@ def user_delete(request):
 
 
 def journal_admin_info(request):
+    print("0")
     cur_account = request.get_signed_cookie('account', salt='666')
+    print("1")
     journal_admin = JsonPack.get_object_by_account(cur_account)
+    print("2")
+    data = journal_admin.get_journal_admin_info()
+    print(data)
+    return JsonResponse(data)
