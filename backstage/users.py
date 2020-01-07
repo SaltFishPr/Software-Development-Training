@@ -314,7 +314,9 @@ class JournalAdmin(User):
             get_record_dict = {
                 'account': account,
                 'key': key,
-                'order_flag': 1
+                'order_flag': 1,
+                'borrow_flag':0,
+                'return_flag':0
             }
             result = RecordDB.get_info_by_dict('record', get_record_dict)
             result.sort(key=lambda x: x[2])
@@ -337,7 +339,8 @@ class JournalAdmin(User):
             get_record_dict = {
                 'account': account,
                 'key': key,
-                'borrow_flag': 1
+                'borrow_flag': 1,
+                'return_flag':0
             }
             result = RecordDB.get_info_by_dict('record', get_record_dict)
             result.sort(key=lambda x: x[3])

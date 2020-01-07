@@ -1,5 +1,5 @@
 from database.db_base import DBBase
-
+from database.record import RecordDB
 
 class JournalDB(DBBase):
     @classmethod
@@ -181,4 +181,15 @@ class JournalDB(DBBase):
 
 
 if __name__ == '__main__':
-    print(JournalDB.search_journal("tu"))
+    pass
+    # journal_info = JournalDB.get_journal_by_name_year_stage('science', 1999, 1)
+    # get_record_dict = {
+    #     'account': 'jl',
+    #     'key': 1,
+    #     'borrow_flag': 1
+    # }
+    # result = RecordDB.get_info_by_dict('record', get_record_dict)
+    # result.sort(key=lambda x: x[3])
+    # RecordDB.update_return_time('jl', 1, result[0][3])
+    # JournalDB.update_journal_num(1, journal_info[0][6] + 1, journal_info[0][7], journal_info[0][8] - 1,
+    #                              journal_info[0][9])

@@ -73,11 +73,8 @@ class RecordDB(DBBase):
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
         return_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-        sql = "UPDATE record SET return_time='%s' Where account = '%s' AND key='%s' AND borrow_time='%s'" % (
+        sql = "UPDATE record SET return_time='%s',return_flag = 1 Where account = '%s' AND key='%s' AND borrow_time='%s'" % (
             return_time, account, key, borrow_time)
-        mycursor.execute(sql)
-        sql = "UPDATE record SET return_flag=1 Where account = '%s' AND key='%s' AND borrow_time='%s'" % (
-            account, key, borrow_time)
         mycursor.execute(sql)
         mydb.commit()
         mycursor.close()
