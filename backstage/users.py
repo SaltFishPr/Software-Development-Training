@@ -319,19 +319,29 @@ class JournalAdmin(User):
         if record_operation == '处理预约':
             result.sort(key=lambda x: x[2])
             RecordDB.update_borrow_time(result[0][0], result[0][1], result[0][2])
+            JournalDB.update_journal_num(key,journal_info[6]-1,journal_info[7]-1,journal_info[8]+1)
             message = '处理成功'
-            pass
+            flag=1
         elif record_operation == '借阅':
             if journal_info[6] > journal_info[7]:
                 RecordDB.add_borrow(account, key)
+                JournalDB.update_journal_num(key, journal_info[6] -1, journal_info[7] , journal_info[8] + 1)
                 message = '借阅成功'
+                flag = 1
             else:
                 message = '借阅失败，库存不足'
+                flag = 0
         elif record_operation == '归还':
             result.sort(key=lambda x: x[3])
             RecordDB.update_return_time(account, key, result[3])
+            JournalDB.update_journal_num(key, journal_info[6] + 1, journal_info[7], journal_info[8] - 1)
             message = '归还成功'
-
+            flag = 1
+        data={
+            'flag':flag,
+            'message':message
+        }
+        return data
 
 class Reader(User):
     def __init__(self, account):

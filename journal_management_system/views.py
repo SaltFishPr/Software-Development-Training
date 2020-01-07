@@ -314,7 +314,6 @@ def record_update(request):
     journal_name = request.GET.get('journal_name')
     journal_year = request.GET.get('journal_year')
     journal_stage = request.GET.get('journal_stage')
-    record_operation = '输入操作'
-    user.record_update(account, journal_name, journal_year, journal_stage, record_operation)
-
-    pass
+    record_operation = request.GET.get('record_update_method')
+    data=user.record_update(account, journal_name, journal_year, journal_stage, record_operation)
+    return JsonResponse(data)
