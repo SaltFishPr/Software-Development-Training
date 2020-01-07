@@ -121,7 +121,39 @@ class JournalDB(DBBase):
         mydb.close()
         return journal_name_year_stage
 
+    @classmethod
+    def get_year_by_key(cls, key):
+        """
+
+        :param key:
+        :return:
+        """
+        mydb = DBBase.connect()
+        mycursor = mydb.cursor()
+        sql = "SELECT year FROM journal WHERE key = '%d' " % key
+        mycursor.execute(sql)
+        results = mycursor.fetchall()
+        year = results[0][0]
+        mycursor.close()
+        mydb.close()
+        return year
+
+    @classmethod
+    def get_stage_by_key(cls, key):
+        """
+
+        :param key:
+        :return:
+        """
+        mydb = DBBase.connect()
+        mycursor = mydb.cursor()
+        sql = "SELECT stage FROM journal WHERE key = '%d' " % key
+        mycursor.execute(sql)
+        results = mycursor.fetchall()
+        stage = results[0][0]
+        mycursor.close()
+        mydb.close()
+        return stage
 if __name__ == '__main__':
-    pass
-    print(JournalDB.get_journal_name_year_stage(1))
+    print(JournalDB.get_stage_by_key(1))
     # print(JournalDB.get_journal_by_stage('science', 1999, 1))

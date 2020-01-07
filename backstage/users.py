@@ -265,7 +265,9 @@ class JournalAdmin(User):
             time=""
             record_element['user_name']= user_name
             record_element['status'] = status
-            record_element['journal'] = JournalDB.get_journal_name_year_stage(key)
+            record_element['journal_name'] = JournalDB.get_name_by_key(key)
+            record_element['journal_year'] = JournalDB.get_year_by_key(key)
+            record_element['journal_stage'] = JournalDB.get_stage_by_key(key)
             if status == "预约未借阅":
                 time=order_time
             elif status == "借阅中":
