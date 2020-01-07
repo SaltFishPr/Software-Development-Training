@@ -13,7 +13,7 @@ def register_judge(request):
     account = request.GET.get('username')
     password = request.GET.get('password')
     # name=request.GET.get('name')
-    name = account+'_testname'
+    name = account + '_testname'
     identity = 'reader'
     grade = 1
     # dict1 = {
@@ -98,6 +98,18 @@ def user_data_page(request):
 # 跳转到用户借阅界面
 def user_borrow_page(request):
     return render(request, 'user_borrow_page.html')
+
+
+def journal_admin_borrow_page(request):
+    return render(request, 'journal_admin_borrow_page.html')
+
+
+def journal_admin_order_page(request):
+    return render(request, 'journal_admin_order_page.html')
+
+
+def journal_admin_return_page(request):
+    return render(request, 'journal_admin_return_page.html')
 
 
 #
@@ -270,11 +282,39 @@ def user_delete(request):
 
 
 def journal_admin_info(request):
-    print("0")
     cur_account = request.get_signed_cookie('account', salt='666')
-    print("1")
     journal_admin = JsonPack.get_object_by_account(cur_account)
-    print("2")
-    data = journal_admin.get_journal_admin_info()
-    print(data)
+    data = journal_admin.get_journal_admin_info('all')
     return JsonResponse(data)
+
+
+def journal_admin_user_borrow_info(request):
+    cur_account = request.get_signed_cookie('account', salt='666')
+    journal_admin = JsonPack.get_object_by_account(cur_account)
+    data = journal_admin.get_journal_admin_info('borrow')
+    return JsonResponse(data)
+
+def journal_admin_user_order_info(request):
+    cur_account = request.get_signed_cookie('account', salt='666')
+    journal_admin = JsonPack.get_object_by_account(cur_account)
+    data = journal_admin.get_journal_admin_info('order')
+    return JsonResponse(data)
+
+def journal_admin_user_return_info(request):
+    cur_account = request.get_signed_cookie('account', salt='666')
+    journal_admin = JsonPack.get_object_by_account(cur_account)
+    data = journal_admin.get_journal_admin_info('borrow')
+    return JsonResponse(data)
+
+
+def record_update(request):
+    cur_account = request.get_signed_cookie('account', salt='666')
+    user = JsonPack.get_object_by_account(cur_account)
+    account = request.GET.get('user_name')
+    journal_name = request.GET.get('journal_name')
+    journal_year = request.GET.get('journal_year')
+    journal_stage = request.GET.get('journal_stage')
+    record_operation = '输入操作'
+    user.record_update(account, journal_name, journal_year, journal_stage, record_operation)
+
+    pass

@@ -123,7 +123,7 @@ class JsonPack(object):
         data = {
             'journal_list': journal_list
         }
-        results = JournalDB.get_stage_by_name_and_year(name, year)
+        results = JournalDB.get_stage_by_name_year(name, year)
         for temp in results:
             journal = dict()
             journal['name'] = name
@@ -145,7 +145,7 @@ class JsonPack(object):
         data = {
             'journal_list': journal_list
         }
-        results = JournalDB.get_journal_by_stage(name, year, stage)
+        results = JournalDB.get_journal_by_name_year_stage(name, year, stage)
         journal = dict()
         journal['name'] = name
         journal['year'] = year
@@ -165,5 +165,4 @@ class JsonPack(object):
 
 
 if __name__ == '__main__':
-
     pass
