@@ -40,6 +40,7 @@ class DBBase(object):
             elif isinstance(values[-1], int):
                 sql2 += keys[-1] + " = " + str(values[-1])
             sql = sql1 + sql2
+        print(sql)
         mycursor.execute(sql)
         results = mycursor.fetchall()
         mycursor.close()

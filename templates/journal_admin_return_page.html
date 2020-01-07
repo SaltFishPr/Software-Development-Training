@@ -341,8 +341,7 @@
                       <td> <input id="journal_stage_input"></input><select id="journal_stage_select">
                           <option></option>
                         </select> </td>
-                      <td><select id="record_update_mothed">
-                          <option>借阅</option>
+                      <td><select id="record_update_method">
                           <option>归还</option>
                         </select></td>
                       <td><input type="submit" value="执行" class="btn btn-success mr-2"
@@ -569,7 +568,7 @@
       'journal_name': document.getElementById("journal_name_input").value,
       'journal_year': document.getElementById("journal_year_input").value,
       'journal_stage': document.getElementById("journal_stage_input").value,
-      'record_update_mothed': document.getElementById("record_update_mothed").value
+      'record_update_method':document.getElementById("record_update_method").value
     }
     $.ajax({
       url: "record_uptade", data: post_data, success: function (data) {

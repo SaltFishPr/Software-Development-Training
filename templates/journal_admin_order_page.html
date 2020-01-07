@@ -567,15 +567,18 @@
       'journal_name': document.getElementById("journal_name_input").value,
       'journal_year': document.getElementById("journal_year_input").value,
       'journal_stage': document.getElementById("journal_stage_input").value,
-      'record_update_mothed': "处理预约"
+      'record_update_method': "处理预约"
     }
     $.ajax({
-      url: "record_uptade", data: post_data, success: function (data) {
+      url: "record_update", data: post_data, success: function (data) {
         if (data['flag'] == 1) {
           journal_record_info_load()
-          alert("成功")
+            alert("1231")
+          //alert(data['message'])
         } else {
-          alert("失败")
+            console.log(data['flag'])
+            alert("1jiknjni1")
+          //alert(data['message'])
         }
 
       }
