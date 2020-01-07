@@ -308,7 +308,6 @@ def journal_admin_user_return_info(request):
 
 
 def record_update(request):
-    print('NMSL?')
     cur_account = request.get_signed_cookie('account', salt='666')
     user = JsonPack.get_object_by_account(cur_account)
     account = request.GET.get('user_name')
@@ -316,10 +315,6 @@ def record_update(request):
     journal_year = int(request.GET.get('journal_year'))
     journal_stage = int(request.GET.get('journal_stage'))
     record_operation = request.GET.get('record_update_method')
-    print(account)
-    print(journal_name)
-    print(journal_year)
-    print(journal_stage)
     print(record_operation)
     data=user.record_update(account, journal_name, journal_year, journal_stage, record_operation)
     return JsonResponse(data)

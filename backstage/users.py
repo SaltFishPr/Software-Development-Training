@@ -310,7 +310,6 @@ class JournalAdmin(User):
         """
         journal_info = JournalDB.get_journal_by_name_year_stage(journal_name, journal_year, journal_stage)
         key = journal_info[0][0]
-        print(key)
         if record_operation == '处理预约':
             get_record_dict = {
                 'account': account,
@@ -324,7 +323,7 @@ class JournalAdmin(User):
             message = '处理成功'
             flag=1
         elif record_operation == '借阅':
-            if journal_info[6] > journal_info[7]:
+            if journal_info[0][6] > journal_info[0][7]:
                 RecordDB.add_borrow(account, key)
                 JournalDB.update_journal_num(key, journal_info[0][6] -1, journal_info[0][7] , journal_info[0][8] + 1)
                 message = '借阅成功'
@@ -348,7 +347,6 @@ class JournalAdmin(User):
             'flag':flag,
             'message':message
         }
-        print(data)
         return data
 
 class Reader(User):

@@ -571,7 +571,7 @@
       'record_update_method':document.getElementById("record_update_method").value
     }
     $.ajax({
-      url: "record_uptade", data: post_data, success: function (data) {
+      url: "record_update", data: post_data, success: function (data) {
         if (data['flag'] == 1) {
           journal_record_info_load()
           alert("成功")
