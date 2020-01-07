@@ -3,23 +3,6 @@ from database.db_base import DBBase
 
 class JournalDB(DBBase):
     @classmethod
-    def get_name_by_key(cls, key):
-        """
-
-        :param key:
-        :return:
-        """
-        mydb = DBBase.connect()
-        mycursor = mydb.cursor()
-        sql = "SELECT name FROM journal WHERE key = '%d' " % key
-        mycursor.execute(sql)
-        results = mycursor.fetchall()
-        name = results[0][0]
-        mycursor.close()
-        mydb.close()
-        return name
-
-    @classmethod
     def get_journal(cls):
         """
         查询所有期刊
@@ -54,7 +37,7 @@ class JournalDB(DBBase):
         return year
 
     @classmethod
-    def get_stage_by_name_and_year(cls, name, year):
+    def get_stage_by_name_year(cls, name, year):
         """
         查询  该期刊名，该年  的期刊
         :param name:
@@ -74,7 +57,7 @@ class JournalDB(DBBase):
         return stage
 
     @classmethod
-    def get_journal_by_stage(cls, name, year, stage):
+    def get_journal_by_name_year_stage(cls, name, year, stage):
         """
         根据  名字，年份，期  得到唯一期刊
         :param name:
@@ -110,16 +93,33 @@ class JournalDB(DBBase):
         return results[0][0]
 
     @classmethod
-    def get_journal_name_year_stage(cls,key):
+    def get_journal_name_year_stage(cls, key):
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
-        sql = "SELECT * FROM journal WHERE key = '%d' " % (key)
+        sql = "SELECT * FROM journal WHERE key = '%d' " % key
         mycursor.execute(sql)
         results = mycursor.fetchall()
-        journal_name_year_stage=results[0][4]+"-"+str(results[0][2])+"-"+str(results[0][3])
+        journal_name_year_stage = results[0][4] + "-" + str(results[0][2]) + "-" + str(results[0][3])
         mycursor.close()
         mydb.close()
         return journal_name_year_stage
+
+    @classmethod
+    def get_name_by_key(cls, key):
+        """
+
+        :param key:
+        :return:
+        """
+        mydb = DBBase.connect()
+        mycursor = mydb.cursor()
+        sql = "SELECT name FROM journal WHERE key = '%d' " % key
+        mycursor.execute(sql)
+        results = mycursor.fetchall()
+        name = results[0][0]
+        mycursor.close()
+        mydb.close()
+        return name
 
     @classmethod
     def get_year_by_key(cls, key):
@@ -154,6 +154,8 @@ class JournalDB(DBBase):
         mycursor.close()
         mydb.close()
         return stage
+
+
 if __name__ == '__main__':
     print(JournalDB.get_stage_by_key(1))
     # print(JournalDB.get_journal_by_stage('science', 1999, 1))

@@ -13,7 +13,7 @@ def register_judge(request):
     account = request.GET.get('username')
     password = request.GET.get('password')
     # name=request.GET.get('name')
-    name = account+'_testname'
+    name = account + '_testname'
     identity = 'reader'
     grade = 1
     # dict1 = {
@@ -278,3 +278,16 @@ def journal_admin_info(request):
     data = journal_admin.get_journal_admin_info()
     print(data)
     return JsonResponse(data)
+
+
+def record_update(request):
+    cur_account = request.get_signed_cookie('account', salt='666')
+    user = JsonPack.get_object_by_account(cur_account)
+    account = request.GET.get('user_name')
+    journal_name = request.GET.get('journal_name')
+    journal_year = request.GET.get('journal_year')
+    journal_stage = request.GET.get('journal_stage')
+    record_operation = '输入操作'
+    user.record_update(account, journal_name, journal_year, journal_stage, record_operation)
+
+    pass

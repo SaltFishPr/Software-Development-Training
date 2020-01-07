@@ -6,6 +6,7 @@ from database.record import RecordDB
 from database.journal import JournalDB
 from backstage.records import Record
 
+
 class User(object):
     def __init__(self, account):
         self._account = account
@@ -222,71 +223,47 @@ class JournalAdmin(User):
         super(JournalAdmin, self).__init__(account)
         self.__identity = "periodical_admin"
 
-    # 增加新的期刊
-    def _add_journal(self, journal: Journal):
-        # TODO:调用数据库insert
-        pass
-
-    # 删除某一期的期刊
-    def _remove_journal(self, journal_issn, journal_year, journal_stage):
-        # TODO:调用数据库drop
-        pass
-
-    # 增加或减少期刊数量
-    def _update_journal(self, journal_issn, journal_year, journal_stage):
-        # TODO:调用数据库update
-        pass
-
-    # 借阅
-    def _borrow_journal(self):
-        pass
-
-    # 归还
-    def _return_journal(self):
-        pass
-
-
     def get_journal_admin_info(self):
         user_info = {
             'name': UserDB.get_user_name(self._account),
             'grade': UserDB.get_user_grade(self._account)
         }
-        record_list=[]
-        journal_list=[]
+        record_list = []
+        journal_list = []
 
-        for record_info in RecordDB.get_info_by_dict('record',{}):
-            record_element=dict()
-            user_name=list(record_info)[0]
-            key=list(record_info)[1]
-            status=Record.get_record_status(key)
+        for record_info in RecordDB.get_info_by_dict('record', {}):
+            record_element = dict()
+            user_name = list(record_info)[0]
+            key = list(record_info)[1]
+            status = Record.get_record_status(key)
             order_time = list(record_info)[2]
             borrow_time = list(record_info)[3]
             return_time = list(record_info)[4]
-            time=""
-            record_element['user_name']= user_name
+            time = ""
+            record_element['user_name'] = user_name
             record_element['status'] = status
             record_element['journal_name'] = JournalDB.get_name_by_key(key)
             record_element['journal_year'] = JournalDB.get_year_by_key(key)
             record_element['journal_stage'] = JournalDB.get_stage_by_key(key)
             if status == "预约未借阅":
-                time=order_time
+                time = order_time
             elif status == "借阅中":
-                time=borrow_time
+                time = borrow_time
             else:
-                time=return_time
+                time = return_time
             record_element['time'] = time
             record_list.append(record_element)
 
-        for journal_info in JournalDB.get_info_by_dict('journal',{}):
+        for journal_info in JournalDB.get_info_by_dict('journal', {}):
             journal_element = dict()
             key = list(journal_info)[0]
             journal_element['journal_name'] = list(journal_info)[4]
             journal_element['journal_year'] = list(journal_info)[2]
             journal_element['journal_stage'] = list(journal_info)[3]
             journal_element['total_num'] = list(journal_info)[9]
-            journal_element['lend_num']= list(journal_info)[8]
-            journal_element['order_num']= list(journal_info)[7]
-            journal_element['stock_num']= list(journal_info)[6]
+            journal_element['lend_num'] = list(journal_info)[8]
+            journal_element['order_num'] = list(journal_info)[7]
+            journal_element['stock_num'] = list(journal_info)[6]
             journal_list.append(journal_element)
         data = {
             'record_list': record_list,
@@ -296,7 +273,39 @@ class JournalAdmin(User):
 
         return data
 
-
+    def record_update(self, account, journal_name, journal_year, journal_stage, record_operation):
+        """
+        更新记录信息
+        :param account: 读者账户
+        :param journal_name: 期刊名
+        :param journal_year: 期刊年份
+        :param journal_stage: 期刊期数
+        :param record_operation: 操作选择(处理预约、借阅、归还)
+        :return: 操作结果(message)
+        """
+        journal_info = JournalDB.get_journal_by_name_year_stage(journal_name, journal_year, journal_stage)
+        key = journal_info[1]
+        get_record_dict = {
+            'account': account,
+            'key': key
+        }
+        result = RecordDB.get_info_by_dict('record', get_record_dict)
+        print(result)
+        if record_operation == '处理预约':
+            result.sort(key=lambda x: x[2])
+            RecordDB.update_borrow_time(result[0][0], result[0][1], result[0][2])
+            message = '处理成功'
+            pass
+        elif record_operation == '借阅':
+            if journal_info[6] > journal_info[7]:
+                RecordDB.add_borrow(account, key)
+                message = '借阅成功'
+            else:
+                message = '借阅失败，库存不足'
+        elif record_operation == '归还':
+            result.sort(key=lambda x: x[3])
+            RecordDB.update_return_time(account, key, result[3])
+            message = '归还成功'
 
 
 class Reader(User):
@@ -377,5 +386,5 @@ class Reader(User):
 
 
 if __name__ == '__main__':
-    user_obj = JournalAdmin('jl')
-    print(user_obj.get_journal_admin_info())
+    wws = JournalAdmin('wws')
+    wws.record_update('duqingfeng', 'science', 1999, 2, '处理预约')

@@ -40,14 +40,16 @@ class DBBase(object):
             elif isinstance(values[-1], int):
                 sql2 += keys[-1] + " = " + str(values[-1])
             sql = sql1 + sql2
-        print(sql)
         mycursor.execute(sql)
         results = mycursor.fetchall()
         mycursor.close()
         mydb.close()
-        return results
+        res = []
+        for temp in results:
+            res.append(list(temp))
+        return res
 
 
 if __name__ == '__main__':
     # print(database_path)
-    print(DBBase.get_info_by_dict('user',{'account': 'jl'}))
+    print(DBBase.get_info_by_dict('user', {'account': 'jl'}))
