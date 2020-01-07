@@ -473,6 +473,7 @@
   function test() {
     var td = event.srcElement; // 通过event.srcElement 获取激活事件的对象 td
     // alert("行号：" + (td.parentElement.rowIndex) + "，列号：" + td.cellIndex);
+    var table.getElementById("")
     console.log(td.parentElement.rowIndex)
   }
 
@@ -535,15 +536,15 @@
     }
   }
 
-  // window.onload = function () {
-  //   $.ajax({
-  //     url: "journal_admin_info", success: function (data) {
-  //       journal_table_load(data)
-  //       record_table_load(data)
-  //       journal_admin_user_info_load(data)
-  //     }
-  //   });
-  // }
+  window.onload = function () {
+    $.ajax({
+      url: "journal_admin_info", success: function (data) {
+        journal_table_load(data)
+        record_table_load(data)
+        journal_admin_user_info_load(data)
+      }
+    });
+  }
   function record_table_selected() {
     console.log(this.value)
   }
