@@ -381,7 +381,6 @@
               <div class="card-body">
                 <table class="table table-bordered">
                   <tbody id="journal_table" onclick="journal_table_select()">
-
                   </tbody>
                 </table>
               </div>
@@ -582,9 +581,9 @@
   function journal_table_select() {
     var td = event.srcElement;
     var table = document.getElementById("journal_table")
-    document.getElementById("journal_name_input").value = table.rows[td.parentElement.rowIndex - 1].cells[0].innerText
-    document.getElementById("journal_year_input").value = table.rows[td.parentElement.rowIndex - 1].cells[1].innerText
-    document.getElementById("journal_stage_input").value = table.rows[td.parentElement.rowIndex - 1].cells[2].innerText
+    document.getElementById("journal_name_input").value = table.rows[td.parentElement.rowIndex ].cells[0].innerText
+    document.getElementById("journal_year_input").value = table.rows[td.parentElement.rowIndex ].cells[1].innerText
+    document.getElementById("journal_stage_input").value = table.rows[td.parentElement.rowIndex].cells[2].innerText
   }
   function user_journal_order() {
     post_data = {
@@ -593,7 +592,7 @@
       'journal_stage': document.getElementById("journal_stage_input").value,
     }
     $.ajax({
-      url: "user_journal_order", success: function (data) {
+      url: "user_journal_order", data:post_data,success: function (data) {
         alert(data['message'])
       }
     });

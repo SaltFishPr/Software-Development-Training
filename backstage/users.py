@@ -311,8 +311,8 @@ class JournalAdmin(User):
         journal_info = JournalDB.get_journal_by_name_year_stage(journal_name, journal_year, journal_stage)
         if not journal_info:
             data = {
-                'flag':0,
-                'message':'没有这个期刊'
+                'flag': 0,
+                'message': '没有这个期刊'
             }
             return data
         key = journal_info[0][0]
@@ -321,11 +321,12 @@ class JournalAdmin(User):
                 'account': account,
                 'key': key,
                 'order_flag': 1,
-                'borrow_flag':0,
-                'return_flag':0
+                'borrow_flag': 0,
+                'return_flag': 0
             }
             result = RecordDB.get_info_by_dict('record', get_record_dict)
             result.sort(key=lambda x: x[2])
+            print(result)
             RecordDB.update_borrow_time(result[0][0], result[0][1], result[0][2])
             JournalDB.update_journal_num(key, journal_info[0][6] - 1, journal_info[0][7] - 1, journal_info[0][8] + 1,
                                          journal_info[0][9])
@@ -346,7 +347,7 @@ class JournalAdmin(User):
                 'account': account,
                 'key': key,
                 'borrow_flag': 1,
-                'return_flag':0
+                'return_flag': 0
             }
             result = RecordDB.get_info_by_dict('record', get_record_dict)
             result.sort(key=lambda x: x[3])
@@ -368,7 +369,7 @@ class JournalAdmin(User):
             JournalDB.update_journal_num(key, journal_info[0][6] + num, journal_info[0][7], journal_info[0][8],
                                          journal_info[0][9] + num)
             flag = 1
-            message='成功'
+            message = '成功'
         elif update_method == '库存减少':
             if num <= journal_info[0][6]:
                 JournalDB.update_journal_num(key, journal_info[0][6] - num, journal_info[0][7], journal_info[0][8],
@@ -382,7 +383,7 @@ class JournalAdmin(User):
             flag = 0
         data = {
             'flag': flag,
-            'message':message
+            'message': message
         }
         return data
 
@@ -455,9 +456,32 @@ class Reader(User):
         return data
 
     # 预约
-    def _order(self):
-        pass
+    def order(self, journal_name, journal_year, journal_stage):
+        """
 
+        :param journal_name:
+        :param journal_year:
+        :param journal_stage:
+        :return:
+        """
+        journal_info = JournalDB.get_journal_by_name_year_stage(journal_name, journal_year, journal_stage)
+        key = journal_info[0][0]
+
+        # 库存数大于预约数 可以预约
+        if journal_info[0][6] > journal_info[0][7]:
+            RecordDB.add_order(self._account, key)
+            JournalDB.update_journal_num(key,journal_info[0][6],journal_info[0][7]+1,journal_info[0][8],journal_info[0][9])
+            flag = 1
+            message = '预约成功，请到书库借阅!'
+        else:
+            flag = 0
+            message = '您预约的期刊已经没有库存了！'
+
+        data = {
+            'flag': flag,
+            'message': message
+        }
+        return data
 
 if __name__ == '__main__':
     user_obj = JournalAdmin('wws')
