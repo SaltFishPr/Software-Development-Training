@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
+from database.record import RecordDB
+from database.journal import JournalDB
 
 class Journal(object):
     def __init__(self, main_key, issn, year, stage, name, tags, stock_num, order_num, lend_num, total_num, press,
@@ -33,6 +34,7 @@ class Journal(object):
         self.__press = press
         self.__editor = editor
         pass
+
 
 
 if __name__ == '__main__':

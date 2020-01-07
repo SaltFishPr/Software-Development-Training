@@ -4,7 +4,7 @@ from backstage.journals import Journal
 from database.user import UserDB
 from database.record import RecordDB
 from database.journal import JournalDB
-
+from backstage.record import Record
 
 class User(object):
     def __init__(self, account):
@@ -114,11 +114,6 @@ class Admin(User):
         return data
 
     def remove_account(self, account):
-        """
-        删除指定账户信息
-        :param account: 用户账户
-        :return: flag
-        """
         dict1 = {
             'flag': -1
         }
@@ -127,7 +122,7 @@ class Admin(User):
         }
         # 执行数据库的删除操作
         if UserDB.check_user_exist(account):  # 如果存在该用户
-            UserDB.remove_user(account)
+            UserDB.del_user(account)
             dict1['flag'] = 1
         else:  # 用户不存在
             dict1['flag'] = 0
@@ -330,4 +325,4 @@ class Reader(User):
 
 if __name__ == '__main__':
     user_obj = Admin('jl')
-    # print(user_obj.get_self_info('jl', 'account_name_grade'))
+    print(user_obj.get_self_info('jl', 'account_name_grade'))

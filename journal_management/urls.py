@@ -60,5 +60,6 @@ urlpatterns = [
     url('account_info_load',views.account_info_load),
     url('user_register',views.user_register),
     url('user_delete',views.user_delete),
+    url('journal_admin_info',views.journal_admin_info),
     url('', views.login_page)
 ]
