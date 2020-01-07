@@ -223,7 +223,7 @@ class JournalAdmin(User):
         super(JournalAdmin, self).__init__(account)
         self.__identity = "periodical_admin"
 
-    def get_journal_admin_info(self,choice):
+    def get_journal_admin_info(self, choice):
         user_info = {
             'name': UserDB.get_user_name(self._account),
             'grade': UserDB.get_user_grade(self._account)
@@ -231,7 +231,7 @@ class JournalAdmin(User):
         record_list = []
         journal_list = []
 
-        for i,record_info in enumerate(RecordDB.get_info_by_dict('record', {})):
+        for i, record_info in enumerate(RecordDB.get_info_by_dict('record', {})):
             record_element = dict()
             user_name = list(record_info)[0]
             key = list(record_info)[1]
@@ -261,9 +261,9 @@ class JournalAdmin(User):
                 time = return_time
             record_element['time'] = time
 
-            if choice =='null':
+            if choice == 'null':
                 continue
-            if choice =='all':
+            if choice == 'all':
                 record_list.append(record_element)
                 continue
             elif choice == 'order':
@@ -319,13 +319,15 @@ class JournalAdmin(User):
             result = RecordDB.get_info_by_dict('record', get_record_dict)
             result.sort(key=lambda x: x[2])
             RecordDB.update_borrow_time(result[0][0], result[0][1], result[0][2])
-            JournalDB.update_journal_num(key,journal_info[0][6]-1,journal_info[0][7]-1,journal_info[0][8]+1,journal_info[0][9])
+            JournalDB.update_journal_num(key, journal_info[0][6] - 1, journal_info[0][7] - 1, journal_info[0][8] + 1,
+                                         journal_info[0][9])
             message = '处理成功'
-            flag=1
+            flag = 1
         elif record_operation == '借阅':
             if journal_info[0][6] > journal_info[0][7]:
                 RecordDB.add_borrow(account, key)
-                JournalDB.update_journal_num(key, journal_info[0][6] -1, journal_info[0][7] , journal_info[0][8] + 1,journal_info[0][9])
+                JournalDB.update_journal_num(key, journal_info[0][6] - 1, journal_info[0][7], journal_info[0][8] + 1,
+                                             journal_info[0][9])
                 message = '借阅成功'
                 flag = 1
             else:
@@ -340,35 +342,37 @@ class JournalAdmin(User):
             result = RecordDB.get_info_by_dict('record', get_record_dict)
             result.sort(key=lambda x: x[3])
             RecordDB.update_return_time(account, key, result[0][3])
-            JournalDB.update_journal_num(key, journal_info[0][6] + 1, journal_info[0][7], journal_info[0][8] - 1,journal_info[0][9])
+            JournalDB.update_journal_num(key, journal_info[0][6] + 1, journal_info[0][7], journal_info[0][8] - 1,
+                                         journal_info[0][9])
             message = '归还成功'
             flag = 1
-        data={
-            'flag':flag,
-            'message':message
+        data = {
+            'flag': flag,
+            'message': message
         }
         return data
 
-
-    def journal_total_num_update(self,journal_name, journal_year, journal_stage, update_method,num):
+    def journal_total_num_update(self, journal_name, journal_year, journal_stage, update_method, num):
         journal_info = JournalDB.get_journal_by_name_year_stage(journal_name, journal_year, journal_stage)
         key = journal_info[0][0]
         if update_method == '库存增加':
-            JournalDB.update_journal_num(key,journal_info[0][6]+num,journal_info[0][7],journal_info[0][8],journal_info[0][9]+num)
+            JournalDB.update_journal_num(key, journal_info[0][6] + num, journal_info[0][7], journal_info[0][8],
+                                         journal_info[0][9] + num)
             flag = 1
         elif update_method == '库存减少':
             if num <= journal_info[0][6]:
                 JournalDB.update_journal_num(key, journal_info[0][6] - num, journal_info[0][7], journal_info[0][8],
-                                             journal_info[0][9] -num)
+                                             journal_info[0][9] - num)
                 flag = 1
             else:
                 flag = 0
         else:
-            flag=0
-        data ={
-            'flag':flag
+            flag = 0
+        data = {
+            'flag': flag
         }
         return data
+
 
 class Reader(User):
     def __init__(self, account):
@@ -409,7 +413,7 @@ class Reader(User):
             # 1 0 0预约未借阅
             # x 1 0  借阅 未归还
             # x 1 1 归还
-            results=RecordDB.get_record_by_account(self._account)[i]
+            results = RecordDB.get_record_by_account(self._account)[i]
             if results[5] == 1 and results[6] == 0 and results[7] == 0:
                 borrow['status'] = '预约未借阅'
             elif results[6] == 1 and results[7] == 0:
@@ -444,4 +448,4 @@ class Reader(User):
 
 if __name__ == '__main__':
     user_obj = JournalAdmin('wws')
-    print(user_obj.record_update('badwoman','science',1999,1,'归还'))
+    print(user_obj.record_update('badwoman', 'science', 1999, 1, '归还'))
