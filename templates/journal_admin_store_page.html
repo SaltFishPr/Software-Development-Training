@@ -310,7 +310,75 @@
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
+          <div class="col-lg-12 stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">期刊借阅信息</h4>
+                <p class="card-description"> Add class <code>.table-{color}</code></p>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>期刊名</th>
+                      <th>年</th>
+                      <th>期</th>
+                      <th>操作</th>
+                      <th>数目</th>
+                      <th>执行</th>
+                    </tr>
+                  </thead>
+                  <tbody id="borrow_table">
+                    <tr class="table-info">
+                      <!-- <td> <input id="user_name_input"></input><select id="user_name_select">
+                          <option></option>
+                        </select> </td> -->
+                      <td> <input id="journal_name_input"></input><select id="journal_name_select">
+                          <option></option>
+                        </select> </td>
+                      <td> <input id="journal_year_input" type="number" min=1978></input><select
+                          id="journal_year_select">
+                          <option></option>
+                        </select> </td>
+                      <td> <input id="journal_stage_input" type="number" min=1></input><select
+                          id="journal_stage_select">
+                          <option></option>
+                        </select> </td>
+                      <td><select id="record_update_mothed">
+                          <option>库存增加</option>
+                          <option>库存减少</option>
+                        </select></td>
+                      <td> <input id="journal_num_input" type="number" min=1></input> </td>
+                      <td><input type="submit" value="执行" class="btn btn-success mr-2"
+                          onclick="journal_uptade()"></button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12 stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">期刊库存信息</h4>
+                <p class="card-description"> Add class <code>.table-{color}</code></p>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>journal_name</th>
+                      <th>journal_year</th>
+                      <th>journal_stage</th>
+                      <th>journal_num</th>
+                      <th>lend_num</th>
+                      <th>order_num</th>
+                      <th>stock_num</th>
+                    </tr>
+                  </thead>
+                  <tbody id="journal_table" onclick="journal_table_select()">
 
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- content-wrapper ends -->
         <!-- partial:../../partials/_footer.html -->
@@ -344,5 +412,157 @@
   <!-- Custom js for this page-->
   <!-- End custom js for this page-->
 </body>
+<script>
+  // function test() {
+  //   console.log(document.getElementById("user_register_identity").value)
+  // }
+
+
+
+  function journal_admin_user_info_load(data) {
+    user = data['user_info']
+    user_name = user['name']
+    user_grade = user['grade']
+    document.getElementById("user_name_img_place").innerText = user_name
+    document.getElementById("user_grade_img_place").innerText = user_grade
+  }
+  // function record_table_load(data) {
+  //   record_list = data['record_list']
+  //   var table = document.getElementById("record_table");
+  //   table.innerHTML = ""
+  //   // table.deleteTFoot();
+  //   // var footer = table.createTFoot();
+  //   var record_list_length = 0;
+  //   for (var item in record_list) {
+  //     record_list_length++;
+  //   }
+  //   for (var i = 0; i < record_list_length; i++) {
+  //     var row = table.insertRow(0);
+  //     var cell1 = row.insertCell(0);
+  //     var cell2 = row.insertCell(1);
+  //     var cell3 = row.insertCell(2);
+  //     var cell4 = row.insertCell(3);
+  //     var cell5 = row.insertCell(4);
+  //     var cell6 = row.insertCell(5);
+  //     cell1.innerText = record_list[i]['user_name'];
+  //     cell2.innerText = record_list[i]['journal_name'];
+  //     cell3.innerText = record_list[i]['journal_year'];
+  //     cell4.innerText = record_list[i]['journal_stage'];
+  //     cell5.innerText = record_list[i]['status'];
+  //     cell6.innerText = record_list[i]['time'];
+
+  //   }
+  // }
+
+  function journal_table_load(data) {
+    journal_list = data['journal_list']
+    var table = document.getElementById("journal_table");
+    table.innerHTML = ""
+    // table.deleteTFoot();
+    // var footer = table.createTFoot();
+    var journal_list_length = 0;
+    for (var item in journal_list) {
+      journal_list_length++;
+    }
+    for (var i = 0; i < journal_list_length; i++) {
+      var row = table.insertRow(0);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+      var cell4 = row.insertCell(3);
+      var cell5 = row.insertCell(4);
+      var cell6 = row.insertCell(5);
+      var cell7 = row.insertCell(6);
+      cell1.innerHTML = journal_list[i]['journal_name'];
+      cell2.innerText = journal_list[i]['journal_year'];
+      cell3.innerText = journal_list[i]['journal_stage'];
+      cell4.innerText = journal_list[i]['total_num'];
+      cell5.innerText = journal_list[i]['lend_num'];
+      cell6.innerText = journal_list[i]['order_num'];
+      cell7.innerText = journal_list[i]['stock_num'];
+
+    }
+  }
+  function journal_store_info_load() {
+    $.ajax({
+      url: "journal_admin_user_info", success: function (data) {
+        journal_table_load(data)
+        // record_table_load(data)
+        journal_admin_user_info_load(data)
+      }
+    });
+  }
+
+  window.onload = function () {
+    journal_store_info_load()
+  }
+  // function record_table_select() {
+  //   var td = event.srcElement;
+  //   var table = document.getElementById("record_table")
+  //   document.getElementById("user_name_input").value = table.rows[td.parentElement.rowIndex - 1].cells[0].innerText
+  //   document.getElementById("journal_name_input").value = table.rows[td.parentElement.rowIndex - 1].cells[1].innerText
+  //   document.getElementById("journal_year_input").value = table.rows[td.parentElement.rowIndex - 1].cells[2].innerText
+  //   document.getElementById("journal_stage_input").value = table.rows[td.parentElement.rowIndex - 1].cells[3].innerText
+  // }
+  function journal_table_select() {
+    var td = event.srcElement;
+    var table = document.getElementById("journal_table")
+    document.getElementById("journal_name_input").value = table.rows[td.parentElement.rowIndex - 1].cells[0].innerText
+    document.getElementById("journal_year_input").value = table.rows[td.parentElement.rowIndex - 1].cells[1].innerText
+    document.getElementById("journal_stage_input").value = table.rows[td.parentElement.rowIndex - 1].cells[2].innerText
+  }
+  function account_select_load(data) {
+    account_list = data['account_list']
+    var account_list_length = 0;
+    for (var item in account_list) {
+      account_list_length++;
+    }
+    var sec = document.getElementById("account_select")
+    sec.innerHTML = ""
+    for (var i = 0; i < account_list_length; i++) {
+
+      var account = account_list[i]['account']
+      var flag = 0;
+      for (var j = 0; j < sec.options.length; j++) {
+        var r = sec.options[j].value
+        if (account == r) {
+          flag = 1
+          break;
+        }
+      }
+      if (flag == 1) {
+        continue;
+      }
+      var op = document.createElement("option")
+      op.setAttribute("value", account)
+      op.innerText = account
+      sec.appendChild(op)
+    }
+  }
+
+  function journal_uptade() {
+    post_data = {
+      'journal_name': document.getElementById("journal_name_input").value,
+      'journal_year': document.getElementById("journal_year_input").value,
+      'journal_stage': document.getElementById("journal_stage_input").value,
+      'journal_num': document.getElementById("journal_num_input").value,
+      'record_update_mothed': document.getElementById("record_update_mothed").value
+    }
+    $.ajax({
+      url: "journal_uptade", data: post_data, success: function (data) {
+        if (data['flag'] == 1) {
+          journal_store_info_load()
+          alert("成功")
+        } else {
+          alert("失败")
+        }
+
+      }
+    });
+  }
+
+
+
+</script>
 
 </html>

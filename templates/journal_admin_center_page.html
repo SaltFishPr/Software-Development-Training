@@ -355,7 +355,7 @@
           <div class="col-lg-12 stretch-card">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">期刊借阅信息</h4>
+                <h4 class="card-title">借阅信息</h4>
                 <p class="card-description"> Add class <code>.table-{color}</code></p>
                 <table class="table table-bordered">
                   <thead>
@@ -506,14 +506,17 @@
   //   }
   // }
 
-  window.onload = function () {
+  function journal_record_info_load() {
     $.ajax({
-      url: "journal_admin_user_info", success: function (data) {
+      url: "journal_admin_user_order_info", success: function (data) {
         // journal_table_load(data)
         record_table_load(data)
         journal_admin_user_info_load(data)
       }
     });
+  }
+  window.onload = function () {
+    journal_record_info_load()
   }
   function record_table_select() {
     var td = event.srcElement;
@@ -530,34 +533,34 @@
   //   document.getElementById("journal_year_input").value = table.rows[td.parentElement.rowIndex - 1].cells[1].innerText
   //   document.getElementById("journal_stage_input").value = table.rows[td.parentElement.rowIndex - 1].cells[2].innerText
   // }
-  function account_select_load(data) {
-    account_list = data['account_list']
-    var account_list_length = 0;
-    for (var item in account_list) {
-      account_list_length++;
-    }
-    var sec = document.getElementById("account_select")
-    sec.innerHTML = ""
-    for (var i = 0; i < account_list_length; i++) {
+  // function account_select_load(data) {
+  //   account_list = data['account_list']
+  //   var account_list_length = 0;
+  //   for (var item in account_list) {
+  //     account_list_length++;
+  //   }
+  //   var sec = document.getElementById("account_select")
+  //   sec.innerHTML = ""
+  //   for (var i = 0; i < account_list_length; i++) {
 
-      var account = account_list[i]['account']
-      var flag = 0;
-      for (var j = 0; j < sec.options.length; j++) {
-        var r = sec.options[j].value
-        if (account == r) {
-          flag = 1
-          break;
-        }
-      }
-      if (flag == 1) {
-        continue;
-      }
-      var op = document.createElement("option")
-      op.setAttribute("value", account)
-      op.innerText = account
-      sec.appendChild(op)
-    }
-  }
+  //     var account = account_list[i]['account']
+  //     var flag = 0;
+  //     for (var j = 0; j < sec.options.length; j++) {
+  //       var r = sec.options[j].value
+  //       if (account == r) {
+  //         flag = 1
+  //         break;
+  //       }
+  //     }
+  //     if (flag == 1) {
+  //       continue;
+  //     }
+  //     var op = document.createElement("option")
+  //     op.setAttribute("value", account)
+  //     op.innerText = account
+  //     sec.appendChild(op)
+  //   }
+  // }
 
   function record_uptade() {
     post_data = {
