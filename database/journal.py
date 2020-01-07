@@ -155,7 +155,18 @@ class JournalDB(DBBase):
         mydb.close()
         return stage
 
+    @classmethod
+    def update_journal_num(cls, key, stock_num, order_num, lend_num):
+        mydb = DBBase.connect()
+        mycursor = mydb.cursor()
+        sql = "UPDATE journal SET stock_num = %d , order_num= %d , lend_num = %d WHERE key = %d" % (
+        stock_num, order_num, lend_num, key)
+        print(sql)
+        mycursor.execute(sql)
+        mydb.commit()
+        mycursor.close()
+        mydb.close()
+
 
 if __name__ == '__main__':
-    print(JournalDB.get_stage_by_key(1))
-    # print(JournalDB.get_journal_by_stage('science', 1999, 1))
+    JournalDB.update_journal_num(7, 100, 0, 0)

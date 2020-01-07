@@ -341,11 +341,11 @@
                       <td> <input id="journal_stage_input"></input><select id="journal_stage_select">
                           <option></option>
                         </select> </td>
-                      <td><select id="record_update_mothed">
-                          <option>借阅</option>
+                      <td><select id="record_update_method">
                           <option>归还</option>
                         </select></td>
-                      <td><input type="submit" value="执行" class="btn btn-success mr-2" onclick="test()"></button></td>
+                      <td><input type="submit" value="执行" class="btn btn-success mr-2"
+                          onclick="record_uptade()"></input></td>
                     </tr>
                   </tbody>
                 </table>
@@ -506,14 +506,17 @@
   //   }
   // }
 
-  window.onload = function () {
+  function journal_record_info_load() {
     $.ajax({
-      url: "journal_admin_user_borrow_info", success: function (data) {
+      url: "journal_admin_user_return_info", success: function (data) {
         // journal_table_load(data)
         record_table_load(data)
         journal_admin_user_info_load(data)
       }
     });
+  }
+  window.onload = function () {
+    journal_record_info_load()
   }
   function record_table_select() {
     var td = event.srcElement;
@@ -565,11 +568,12 @@
       'journal_name': document.getElementById("journal_name_input").value,
       'journal_year': document.getElementById("journal_year_input").value,
       'journal_stage': document.getElementById("journal_stage_input").value,
-      'record_update_mothed': document.getElementById("record_update_mothed").value
+      'record_update_method':document.getElementById("record_update_method").value
     }
     $.ajax({
-      url: "record_uptade", data: post_data, success: function (data) {
+      url: "record_update", data: post_data, success: function (data) {
         if (data['flag'] == 1) {
+          journal_record_info_load()
           alert("成功")
         } else {
           alert("失败")
