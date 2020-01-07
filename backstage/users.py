@@ -4,7 +4,7 @@ from backstage.journals import Journal
 from database.user import UserDB
 from database.record import RecordDB
 from database.journal import JournalDB
-
+from backstage.record import Record
 
 class User(object):
     def __init__(self, account):
@@ -236,6 +236,62 @@ class JournalAdmin(User):
     def _return_journal(self):
         pass
 
+    def get_record_info(self):
+        """
+
+        :return:
+        """
+        record_list=[]
+        journal_list=[]
+        user_info={
+            'name':UserDB.get_user_name(self._account),
+            'grade':UserDB.get_user_grade(self._account)
+        }
+
+        for i,record_info in enumerate(RecordDB.get_info_by_dict('Record', {})):
+            record_element=dict()
+            user_name=list(record_info)[0]
+            key=list(record_info)[1]
+            order_time=list(record_info)[2]
+            borrow_time=list(record_info)[3]
+            return_time=list(record_info)[4]
+            status=Record.get_record_status(key)
+            journal_name_year_stage=JournalDB.get_journal_name_year_stage(key)
+            time="异常情况"
+            if status =="预约未借阅":
+                time=order_time
+            elif status == "借阅中":
+                time = borrow_time
+            else:
+                time =return_time
+            record_element['user_name'] = user_name
+            record_element['journal'] = journal_name_year_stage
+            record_element['status'] = status
+            record_element['time'] = time
+            record_list.append(record_element)
+
+        for journal_info in JournalDB.get_info_by_dict('journal',{}):
+            journal_element = dict()
+            key = list(journal_info)[0]
+            journal_name_year_stage = JournalDB.get_journal_name_year_stage(key)
+            journal_element['journal'] = journal_name_year_stage
+            journal_element['total_num'] = list(journal_info)[9]
+            journal_element['lend_num'] = list(journal_info)[8]
+            journal_element['order_num'] = list(journal_info)[7]
+            journal_element['stock_num'] = list(journal_info)[6]
+            journal_list.append(journal_element)
+        # for user_info in UserDB.get_info_by_dict('User', get_user_dict):
+        #     journal_admin_list.append({'account': list(user_info)[0],
+        #                                'name': list(user_info)[2],
+        #                                'grade': list(user_info)[4]})
+
+        data = {
+            'record_list': record_list,
+            'journal_list': journal_list,
+            'user_info': user_info
+        }
+        return data
+
 
 class Reader(User):
     def __init__(self, account):
@@ -276,20 +332,7 @@ class Reader(User):
             # 1 0 0预约未借阅
             # x 1 0  借阅 未归还
             # x 1 1 归还
-            if RecordDB.get_record_by_account(self._account)[i][5] == 1 and \
-                    RecordDB.get_record_by_account(self._account)[i][
-                        6] == 0 and RecordDB.get_record_by_account(self._account)[i][7] == 0:
-                borrow['status'] = '预约未借阅'
-            elif RecordDB.get_record_by_account(self._account)[i][6] == 1 and \
-                    RecordDB.get_record_by_account(self._account)[i][
-                        7] == 0:
-                borrow['status'] = '借阅中'
-            elif RecordDB.get_record_by_account(self._account)[i][6] == 1 and \
-                    RecordDB.get_record_by_account(self._account)[i][
-                        7] == 1:
-                borrow['status'] = '已归还'
-            else:
-                borrow['status'] = '异常情况'
+            borrow['status'] = Record.get_record_status(RecordDB.get_record_by_account(self._account)[i][1])
             if borrow['status'] == '预约未借阅':
                 borrow['time_1'] = '未借阅'
                 borrow['time_2'] = '未借阅'
@@ -315,5 +358,7 @@ class Reader(User):
 
 
 if __name__ == '__main__':
-    user_obj = Admin('jl')
-    print(user_obj.get_self_info('jl', 'account_name_grade'))
+    user_obj = Reader('jl')
+    journal_obj = JournalAdmin('badwoman')
+    admin_obj = Admin('aaa')
+    print( journal_obj.get_record_info())

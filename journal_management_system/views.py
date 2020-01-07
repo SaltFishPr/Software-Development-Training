@@ -13,7 +13,7 @@ def register_judge(request):
     account = request.GET.get('username')
     password = request.GET.get('password')
     # name=request.GET.get('name')
-    name = 'OvO'
+    name = account+'_testname'
     identity = 'reader'
     grade = 1
     # dict1 = {
@@ -235,3 +235,8 @@ def user_delete(request):
     admin = JsonPack.get_object_by_account(cur_account)
     data = admin.remove_account(account)
     return JsonResponse(data)
+
+
+def journal_admin_info(request):
+    cur_account = request.get_signed_cookie('account', salt='666')
+    journal_admin = JsonPack.get_object_by_account(cur_account)

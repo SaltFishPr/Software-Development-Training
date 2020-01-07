@@ -109,11 +109,19 @@ class JournalDB(DBBase):
         mydb.close()
         return results[0][0]
 
+    @classmethod
+    def get_journal_name_year_stage(cls,key):
+        mydb = DBBase.connect()
+        mycursor = mydb.cursor()
+        sql = "SELECT * FROM journal WHERE key = '%d' " % (key)
+        mycursor.execute(sql)
+        results = mycursor.fetchall()
+        journal_name_year_stage=results[0][4]+"-"+str(results[0][2])+"-"+str(results[0][3])
+        mycursor.close()
+        mydb.close()
+        return journal_name_year_stage
 
 if __name__ == '__main__':
     pass
-    dict_test = {
-        'name': 'nature'
-    }
-    print(JournalDB.get_info_by_dict("journal", dict_test))
+    print(JournalDB.get_journal_name_year_stage(1))
     # print(JournalDB.get_journal_by_stage('science', 1999, 1))
