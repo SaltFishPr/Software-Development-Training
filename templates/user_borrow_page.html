@@ -321,7 +321,7 @@
                       <label class="col-sm-3 col-form-label">Year</label>
                       <div class="col-sm-9">
                         <select class="form-control" id="year_select" onchange="journal_year_search()">
-                            <option></option>
+                          <option></option>
                         </select>
                       </div>
                     </div>
@@ -333,7 +333,7 @@
                       <label class="col-sm-3 col-form-label">Stage</label>
                       <div class="col-sm-9">
                         <select class="form-control" id="stage_select" onchange="journal_stage_search()">
-                            <option></option>
+                          <option></option>
                         </select>
                       </div>
                     </div>
@@ -536,7 +536,7 @@
 
   window.onload = function () {
     document.getElementById("name_select").options.length = 1
-      document.getElementById("year_select").options.length = 1
+    document.getElementById("year_select").options.length = 1
     document.getElementById("stage_select").options.length = 1
     $.ajax({
       url: "journal_search_load", success: function (data) {
@@ -545,8 +545,8 @@
 
       }
     });
-     $.ajax({
-      url: "user_borrow_info",  success: function (data) {
+    $.ajax({
+      url: "user_borrow_info", success: function (data) {
         user_borrow_info(data)
       }
     });
