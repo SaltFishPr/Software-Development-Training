@@ -223,7 +223,7 @@ class JournalAdmin(User):
         super(JournalAdmin, self).__init__(account)
         self.__identity = "periodical_admin"
 
-    def get_journal_admin_info(self):
+    def get_journal_admin_info(self,choice):
         user_info = {
             'name': UserDB.get_user_name(self._account),
             'grade': UserDB.get_user_grade(self._account)
@@ -231,11 +231,19 @@ class JournalAdmin(User):
         record_list = []
         journal_list = []
 
-        for record_info in RecordDB.get_info_by_dict('record', {}):
+        for i,record_info in enumerate(RecordDB.get_info_by_dict('record', {})):
             record_element = dict()
             user_name = list(record_info)[0]
             key = list(record_info)[1]
-            status = Record.get_record_status(key)
+
+            if list(record_info)[5] == 1 and list(record_info)[6] == 0 and list(record_info)[7] == 0:
+                status = '预约未借阅'
+            elif list(record_info)[6] == 1 and list(record_info)[7] == 0:
+                status = '借阅中'
+            elif list(record_info)[6] == 1 and list(record_info)[7] == 1:
+                status = '已归还'
+            else:
+                status = '异常情况'
             order_time = list(record_info)[2]
             borrow_time = list(record_info)[3]
             return_time = list(record_info)[4]
@@ -252,7 +260,24 @@ class JournalAdmin(User):
             else:
                 time = return_time
             record_element['time'] = time
-            record_list.append(record_element)
+
+            if choice =='null':
+                continue
+            if choice =='all':
+                record_list.append(record_element)
+                continue
+            elif choice == 'order':
+                if record_element['status'] == '预约未借阅':
+                    record_list.append(record_element)
+                continue
+            elif choice == 'borrow':
+                if record_element['status'] == '借阅中':
+                    record_list.append(record_element)
+                continue
+            else:
+                if record_element['status'] == '已归还':
+                    record_list.append(record_element)
+                continue
 
         for journal_info in JournalDB.get_info_by_dict('journal', {}):
             journal_element = dict()
@@ -347,17 +372,12 @@ class Reader(User):
             # 1 0 0预约未借阅
             # x 1 0  借阅 未归还
             # x 1 1 归还
-            if RecordDB.get_record_by_account(self._account)[i][5] == 1 and \
-                    RecordDB.get_record_by_account(self._account)[i][
-                        6] == 0 and RecordDB.get_record_by_account(self._account)[i][7] == 0:
+            results=RecordDB.get_record_by_account(self._account)[i]
+            if results[5] == 1 and results[6] == 0 and results[7] == 0:
                 borrow['status'] = '预约未借阅'
-            elif RecordDB.get_record_by_account(self._account)[i][6] == 1 and \
-                    RecordDB.get_record_by_account(self._account)[i][
-                        7] == 0:
+            elif results[6] == 1 and results[7] == 0:
                 borrow['status'] = '借阅中'
-            elif RecordDB.get_record_by_account(self._account)[i][6] == 1 and \
-                    RecordDB.get_record_by_account(self._account)[i][
-                        7] == 1:
+            elif results[6] == 1 and results[7] == 1:
                 borrow['status'] = '已归还'
             else:
                 borrow['status'] = '异常情况'
@@ -386,5 +406,5 @@ class Reader(User):
 
 
 if __name__ == '__main__':
-    wws = JournalAdmin('wws')
-    wws.record_update('duqingfeng', 'science', 1999, 2, '处理预约')
+    user_obj = JournalAdmin('wws')
+    print(user_obj.get_journal_admin_info())
