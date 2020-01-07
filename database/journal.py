@@ -22,7 +22,7 @@ class JournalDB(DBBase):
     @classmethod
     def get_journal(cls):
         """
-
+        查询所有期刊
         :return:
         """
         mydb = DBBase.connect()
@@ -37,7 +37,7 @@ class JournalDB(DBBase):
     @classmethod
     def get_year_by_name(cls, name):
         """
-
+        查询  该期刊名  的期刊
         :param name:
         :return:
         """
@@ -56,7 +56,7 @@ class JournalDB(DBBase):
     @classmethod
     def get_stage_by_name_and_year(cls, name, year):
         """
-
+        查询  该期刊名，该年  的期刊
         :param name:
         :param year:
         :return:
@@ -76,7 +76,7 @@ class JournalDB(DBBase):
     @classmethod
     def get_journal_by_stage(cls, name, year, stage):
         """
-
+        根据  名字，年份，期  得到唯一期刊
         :param name:
         :param year:
         :param stage:
@@ -94,7 +94,7 @@ class JournalDB(DBBase):
     @classmethod
     def get_key(cls, name, year, stage):
         """
-
+        得到该  名字，年份，期  期刊的key
         :param name:
         :param year:
         :param stage:

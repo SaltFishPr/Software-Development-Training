@@ -1,4 +1,4 @@
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from backstage.contorl import JsonPack
 
@@ -106,7 +106,7 @@ def journal_admin_store_page(request):
 
 
 def user_center_info(request):
-    account = request.get_signed_cookie('account', salt="666")
+    cur_account = request.get_signed_cookie('account', salt="666")
 
     # borrow = dict()
     # borrow['name'] = 'science'
@@ -121,35 +121,48 @@ def user_center_info(request):
     # borrow['time_2'] = '2点'
     # borrow_list.append(borrow)
     # print(borrow_list)
-    user_obj = JsonPack.get_object_by_account(account)
-    data = user_obj.get_record_info()
+    user = JsonPack.get_object_by_account(cur_account)
+    data = user.get_record_info()
     return JsonResponse(data)
 
 
 # 用户数据更新
 def user_data_update(request):
-    account = request.get_signed_cookie('account', salt='666')
+    cur_account = request.get_signed_cookie('account', salt='666')
     name = request.GET.get('username')
     pwd = request.GET.get('password')
-    user_obj = JsonPack.get_object_by_account(account)
-    data = user_obj.check_info_update(account, name, pwd)
+    user = JsonPack.get_object_by_account(cur_account)
+    data = user.check_info_update(cur_account, name, pwd)
     return JsonResponse(data)
 
 
-# 得到期刊的信息
 def journal_search_load(request):
+    """
+    得到所有期刊的信息
+    :param request:
+    :return:
+    """
     data = JsonPack.get_journal_info()
     return JsonResponse(data)
 
 
-# 根据年搜索期刊
 def journal_name_search(request):
+    """
+    得到该期刊的所有年、期
+    :param request:
+    :return:
+    """
     name = request.GET.get('name')
     data = JsonPack.get_journal_year(name)
     return JsonResponse(data)
 
 
 def journal_year_search(request):
+    """
+    得到该期刊、该年的所有期
+    :param request:
+    :return:
+    """
     name = request.GET.get('name')
     year = int(request.GET.get('year'))
     data = JsonPack.get_journal_stage(name, year)
@@ -157,6 +170,11 @@ def journal_year_search(request):
 
 
 def journal_stage_search(request):
+    """
+    返回唯一一个期刊
+    :param request:
+    :return:
+    """
     name = request.GET.get('name')
     year = int(request.GET.get('year'))
     stage = int(request.GET.get('stage'))
@@ -165,57 +183,71 @@ def journal_stage_search(request):
 
 
 def user_borrow_info(request):
-    account = request.get_signed_cookie('account', salt='666')
-    user_obj = JsonPack.get_object_by_account(account)
-    data = user_obj.get_self_info('name_grade')
+    """
+    返回用户自己的name和Grade
+    :param request:
+    :return:
+    """
+    cur_account = request.get_signed_cookie('account', salt='666')
+    user = JsonPack.get_object_by_account(cur_account)
+    data = user.get_self_info('name_grade')
     return JsonResponse(data)
 
 
 def user_data_info(request):
-    account = request.get_signed_cookie('account', salt='666')
-    user_obj = JsonPack.get_object_by_account(account)
-    data = user_obj.get_self_info('account_name_grade')
+    """
+    返回用户自己的account,name,grade
+    :param request:
+    :return:
+    """
+    cur_account = request.get_signed_cookie('account', salt='666')
+    user = JsonPack.get_object_by_account(cur_account)
+    data = user.get_self_info('account_name_grade')
     return JsonResponse(data)
 
 
 def admin_info(request):
-    account = request.get_signed_cookie('account', salt='666')
-    user_obj = JsonPack.get_object_by_account(account)
-    data = user_obj.get_self_info('account_name_grade')
+    """
 
+    :param request:
+    :return:
+    """
+    cur_account = request.get_signed_cookie('account', salt='666')
+    user = JsonPack.get_object_by_account(cur_account)
+    data = user.get_self_info('account_name_grade')
     return JsonResponse(data)
 
 
 def admin_user_update(request):
     cur_account = request.get_signed_cookie('account', salt='666')
-    admin = JsonPack.get_object_by_account(cur_account)
+    user = JsonPack.get_object_by_account(cur_account)
     account = request.GET.get('account')
     name = request.GET.get('name')
     grade = (request.GET.get('grade'))
     identity = request.GET.get('identity')
-    data = admin.modify_user_info(account, name, grade, identity)
+    data = user.modify_user_info(account, name, grade, identity)
     return JsonResponse(data)
 
 
 def admin_users_info(request):
     cur_account = request.get_signed_cookie('account', salt='666')
-    admin = JsonPack.get_object_by_account(cur_account)
-    data = admin.get_user_info_group_by_identity()
+    user = JsonPack.get_object_by_account(cur_account)
+    data = user.get_user_info_group_by_identity()
     return JsonResponse(data)
 
 
 def account_select_load(request):
     cur_account = request.get_signed_cookie('account', salt='666')
-    admin = JsonPack.get_object_by_account(cur_account)
-    data = admin.get_all_user_info()
+    user = JsonPack.get_object_by_account(cur_account)
+    data = user.get_all_user_info()
     return JsonResponse(data)
 
 
 def account_info_load(request):
     cur_account = request.get_signed_cookie('account', salt='666')
     account = request.GET.get('account')
-    user_obj = JsonPack.get_object_by_account(cur_account)
-    data = user_obj.get_data_by_account(account)
+    user = JsonPack.get_object_by_account(cur_account)
+    data = user.get_data_by_account(account)
     return JsonResponse(data)
 
 
@@ -232,6 +264,6 @@ def user_register(request):
 def user_delete(request):
     cur_account = request.get_signed_cookie('account', salt='666')
     account = request.GET.get('account')
-    admin = JsonPack.get_object_by_account(cur_account)
-    data = admin.remove_account(account)
+    user = JsonPack.get_object_by_account(cur_account)
+    data = user.remove_account(account)
     return JsonResponse(data)
