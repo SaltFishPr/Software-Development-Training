@@ -278,7 +278,9 @@ class JournalAdmin(User):
         for journal_info in JournalDB.get_info_by_dict('journal',{}):
             journal_element = dict()
             key = list(journal_info)[0]
-            journal_element['journal'] = JournalDB.get_journal_name_year_stage(key)
+            journal_element['journal_name'] = list(journal_info)[4]
+            journal_element['journal_year'] = list(journal_info)[2]
+            journal_element['journal_stage'] = list(journal_info)[3]
             journal_element['total_num'] = list(journal_info)[9]
             journal_element['lend_num']= list(journal_info)[8]
             journal_element['order_num']= list(journal_info)[7]
