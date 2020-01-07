@@ -301,6 +301,47 @@
                 <table class="table table-bordered">
                   <thead>
                     <tr>
+                      <th>用户</th>
+                      <th>期刊名</th>
+                      <th>年</th>
+                      <th>期</th>
+                      <th>操作</th>
+                      <th>执行</th>
+                    </tr>
+                  </thead>
+                  <tbody id="borrow_table">
+                    <tr class="table-info">
+                      <td> <input id="user_name_input"></input><select id="user_name_select">
+                          <option></option>
+                        </select> </td>
+                      <td> <input id="journal_name_input"></input><select id="journal_name_select">
+                          <option></option>
+                        </select> </td>
+                      <td> <input id="journal_year_input"></input><select id="journal_year_select">
+                          <option></option>
+                        </select> </td>
+                      <td> <input id="journal_stage_input"></input><select id="journal_stage_select">
+                          <option></option>
+                        </select> </td>
+                      <td><select id="record_update_mothed">
+                          <option>借阅</option>
+                          <option>归还</option>
+                        </select></td>
+                      <td><input type="submit" value="执行" class="btn btn-success mr-2" onclick="test()"></button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12 stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">期刊借阅信息</h4>
+                <p class="card-description"> Add class <code>.table-{color}</code></p>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
                       <th>user_name</th>
                       <th>journal_name</th>
                       <th>journal_year</th>
@@ -340,47 +381,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-12 stretch-card">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title">期刊借阅信息</h4>
-                <p class="card-description"> Add class <code>.table-{color}</code></p>
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th>用户</th>
-                      <th>期刊名</th>
-                      <th>年</th>
-                      <th>期</th>
-                      <th>操作</th>
-                      <th>执行</th>
-                    </tr>
-                  </thead>
-                  <tbody id="borrow_table">
-                    <tr class="table-info">
-                      <td> <input id="user_name_input"></input><select id="user_name_select">
-                          <option></option>
-                        </select> </td>
-                      <td> <input id="journal_name_input"></input><select id="journal_name_select">
-                          <option></option>
-                        </select> </td>
-                      <td> <input id="journal_year_input"></input><select id="journal_year_select">
-                          <option></option>
-                        </select> </td>
-                      <td> <input id="journal_stage_input"></input><select id="journal_stage_select">
-                          <option></option>
-                        </select> </td>
-                      <td><select id="user_register_identity">
-                          <option>借阅</option>
-                          <option>归还</option>
-                        </select></td>
-                      <td><input type="submit" value="执行" class="btn btn-success form-control"></button></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
+
         </div>
         <!-- content-wrapper ends -->
         <!-- partial:../../partials/_footer.html -->
@@ -417,11 +418,7 @@
 
 <script>
   // function test() {
-  //   var td = event.srcElement; // 通过event.srcElement 获取激活事件的对象 td
-  //   // alert("行号：" + (td.parentElement.rowIndex) + "，列号：" + td.cellIndex);
-  //   var table = document.getElementById("record_table")
-  //   document.getElementById("user_name_input").value = table.rows[td.parentElement.rowIndex - 1].cells[0].innerText
-  //   console.log(table.rows[td.parentElement.rowIndex - 1].cells[0].innerText)
+  //   console.log(document.getElementById("user_register_identity").value)
   // }
 
 
@@ -449,10 +446,14 @@
       var cell2 = row.insertCell(1);
       var cell3 = row.insertCell(2);
       var cell4 = row.insertCell(3);
+      var cell5 = row.insertCell(4);
+      var cell6 = row.insertCell(5);
       cell1.innerText = record_list[i]['user_name'];
-      cell2.innerText = record_list[i]['journal'];
-      cell3.innerText = record_list[i]['status'];
-      cell4.innerText = record_list[i]['time'];
+      cell2.innerText = record_list[i]['journal_name'];
+      cell3.innerText = record_list[i]['journal_year'];
+      cell4.innerText = record_list[i]['journal_stage'];
+      cell5.innerText = record_list[i]['status'];
+      cell6.innerText = record_list[i]['time'];
 
     }
   }
@@ -513,7 +514,6 @@
     document.getElementById("journal_year_input").value = table.rows[td.parentElement.rowIndex - 1].cells[1].innerText
     document.getElementById("journal_stage_input").value = table.rows[td.parentElement.rowIndex - 1].cells[2].innerText
   }
-
   function account_select_load(data) {
     account_list = data['account_list']
     var account_list_length = 0;
@@ -542,6 +542,26 @@
       sec.appendChild(op)
       console.log(document.getElementById("account_select").value)
     }
+  }
+
+  function record_uptade() {
+    post_data = {
+      'user_name': document.getElementById("user_name_input").value,
+      'journal_name': document.getElementById("journal_name_input").value,
+      'journal_year': document.getElementById("journal_year_input").value,
+      'journal_stage': document.getElementById("journal_stage_input").value,
+      'record_update_mothed': document.getElementById("record_update_mothed").value
+    }
+    $.ajax({
+      url: "record_uptade", data: post_data, success: function (data) {
+        if (data['flag'] == 1) {
+          alert("成功")
+        } else {
+          alert("失败")
+        }
+
+      }
+    });
   }
 
 
