@@ -193,8 +193,8 @@
                 <!-- <div class="dot-indicator bg-success"></div> -->
               </div>
               <div class="text-wrapper">
-                <p class="profile-name">userName</p>
-                <!-- <p class="designation">Premium user</p> -->
+                <p class="profile-name" id="user_name_img_place"></p>
+                <p class="designation" id="user_grade_img_place"></p>
               </div>
             </a>
           </li>
@@ -342,13 +342,13 @@
                           id="journal_stage_select">
                           <option></option>
                         </select> </td>
-                      <td><select id="record_update_mothed">
+                      <td><select id="record_update_method">
                           <option>库存增加</option>
                           <option>库存减少</option>
                         </select></td>
                       <td> <input id="journal_num_input" type="number" min=1></input> </td>
                       <td><input type="submit" value="执行" class="btn btn-success mr-2"
-                          onclick="journal_uptade()"></button></td>
+                          onclick="journal_update()"></input></td>
                     </tr>
                   </tbody>
                 </table>
@@ -540,16 +540,16 @@
     }
   }
 
-  function journal_uptade() {
+  function journal_update() {
     post_data = {
       'journal_name': document.getElementById("journal_name_input").value,
       'journal_year': document.getElementById("journal_year_input").value,
       'journal_stage': document.getElementById("journal_stage_input").value,
       'journal_num': document.getElementById("journal_num_input").value,
-      'record_update_mothed': document.getElementById("record_update_mothed").value
+      'record_update_method': document.getElementById("record_update_method").value
     }
     $.ajax({
-      url: "journal_uptade", data: post_data, success: function (data) {
+      url: "journal_update", data: post_data, success: function (data) {
         if (data['flag'] == 1) {
           journal_store_info_load()
           alert("成功")
