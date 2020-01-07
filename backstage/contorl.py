@@ -154,33 +154,16 @@ class JsonPack(object):
         return data
 
     @classmethod
-    def put_admin_info(cls, account):
-        """
-        把数据提交给登录的系统 管理员
-        :param account: 系统管理员的账户
-        :return: data
-        """
-        user_info = {
-            'name': UserDB.get_user_name(account),
-            'grade': UserDB.get_user_grade(account)
-        }
-        data = {
-            'user_info': user_info
-        }
-        return data
-
-    @classmethod
     def get_object_by_account(cls, cur_account):
-        if UserDB.get_user_identity(cur_account) == 'reader':
-            reader = Reader(cur_account)
-            return reader
-        elif UserDB.get_user_identity(cur_account) == 'admin':
-            admin = Admin(cur_account)
-            return admin
+        if UserDB.get_user_identity(cur_account) == 'admin':
+            user = Admin(cur_account)
+        elif UserDB.get_user_identity(cur_account) == 'journal_admin':
+            user = JournalAdmin(cur_account)
         else:
-            journal_admin = JournalAdmin(cur_account)
-            return journal_admin
+            user = Reader(cur_account)
+        return user
 
 
 if __name__ == '__main__':
-    print(JsonPack.get_all_user_info())
+
+    pass

@@ -63,7 +63,7 @@ class UserDB(DBBase):
             return list(result[0])
 
     @classmethod
-    def del_user(cls, account):
+    def remove_user(cls, account):
         """
         根据账户注销用户
         :param account:账户
