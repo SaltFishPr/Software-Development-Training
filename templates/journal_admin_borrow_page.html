@@ -352,29 +352,6 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-12 stretch-card">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title">期刊借阅信息</h4>
-                <p class="card-description"> Add class <code>.table-{color}</code></p>
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th>user_name</th>
-                      <th>journal_name</th>
-                      <th>journal_year</th>
-                      <th>journal_stage</th>
-                      <th>status</th>
-                      <th>time</th>
-                    </tr>
-                  </thead>
-                  <tbody id="record_table" onclick="record_table_select()">
-
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
           <!-- <div class="col-lg-12 stretch-card">
             <div class="card">
               <div class="card-body">
@@ -448,33 +425,33 @@
     document.getElementById("user_name_img_place").innerText = user_name
     document.getElementById("user_grade_img_place").innerText = user_grade
   }
-  function record_table_load(data) {
-    record_list = data['record_list']
-    var table = document.getElementById("record_table");
-    table.innerHTML = ""
-    // table.deleteTFoot();
-    // var footer = table.createTFoot();
-    var record_list_length = 0;
-    for (var item in record_list) {
-      record_list_length++;
-    }
-    for (var i = 0; i < record_list_length; i++) {
-      var row = table.insertRow(0);
-      var cell1 = row.insertCell(0);
-      var cell2 = row.insertCell(1);
-      var cell3 = row.insertCell(2);
-      var cell4 = row.insertCell(3);
-      var cell5 = row.insertCell(4);
-      var cell6 = row.insertCell(5);
-      cell1.innerText = record_list[i]['user_name'];
-      cell2.innerText = record_list[i]['journal_name'];
-      cell3.innerText = record_list[i]['journal_year'];
-      cell4.innerText = record_list[i]['journal_stage'];
-      cell5.innerText = record_list[i]['status'];
-      cell6.innerText = record_list[i]['time'];
+  // function record_table_load(data) {
+  //   record_list = data['record_list']
+  //   var table = document.getElementById("record_table");
+  //   table.innerHTML = ""
+  //   // table.deleteTFoot();
+  //   // var footer = table.createTFoot();
+  //   var record_list_length = 0;
+  //   for (var item in record_list) {
+  //     record_list_length++;
+  //   }
+  //   for (var i = 0; i < record_list_length; i++) {
+  //     var row = table.insertRow(0);
+  //     var cell1 = row.insertCell(0);
+  //     var cell2 = row.insertCell(1);
+  //     var cell3 = row.insertCell(2);
+  //     var cell4 = row.insertCell(3);
+  //     var cell5 = row.insertCell(4);
+  //     var cell6 = row.insertCell(5);
+  //     cell1.innerText = record_list[i]['user_name'];
+  //     cell2.innerText = record_list[i]['journal_name'];
+  //     cell3.innerText = record_list[i]['journal_year'];
+  //     cell4.innerText = record_list[i]['journal_stage'];
+  //     cell5.innerText = record_list[i]['status'];
+  //     cell6.innerText = record_list[i]['time'];
 
-    }
-  }
+  //   }
+  // }
 
   // function journal_table_load(data) {
   //   journal_list = data['journal_list']
@@ -508,21 +485,24 @@
 
   function journal_record_info_load() {
     $.ajax({
-      url: "journal_admin_user_order_info", success: function (data) {
+      url: "journal_admin_user_info", success: function (data) {
         // journal_table_load(data)
         // record_table_load(data)
         journal_admin_user_info_load(data)
       }
     });
   }
-  function record_table_select() {
-    var td = event.srcElement;
-    var table = document.getElementById("record_table")
-    document.getElementById("user_name_input").value = table.rows[td.parentElement.rowIndex - 1].cells[0].innerText
-    document.getElementById("journal_name_input").value = table.rows[td.parentElement.rowIndex - 1].cells[1].innerText
-    document.getElementById("journal_year_input").value = table.rows[td.parentElement.rowIndex - 1].cells[2].innerText
-    document.getElementById("journal_stage_input").value = table.rows[td.parentElement.rowIndex - 1].cells[3].innerText
+  window.onload = function () {
+    journal_record_info_load()
   }
+  // function record_table_select() {
+  //   var td = event.srcElement;
+  //   var table = document.getElementById("record_table")
+  //   document.getElementById("user_name_input").value = table.rows[td.parentElement.rowIndex - 1].cells[0].innerText
+  //   document.getElementById("journal_name_input").value = table.rows[td.parentElement.rowIndex - 1].cells[1].innerText
+  //   document.getElementById("journal_year_input").value = table.rows[td.parentElement.rowIndex - 1].cells[2].innerText
+  //   document.getElementById("journal_stage_input").value = table.rows[td.parentElement.rowIndex - 1].cells[3].innerText
+  // }
   // function record_table_select() {
   //   var td = event.srcElement;
   //   var table = document.getElementById("record_table")
@@ -578,7 +558,6 @@
     $.ajax({
       url: "record_uptade", data: post_data, success: function (data) {
         if (data['flag'] == 1) {
-          journal_record_info_load()
           alert("成功")
         } else {
           alert("失败")

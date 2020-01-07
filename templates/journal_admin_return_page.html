@@ -509,7 +509,7 @@
 
   function journal_record_info_load() {
     $.ajax({
-      url: "journal_admin_user_order_info", success: function (data) {
+      url: "journal_admin_user_return_info", success: function (data) {
         // journal_table_load(data)
         record_table_load(data)
         journal_admin_user_info_load(data)
@@ -574,6 +574,7 @@
     $.ajax({
       url: "record_uptade", data: post_data, success: function (data) {
         if (data['flag'] == 1) {
+          journal_record_info_load()
           alert("成功")
         } else {
           alert("失败")

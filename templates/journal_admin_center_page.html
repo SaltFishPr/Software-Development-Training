@@ -314,47 +314,6 @@
           <div class="col-lg-12 stretch-card">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">期刊借阅信息</h4>
-                <p class="card-description"> Add class <code>.table-{color}</code></p>
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th>用户</th>
-                      <th>期刊名</th>
-                      <th>年</th>
-                      <th>期</th>
-                      <th>操作</th>
-                      <th>执行</th>
-                    </tr>
-                  </thead>
-                  <tbody id="borrow_table">
-                    <tr class="table-info">
-                      <td> <input id="user_name_input"></input><select id="user_name_select">
-                          <option></option>
-                        </select> </td>
-                      <td> <input id="journal_name_input"></input><select id="journal_name_select">
-                          <option></option>
-                        </select> </td>
-                      <td> <input id="journal_year_input"></input><select id="journal_year_select">
-                          <option></option>
-                        </select> </td>
-                      <td> <input id="journal_stage_input"></input><select id="journal_stage_select">
-                          <option></option>
-                        </select> </td>
-                      <td><select id="record_update_mothed">
-                          <option>借阅</option>
-                          <option>归还</option>
-                        </select></td>
-                      <td><input type="submit" value="执行" class="btn btn-success mr-2" onclick="test()"></button></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-12 stretch-card">
-            <div class="card">
-              <div class="card-body">
                 <h4 class="card-title">借阅信息</h4>
                 <p class="card-description"> Add class <code>.table-{color}</code></p>
                 <table class="table table-bordered">
@@ -508,7 +467,7 @@
 
   function journal_record_info_load() {
     $.ajax({
-      url: "journal_admin_user_order_info", success: function (data) {
+      url: "journal_admin_user_info", success: function (data) {
         // journal_table_load(data)
         record_table_load(data)
         journal_admin_user_info_load(data)
@@ -518,14 +477,14 @@
   window.onload = function () {
     journal_record_info_load()
   }
-  function record_table_select() {
-    var td = event.srcElement;
-    var table = document.getElementById("record_table")
-    document.getElementById("user_name_input").value = table.rows[td.parentElement.rowIndex - 1].cells[0].innerText
-    document.getElementById("journal_name_input").value = table.rows[td.parentElement.rowIndex - 1].cells[1].innerText
-    document.getElementById("journal_year_input").value = table.rows[td.parentElement.rowIndex - 1].cells[2].innerText
-    document.getElementById("journal_stage_input").value = table.rows[td.parentElement.rowIndex - 1].cells[3].innerText
-  }
+  // function record_table_select() {
+  //   var td = event.srcElement;
+  //   var table = document.getElementById("record_table")
+  //   document.getElementById("user_name_input").value = table.rows[td.parentElement.rowIndex - 1].cells[0].innerText
+  //   document.getElementById("journal_name_input").value = table.rows[td.parentElement.rowIndex - 1].cells[1].innerText
+  //   document.getElementById("journal_year_input").value = table.rows[td.parentElement.rowIndex - 1].cells[2].innerText
+  //   document.getElementById("journal_stage_input").value = table.rows[td.parentElement.rowIndex - 1].cells[3].innerText
+  // }
   // function journal_table_select() {
   //   var td = event.srcElement;
   //   var table = document.getElementById("journal_table")
@@ -562,25 +521,26 @@
   //   }
   // }
 
-  function record_uptade() {
-    post_data = {
-      'user_name': document.getElementById("user_name_input").value,
-      'journal_name': document.getElementById("journal_name_input").value,
-      'journal_year': document.getElementById("journal_year_input").value,
-      'journal_stage': document.getElementById("journal_stage_input").value,
-      'record_update_mothed': document.getElementById("record_update_mothed").value
-    }
-    $.ajax({
-      url: "record_uptade", data: post_data, success: function (data) {
-        if (data['flag'] == 1) {
-          alert("成功")
-        } else {
-          alert("失败")
-        }
+  // function record_uptade() {
+  //   post_data = {
+  //     'user_name': document.getElementById("user_name_input").value,
+  //     'journal_name': document.getElementById("journal_name_input").value,
+  //     'journal_year': document.getElementById("journal_year_input").value,
+  //     'journal_stage': document.getElementById("journal_stage_input").value,
+  //     'record_update_mothed': document.getElementById("record_update_mothed").value
+  //   }
+  //   $.ajax({
+  //     url: "record_uptade", data: post_data, success: function (data) {
+  //       if (data['flag'] == 1) {
 
-      }
-    });
-  }
+  //         alert("成功")
+  //       } else {
+  //         alert("失败")
+  //       }
+
+  //     }
+  //   });
+  // }
 
 
 
