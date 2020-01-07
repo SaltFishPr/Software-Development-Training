@@ -52,8 +52,7 @@ class DBBase(object):
 
 if __name__ == '__main__':
     # print(database_path)
-    sql = "ALTER TABLE journal ADD 'CONSTRAINT' check_total_num CHECK (total_num == stock_num + lend_num)"
-
+    sql = ""
     mydb = DBBase.connect()
     mycursor = mydb.cursor()
     mycursor.execute(sql)

@@ -160,7 +160,7 @@ class JournalDB(DBBase):
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
         sql = "UPDATE journal SET stock_num = %d , order_num= %d , lend_num = %d WHERE key = %d" % (
-        stock_num, order_num, lend_num, key)
+            stock_num, order_num, lend_num, key)
         print(sql)
         mycursor.execute(sql)
         mydb.commit()
