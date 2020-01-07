@@ -20,3 +20,5 @@ Django基础必备三神装（HttpResponse、render,、redirect）https://blog.c
 Django 之 Cookie的使用（判断是否已登陆）https://blog.csdn.net/weixin_33909059/article/details/91672864
 
 关于Django中重定向的---单斜杠“/” 与---双斜杠“//” 问题https://blog.csdn.net/Victory_wbx/article/details/90301003
+
+#心得体会
