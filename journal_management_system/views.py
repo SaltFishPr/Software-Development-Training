@@ -294,11 +294,13 @@ def journal_admin_user_borrow_info(request):
     data = journal_admin.get_journal_admin_info('borrow')
     return JsonResponse(data)
 
+
 def journal_admin_user_order_info(request):
     cur_account = request.get_signed_cookie('account', salt='666')
     journal_admin = JsonPack.get_object_by_account(cur_account)
     data = journal_admin.get_journal_admin_info('order')
     return JsonResponse(data)
+
 
 def journal_admin_user_return_info(request):
     cur_account = request.get_signed_cookie('account', salt='666')
@@ -316,5 +318,18 @@ def record_update(request):
     journal_stage = int(request.GET.get('journal_stage'))
     record_operation = request.GET.get('record_update_method')
     print(record_operation)
-    data=user.record_update(account, journal_name, journal_year, journal_stage, record_operation)
+    data = user.record_update(account, journal_name, journal_year, journal_stage, record_operation)
+    return JsonResponse(data)
+
+
+def journal_update(request):
+    cur_account = request.get_signed_cookie('account', salt='666')
+    user = JsonPack.get_object_by_account(cur_account)
+    journal_name = request.GET.get('journal_name')
+    journal_year = int(request.GET.get('journal_year'))
+    journal_stage = int(request.GET.get('journal_stage'))
+    record_operation = request.GET.get('record_update_method')
+    journal_num = int(request.GET.get('journal_num'))
+    data = user.journal_total_num_update(journal_name, journal_year, journal_stage, record_operation, journal_num)
+    print(data)
     return JsonResponse(data)

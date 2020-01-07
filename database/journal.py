@@ -156,11 +156,11 @@ class JournalDB(DBBase):
         return stage
 
     @classmethod
-    def update_journal_num(cls, key, stock_num, order_num, lend_num):
+    def update_journal_num(cls, key, stock_num, order_num, lend_num, total_num):
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
-        sql = "UPDATE journal SET stock_num = %d , order_num= %d , lend_num = %d WHERE key = %d" % (
-            stock_num, order_num, lend_num, key)
+        sql = "UPDATE journal SET stock_num = %d , order_num= %d , lend_num = %d ,total_num = %d WHERE key = %d" % (
+            stock_num, order_num, lend_num, total_num, key)
         print(sql)
         mycursor.execute(sql)
         mydb.commit()
