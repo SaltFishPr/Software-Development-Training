@@ -122,7 +122,7 @@ class Admin(User):
         }
         # 执行数据库的删除操作
         if UserDB.check_user_exist(account):  # 如果存在该用户
-            UserDB.del_user(account)
+            UserDB.remove_user(account)
             dict1['flag'] = 1
         else:  # 用户不存在
             dict1['flag'] = 0
@@ -325,4 +325,4 @@ class Reader(User):
 
 if __name__ == '__main__':
     user_obj = Admin('jl')
-    print(user_obj.get_self_info('jl', 'account_name_grade'))
+    print(user_obj.remove_account('test1'))
