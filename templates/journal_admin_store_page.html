@@ -552,9 +552,9 @@
       url: "journal_update", data: post_data, success: function (data) {
         if (data['flag'] == 1) {
           journal_store_info_load()
-          alert("成功")
+          alert(data['message'])
         } else {
-          alert("失败")
+          alert(data['message'])
         }
 
       }

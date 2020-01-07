@@ -309,6 +309,12 @@ class JournalAdmin(User):
         :return: 操作结果(message)
         """
         journal_info = JournalDB.get_journal_by_name_year_stage(journal_name, journal_year, journal_stage)
+        if not journal_info:
+            data = {
+                'flag':0,
+                'message':'没有这个期刊'
+            }
+            return data
         key = journal_info[0][0]
         if record_operation == '处理预约':
             get_record_dict = {
@@ -362,17 +368,21 @@ class JournalAdmin(User):
             JournalDB.update_journal_num(key, journal_info[0][6] + num, journal_info[0][7], journal_info[0][8],
                                          journal_info[0][9] + num)
             flag = 1
+            message='成功'
         elif update_method == '库存减少':
             if num <= journal_info[0][6]:
                 JournalDB.update_journal_num(key, journal_info[0][6] - num, journal_info[0][7], journal_info[0][8],
                                              journal_info[0][9] - num)
                 flag = 1
+                message = '成功'
             else:
                 flag = 0
+                message = '库存不足'
         else:
             flag = 0
         data = {
-            'flag': flag
+            'flag': flag,
+            'message':message
         }
         return data
 
