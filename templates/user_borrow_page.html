@@ -342,24 +342,52 @@
               </div>
             </div>
           </div>
-          <div class="col-12 grid-margin" id="journal_place">
-            <!-- <div class="card">
-              <div class="card-body">
-                <a class="card-link" href="user_center_page">
-                  <i class="menu-icon typcn typcn-document-text"></i>
-                  <span class="menu-title">个人中心</span>
-                </a>
-              </div>
-            </div>
+          <div class="col-lg-12 stretch-card">
             <div class="card">
               <div class="card-body">
-                <a class="card-link" href="user_center_page">
-                  <i class="menu-icon typcn typcn-document-text"></i>
-                  <span class="menu-title">个人中心</span>
-                </a>
+
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <!-- <th>用户</th> -->
+                      <th>期刊名</th>
+                      <th>年</th>
+                      <th>期</th>
+                      <!-- <th>操作</th> -->
+                      <th>执行</th>
+                    </tr>
+                  </thead>
+                  <tbody id="borrow_table">
+                    <tr class="table-info">
+                      <!-- <td> <input id="user_name_input"></input><select id="user_name_select">
+                          <option></option>
+                        </select> </td> -->
+                      <td> <input id="journal_name_input" readonly="readonly"></input></td>
+                      <td> <input id="journal_year_input" readonly="readonly"></input></td>
+                      <td> <input id="journal_stage_input" readonly="readonly"></input></td>
+                      <!-- <td><select id="record_update_mothed">
+                          <option>借阅</option>
+                        </select></td> -->
+                      <td><input type="submit" value="预约" class="btn btn-success mr-2"
+                          onclick="user_journal_order()"></input></td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-            </div> -->
+            </div>
           </div>
+          <div class="col-12 grid-margin">
+            <div class="card">
+              <div class="card-body">
+                <table class="table table-bordered">
+                  <tbody id="journal_table" onclick="journal_table_select()">
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
         </div>
         <!-- content-wrapper ends -->
         <!-- partial:../../partials/_footer.html -->
@@ -487,49 +515,98 @@
     }
   }
 
+  // function journal_card_load(data) {
+
+  //   var journal_place = document.getElementById("journal_place");
+  //   journal_place.innerHTML = ""
+
+  //   journal_list = data['journal_list']
+  //   var journal_list_length = 0;
+  //   for (var item in journal_list) {
+  //     journal_list_length++;
+  //   }
+  //   for (var i = 0; i < journal_list_length; i++) {
+
+
+  //     var card = document.createElement("div")
+  //     card.setAttribute('class', "card")
+  //     card.setAttribute('onclick', "test()")
+  //     journal_place.appendChild(card)
+  //     var card_body = document.createElement("div")
+  //     card_body.setAttribute("class", "card-body")
+  //     card.appendChild(card_body)
+  //     var card_link = document.createElement("a")
+  //     card_link.setAttribute("class", "card-link")
+  //     card_link.setAttribute("href", "#")
+  //     card_body.appendChild(card_link)
+  //     var space_1 = document.createElement("span")
+  //     space_1.innerText = "-"
+  //     var space_2 = document.createElement("span")
+  //     space_2.innerText = "-"
+  //     var journal_name = document.createElement("span")
+  //     var journal_year = document.createElement("span")
+  //     var journal_stage = document.createElement("span")
+  //     card_link.appendChild(journal_name)
+  //     card_link.appendChild(space_1)
+  //     card_link.appendChild(journal_year)
+  //     card_link.appendChild(space_2)
+  //     card_link.appendChild(journal_stage)
+  //     journal_name.innerText = journal_list[i]['name']
+  //     journal_year.innerText = journal_list[i]['year']
+  //     journal_stage.innerText = journal_list[i]['stage']
+
+  //   }
+  // }
   function journal_card_load(data) {
-
-    var journal_place = document.getElementById("journal_place");
-    journal_place.innerHTML = ""
-
     journal_list = data['journal_list']
+    var table = document.getElementById("journal_table");
+    table.innerHTML = ""
+    // table.deleteTFoot();
+    // var footer = table.createTFoot();
     var journal_list_length = 0;
     for (var item in journal_list) {
       journal_list_length++;
     }
     for (var i = 0; i < journal_list_length; i++) {
+      var row = table.insertRow(0);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
 
-
-      var card = document.createElement("div")
-      card.setAttribute('class', "card")
-      journal_place.appendChild(card)
-      var card_body = document.createElement("div")
-      card_body.setAttribute("class", "card-body")
-      card.appendChild(card_body)
-      var card_link = document.createElement("a")
-      card_link.setAttribute("class", "card-link")
-      card_link.setAttribute("href", "#")
-      card_body.appendChild(card_link)
-      var space_0 = document.createElement("span")
-      space_0.innerText = "name:"
-      var space_1 = document.createElement("span")
-      space_1.innerText = "#############year:"
-      var space_2 = document.createElement("span")
-      space_2.innerText = "#############stage:"
-      var journal_name = document.createElement("span")
-      var journal_year = document.createElement("span")
-      var journal_stage = document.createElement("span")
-      card_link.appendChild(space_0)
-      card_link.appendChild(journal_name)
-      card_link.appendChild(space_1)
-      card_link.appendChild(journal_year)
-      card_link.appendChild(space_2)
-      card_link.appendChild(journal_stage)
-      journal_name.innerText = journal_list[i]['name']
-      journal_year.innerText = journal_list[i]['year']
-      journal_stage.innerText = journal_list[i]['stage']
+      cell1.innerHTML = journal_list[i]['name']
+      cell2.innerText = journal_list[i]['year']
+      cell3.innerText = journal_list[i]['stage']
 
     }
+  }
+  function journal_table_select() {
+    var td = event.srcElement;
+    var table = document.getElementById("journal_table")
+    document.getElementById("journal_name_input").value = table.rows[td.parentElement.rowIndex - 1].cells[0].innerText
+    document.getElementById("journal_year_input").value = table.rows[td.parentElement.rowIndex - 1].cells[1].innerText
+    document.getElementById("journal_stage_input").value = table.rows[td.parentElement.rowIndex - 1].cells[2].innerText
+  }
+  function user_journal_order() {
+    post_data = {
+      'journal_name': document.getElementById("journal_name_input").value,
+      'journal_year': document.getElementById("journal_year_input").value,
+      'journal_stage': document.getElementById("journal_stage_input").value,
+    }
+    $.ajax({
+      url: "user_journal_order", success: function (data) {
+        alert(data['message'])
+      }
+    });
+  }
+
+
+
+
+
+  function test() {
+    var td = event.srcElement;
+
+    console.log(td.innerText)
   }
 
 
