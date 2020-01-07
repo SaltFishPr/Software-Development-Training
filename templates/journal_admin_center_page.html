@@ -307,7 +307,7 @@
                       <th>time</th>
                     </tr>
                   </thead>
-                  <tbody id="record_table" onclick="test()">
+                  <tbody id="record_table" onclick="record_table_select()">
                     <tr class="table-info">
                       <td> 1 </td>
                       <td> Herman Beck </td>
@@ -336,7 +336,7 @@
                       <td> 5 </td>
                       <td> Edward </td>
                       <td> Illustrator </td>
-                      <td> $ 160.25</td>
+                      <td> $ 160.25 </td>
                     </tr>
                   </tbody>
                 </table>
@@ -351,16 +351,21 @@
                 <table class="table table-bordered">
                   <thead>
                     <tr>
-                      <th>journal_name-year-stage</th>
-                      <th>total_num</th>
+                      <th>journal_name</th>
+                      <th>journal_year</th>
+                      <th>journal_stage</th>
+                      <th>journal_num</th>
                       <th>lend_num</th>
                       <th>order_num</th>
                       <th>stock_num</th>
                     </tr>
                   </thead>
-                  <tbody id="journal_table">
-                    <!-- <tr class="table-info">
+                  <tbody id="journal_table" onclick="journal_table_select()">
+                    <tr class="table-info">
                       <td> 1 </td>
+                      <td> Herman Beck </td>
+                      <td> Herman Beck </td>
+                      <td> Herman Beck </td>
                       <td> Herman Beck </td>
                       <td> Photoshop </td>
                       <td> $ 77.99 </td>
@@ -368,6 +373,9 @@
                     <tr class="table-warning">
                       <td> 2 </td>
                       <td> Messsy Adam </td>
+                      <td> Herman Beck </td>
+                      <td> Herman Beck </td>
+                      <td> Herman Beck </td>
                       <td> Flash </td>
                       <td> $245.30 </td>
                     </tr>
@@ -377,18 +385,6 @@
                       <td> Premeire </td>
                       <td> $138.00 </td>
                     </tr>
-                    <tr class="table-success">
-                      <td> 4 </td>
-                      <td> Peter Meggik </td>
-                      <td> After effects </td>
-                      <td> $ 77.99 </td>
-                    </tr>
-                    <tr class="table-primary">
-                      <td> 5 </td>
-                      <td> Edward </td>
-                      <td> Illustrator </td>
-                      <td> $ 160.25 </td>
-                    </tr> -->
                   </tbody>
                 </table>
               </div>
@@ -470,12 +466,13 @@
 </body>
 
 <script>
-  function test() {
-    var td = event.srcElement; // 通过event.srcElement 获取激活事件的对象 td
-    // alert("行号：" + (td.parentElement.rowIndex) + "，列号：" + td.cellIndex);
-    var table.getElementById("")
-    console.log(td.parentElement.rowIndex)
-  }
+  // function test() {
+  //   var td = event.srcElement; // 通过event.srcElement 获取激活事件的对象 td
+  //   // alert("行号：" + (td.parentElement.rowIndex) + "，列号：" + td.cellIndex);
+  //   var table = document.getElementById("record_table")
+  //   document.getElementById("user_name_input").value = table.rows[td.parentElement.rowIndex - 1].cells[0].innerText
+  //   console.log(table.rows[td.parentElement.rowIndex - 1].cells[0].innerText)
+  // }
 
 
 
@@ -527,26 +524,41 @@
       var cell3 = row.insertCell(2);
       var cell4 = row.insertCell(3);
       var cell5 = row.insertCell(4);
+      var cell6 = row.insertCell(5);
+      var cell7 = row.insertCell(6);
       cell1.innerHTML = journal_list[i]['journal_name'];
-      cell2.innerHTML = journal_list[i]['total_num'];
-      cell3.innerHTML = journal_list[i]['lend_num'];
-      cell3.innerHTML = journal_list[i]['order_num'];
-      cell3.innerHTML = journal_list[i]['stock_num'];
+      cell2.innerHTML = journal_list[i]['journal_year'];
+      cell3.innerHTML = journal_list[i]['journal_stage'];
+      cell4.innerHTML = journal_list[i]['total_num'];
+      cell5.innerHTML = journal_list[i]['lend_num'];
+      cell6.innerHTML = journal_list[i]['order_num'];
+      cell7.innerHTML = journal_list[i]['stock_num'];
 
     }
   }
 
-  window.onload = function () {
-    $.ajax({
-      url: "journal_admin_info", success: function (data) {
-        journal_table_load(data)
-        record_table_load(data)
-        journal_admin_user_info_load(data)
-      }
-    });
+  // window.onload = function () {
+  //   $.ajax({
+  //     url: "journal_admin_info", success: function (data) {
+  //       console.log(data)
+  //       journal_table_load(data)
+  //       record_table_load(data)
+  //       journal_admin_user_info_load(data)
+  //     }
+  //   });
+  // }
+  function record_table_select() {
+    var td = event.srcElement;
+    var table = document.getElementById("record_table")
+    document.getElementById("user_name_input").value = table.rows[td.parentElement.rowIndex - 1].cells[0].innerText
   }
-  function record_table_selected() {
-    console.log(this.value)
+  function journal_table_select() {
+    var td = event.srcElement;
+    var table = document.getElementById("journal_table")
+    document.getElementById("journal_name_input").value = table.rows[td.parentElement.rowIndex - 1].cells[0].innerText
+    document.getElementById("journal_year_input").value = table.rows[td.parentElement.rowIndex - 1].cells[1].innerText
+    document.getElementById("journal_stage_input").value = table.rows[td.parentElement.rowIndex - 1].cells[2].innerText
+
   }
 
 
