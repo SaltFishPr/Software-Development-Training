@@ -275,11 +275,11 @@
       url: "record_update", data: post_data, success: function (data) {
         if (data['flag'] == 1) {
           journal_record_info_load()
-          alert("1231")
+            alert(data['message'])
           //alert(data['message'])
         } else {
-          console.log(data['flag'])
-          alert("1jiknjni1")
+            console.log(data['flag'])
+            alert(data['message'])
           //alert(data['message'])
         }
 
