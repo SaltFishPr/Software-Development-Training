@@ -167,6 +167,18 @@ class JournalDB(DBBase):
         mycursor.close()
         mydb.close()
 
+    @classmethod
+    def search_journal(cls, str1):
+        mydb = DBBase.connect()
+        mycursor = mydb.cursor()
+        sql = "SELECT * FROM journal WHERE name like " + r"'%" + str1 + r"%'"
+        print(sql)
+        mycursor.execute(sql)
+        results = mycursor.fetchall()
+        mycursor.close()
+        mydb.close()
+        return results
+
 
 if __name__ == '__main__':
-    JournalDB.update_journal_num(7, 100, 0, 0)
+    print(JournalDB.search_journal("tu"))
