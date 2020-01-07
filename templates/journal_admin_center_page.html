@@ -307,8 +307,8 @@
                       <th>time</th>
                     </tr>
                   </thead>
-                  <tbody id="record_table">
-                    <!-- <tr class="table-info">
+                  <tbody id="record_table" onclick="test()">
+                    <tr class="table-info">
                       <td> 1 </td>
                       <td> Herman Beck </td>
                       <td> Photoshop </td>
@@ -336,8 +336,8 @@
                       <td> 5 </td>
                       <td> Edward </td>
                       <td> Illustrator </td>
-                      <td> $ 160.25 </td>
-                    </tr> -->
+                      <td> $ 160.25</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -394,6 +394,47 @@
               </div>
             </div>
           </div>
+          <div class="col-lg-12 stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">期刊借阅信息</h4>
+                <p class="card-description"> Add class <code>.table-{color}</code></p>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>用户</th>
+                      <th>期刊名</th>
+                      <th>年</th>
+                      <th>期</th>
+                      <th>操作</th>
+                      <th>执行</th>
+                    </tr>
+                  </thead>
+                  <tbody id="record_table">
+                    <tr class="table-info">
+                      <td> <input id="user_name_input"></input><select id="user_name_select">
+                          <option></option>
+                        </select> </td>
+                      <td> <input id=" journal_name_input"></input><select id="journal_name_select">
+                          <option></option>
+                        </select> </td>
+                      <td> <input id="journal_year_input"></input><select id="journal_year_select">
+                          <option></option>
+                        </select> </td>
+                      <td> <input id="journal_stage_input"></input><select id="journal_stage_select">
+                          <option></option>
+                        </select> </td>
+                      <td><select id="user_register_identity">
+                          <option>借阅</option>
+                          <option>归还</option>
+                        </select></td>
+                      <td><input type="submit" value="执行" class="btn btn-success form-control"></button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- content-wrapper ends -->
         <!-- partial:../../partials/_footer.html -->
@@ -429,6 +470,12 @@
 </body>
 
 <script>
+  function test() {
+    var td = event.srcElement; // 通过event.srcElement 获取激活事件的对象 td
+    // alert("行号：" + (td.parentElement.rowIndex) + "，列号：" + td.cellIndex);
+    console.log(td.parentElement.rowIndex)
+  }
+
 
 
   function journal_admin_user_info_load(data) {
@@ -488,14 +535,17 @@
     }
   }
 
-  window.onload = function () {
-    $.ajax({
-      url: "journal_admin_info", success: function (data) {
-        journal_table_load(data)
-        record_table_load(data)
-        journal_admin_user_info_load(data)
-      }
-    });
+  // window.onload = function () {
+  //   $.ajax({
+  //     url: "journal_admin_info", success: function (data) {
+  //       journal_table_load(data)
+  //       record_table_load(data)
+  //       journal_admin_user_info_load(data)
+  //     }
+  //   });
+  // }
+  function record_table_selected() {
+    console.log(this.value)
   }
 
 
