@@ -345,7 +345,8 @@
                           <option>借阅</option>
                           <option>归还</option>
                         </select></td>
-                      <td><input type="submit" value="执行" class="btn btn-success mr-2" onclick="test()"></button></td>
+                      <td><input type="submit" value="执行" class="btn btn-success mr-2"
+                          onclick="record_uptade()"></input></td>
                     </tr>
                   </tbody>
                 </table>
@@ -506,7 +507,7 @@
   //   }
   // }
 
-  window.onload = function () {
+  function journal_record_info_load() {
     $.ajax({
       url: "journal_admin_user_return_info", success: function (data) {
         // journal_table_load(data)
@@ -514,6 +515,9 @@
         journal_admin_user_info_load(data)
       }
     });
+  }
+  window.onload = function () {
+    journal_record_info_load()
   }
   function record_table_select() {
     var td = event.srcElement;
@@ -570,6 +574,7 @@
     $.ajax({
       url: "record_uptade", data: post_data, success: function (data) {
         if (data['flag'] == 1) {
+          journal_record_info_load()
           alert("成功")
         } else {
           alert("失败")
