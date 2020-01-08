@@ -163,11 +163,14 @@ class JsonPack(object):
         :return: data
         """
         get_record_info = {
-                'status':status
+                'borrow_flag':1,
+                'return_flag':0
         }
         if account != "":
             get_record_info = {
-                'account': account
+                'account': account,
+                'borrow_flag':1,
+                'return_flag':0
             }
         results = RecordDB.get_info_by_dict('record', get_record_info)
         record_list = []
@@ -209,7 +212,9 @@ class JsonPack(object):
             record_element = dict()
             key = journal_results[i][0]
             get_record_info = {
-                'key': key
+                'key': key,
+                'borrow_flag':1,
+                'return_flag':0
             }
             record_results = RecordDB.get_info_by_dict('record', get_record_info)
             if len(record_results) == 0:
