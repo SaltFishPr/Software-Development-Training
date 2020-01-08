@@ -9,18 +9,12 @@ class UserDB(DBBase):
         :param account: 用户账户
         :return: bool
         """
-        mydb = DBBase.connect()
-        mycursor = mydb.cursor()
         sql = "SELECT * FROM user WHERE account  = '%s'" % account
-        mycursor.execute(sql)
-        results = mycursor.fetchall()
-        mycursor.close()
-        mydb.close()
+        results = cls._execute_sql(UserDB(), sql, 'select')
         if not results:
             return False
         else:
             return True
-        pass
 
     @classmethod
     def add_user(cls, account, password, username, identity, grade):
@@ -33,14 +27,9 @@ class UserDB(DBBase):
         :param grade:等级
         :return:
         """
-        mydb = DBBase.connect()
-        mycursor = mydb.cursor()
         sql = "INSERT INTO user (account,password,name,identity,grade) VALUES ('%s','%s','%s','%s','%s')" % (
             account, password, username, identity, grade)
-        mycursor.execute(sql)
-        mydb.commit()
-        mycursor.close()
-        mydb.close()
+        cls._execute_sql(UserDB(), sql, 'insert')
 
     @classmethod
     def check_account(cls, account, password):
@@ -50,13 +39,8 @@ class UserDB(DBBase):
         :param password: 密码
         :return: 账户所有信息的一个list
         """
-        mydb = DBBase.connect()
-        mycursor = mydb.cursor()
         sql = "SELECT * FROM user WHERE account  = '%s' AND password = '%s'" % (account, password)
-        mycursor.execute(sql)
-        result = mycursor.fetchall()
-        mycursor.close()
-        mydb.close()
+        result = cls._execute_sql(UserDB(), sql, 'select')
         if len(result) == 0:
             return None
         else:
@@ -69,13 +53,8 @@ class UserDB(DBBase):
         :param account:账户
         :return:
         """
-        mydb = DBBase.connect()
-        mycursor = mydb.cursor()
         sql = "DELETE FROM user WHERE account = '%s'" % account
-        mycursor.execute(sql)
-        mydb.commit()
-        mycursor.close()
-        mydb.close()
+        cls._execute_sql(UserDB(), sql, 'delete')
 
     @classmethod
     def update_user_password(cls, account, new_password):
@@ -85,13 +64,8 @@ class UserDB(DBBase):
         :param new_password:新密码
         :return:
         """
-        mydb = DBBase.connect()
-        mycursor = mydb.cursor()
         sql = "UPDATE user SET password='%s' WHERE account = '%s'" % (new_password, account)
-        mycursor.execute(sql)
-        mydb.commit()
-        mycursor.close()
-        mydb.close()
+        cls._execute_sql(UserDB(), sql, 'update')
 
     @classmethod
     def update_user_name(cls, account, new_name):
@@ -101,13 +75,8 @@ class UserDB(DBBase):
         :param new_name:新昵称
         :return:
         """
-        mydb = DBBase.connect()
-        mycursor = mydb.cursor()
         sql = "UPDATE user SET name='%s' WHERE account = '%s'" % (new_name, account)
-        mycursor.execute(sql)
-        mydb.commit()
-        mycursor.close()
-        mydb.close()
+        cls._execute_sql(UserDB(), sql, 'update')
 
     @classmethod
     def update_user_identity(cls, account, new_identity):
@@ -117,13 +86,8 @@ class UserDB(DBBase):
         :param new_identity:新身份
         :return:
         """
-        mydb = DBBase.connect()
-        mycursor = mydb.cursor()
         sql = "UPDATE user SET identity='%s' WHERE account ='%s'" % (new_identity, account)
-        mycursor.execute(sql)
-        mydb.commit()
-        mycursor.close()
-        mydb.close()
+        cls._execute_sql(UserDB(), sql, 'update')
 
     @classmethod
     def update_user_grade(cls, account, new_grade):
@@ -133,13 +97,8 @@ class UserDB(DBBase):
         :param new_grade:新等级
         :return:
         """
-        mydb = DBBase.connect()
-        mycursor = mydb.cursor()
         sql = "UPDATE user SET grade='%s' WHERE account = '%s'" % (new_grade, account)
-        mycursor.execute(sql)
-        mydb.commit()
-        mycursor.close()
-        mydb.close()
+        cls._execute_sql(UserDB(), sql, 'update')
 
     @classmethod
     def get_user_password(cls, account):
@@ -148,14 +107,9 @@ class UserDB(DBBase):
         :param account: 用户账户
         :return: 用户密码
         """
-        mydb = DBBase.connect()
-        mycursor = mydb.cursor()
         sql = "SELECT password FROM user WHERE account  = '%s'" % account
-        mycursor.execute(sql)
-        results = mycursor.fetchall()
+        results = cls._execute_sql(UserDB(), sql, 'select')
         password = results[0][0]
-        mycursor.close()
-        mydb.close()
         return password
 
     @classmethod
@@ -165,14 +119,9 @@ class UserDB(DBBase):
         :param account:账户
         :return:
         """
-        mydb = DBBase.connect()
-        mycursor = mydb.cursor()
         sql = "SELECT name FROM user WHERE account  = '%s'" % account
-        mycursor.execute(sql)
-        results = mycursor.fetchall()
+        results = cls._execute_sql(UserDB(), sql, 'select')
         name = results[0][0]
-        mycursor.close()
-        mydb.close()
         return name
 
     @classmethod
@@ -182,14 +131,9 @@ class UserDB(DBBase):
         :param account:账户
         :return:
         """
-        mydb = DBBase.connect()
-        mycursor = mydb.cursor()
         sql = "SELECT identity FROM user WHERE account  = '%s'" % account
-        mycursor.execute(sql)
-        results = mycursor.fetchall()
+        results = cls._execute_sql(UserDB(), sql, 'select')
         identity = results[0][0]
-        mycursor.close()
-        mydb.close()
         return identity
 
     @classmethod
@@ -199,25 +143,15 @@ class UserDB(DBBase):
         :param account:账户
         :return:
         """
-        mydb = DBBase.connect()
-        mycursor = mydb.cursor()
         sql = "SELECT grade FROM user WHERE account  = '%s'" % account
-        mycursor.execute(sql)
-        results = mycursor.fetchall()
+        results = cls._execute_sql(UserDB(), sql, 'select')
         grade = results[0][0]
-        mycursor.close()
-        mydb.close()
         return grade
 
     @classmethod
     def get_info_by_identity(cls, identity):
-        mydb = DBBase.connect()
-        mycursor = mydb.cursor()
         sql = "SELECT * FROM user WHERE identity  = '%s'" % identity
-        mycursor.execute(sql)
-        results = mycursor.fetchall()
-        mycursor.close()
-        mydb.close()
+        results = cls._execute_sql(UserDB(), sql, 'select')
         return results
 
 

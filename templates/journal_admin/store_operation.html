@@ -35,7 +35,8 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
             <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="true">
-              <img class="img-xs rounded-circle" src="../../static/assets/images/faces/face8.jpg" alt="Profile image"> </a>
+              <img class="img-xs rounded-circle" src="../../static/assets/images/faces/face8.jpg" alt="Profile image">
+            </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <div class="dropdown-header text-center">
                 <img class="img-md rounded-circle" src="../../static/assets/images/faces/face8.jpg" alt="Profile image">
@@ -123,21 +124,17 @@
                   </thead>
                   <tbody id="borrow_table">
                     <tr class="table-info">
-                      <!-- <td> <input id="user_name_input"></input><select id="user_name_select">
-                          <option></option>
-                        </select> </td> -->
-                      <td> <input id="journal_name_input"></input><select id="journal_name_select">
-                          <option></option>
-                        </select> </td>
-                      <td> <input id="journal_year_input" type="number" min=1978></input><select
-                          id="journal_year_select">
-                          <option></option>
-                        </select> </td>
-                      <td> <input id="journal_stage_input" type="number" min=1></input><select
-                          id="journal_stage_select">
-                          <option></option>
-                        </select> </td>
-                      <td><select id="record_update_method">
+                      <td> <input id="journal_name_input" list="journal_name_list"
+                          onchange="journal_table_load_by_journal_name()"></input><datalist id="journal_name_list"
+                          onclick="journal_table_load_by_journal_name()"></datalist>
+                      </td>
+                      <td> <input id="journal_year_input" list="journal_yearlist" type="number"
+                          min=1978></input><datalist id="journal_yearlist"></datalist>
+                      </td>
+                      <td> <input id="journal_stage_input" list="journal_stage_list" type="number"
+                          min=1></input><datalist id="journal_stage_list"></datalist>
+                      </td>
+                      <td><select id="journal_update_method">
                           <option>库存增加</option>
                           <option>库存减少</option>
                         </select></td>
@@ -150,7 +147,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-12 stretch-card">
+          <div class="col-lg-12 stretch-card" id="journal_table_card">
             <div class="card">
               <div class="card-body">
                 <h4 class="card-title">期刊库存信息</h4>
@@ -217,6 +214,9 @@
   function journal_table_load(data) {
     journal_list = data['journal_list']
     var table = document.getElementById("journal_table");
+    datalist_journal_name = document.getElementById("journal_name_list")
+
+    datalist_journal_name.innerHTML = ""
     table.innerHTML = ""
     // table.deleteTFoot();
     // var footer = table.createTFoot();
@@ -234,6 +234,19 @@
       var cell6 = row.insertCell(5);
       var cell7 = row.insertCell(6);
       cell1.innerHTML = journal_list[i]['journal_name'];
+      var flag = 0
+      for (var j = 0; j < datalist_journal_name.options.length; j++) {
+        var r = datalist_journal_name.options[j].value
+        if (journal_list[i]['journal_name'] == r) {
+          flag = 1
+          break;
+        }
+      }
+      if (flag == 0) {
+        option_journal_name = document.createElement("option")
+        option_journal_name.setAttribute("value", journal_list[i]['journal_name'])
+        datalist_journal_name.appendChild(option_journal_name)
+      }
       cell2.innerText = journal_list[i]['journal_year'];
       cell3.innerText = journal_list[i]['journal_stage'];
       cell4.innerText = journal_list[i]['total_num'];
@@ -264,34 +277,7 @@
     document.getElementById("journal_year_input").value = table.rows[td.parentElement.rowIndex - 1].cells[1].innerText
     document.getElementById("journal_stage_input").value = table.rows[td.parentElement.rowIndex - 1].cells[2].innerText
   }
-  function account_select_load(data) {
-    account_list = data['account_list']
-    var account_list_length = 0;
-    for (var item in account_list) {
-      account_list_length++;
-    }
-    var sec = document.getElementById("account_select")
-    sec.innerHTML = ""
-    for (var i = 0; i < account_list_length; i++) {
 
-      var account = account_list[i]['account']
-      var flag = 0;
-      for (var j = 0; j < sec.options.length; j++) {
-        var r = sec.options[j].value
-        if (account == r) {
-          flag = 1
-          break;
-        }
-      }
-      if (flag == 1) {
-        continue;
-      }
-      var op = document.createElement("option")
-      op.setAttribute("value", account)
-      op.innerText = account
-      sec.appendChild(op)
-    }
-  }
 
   function journal_update() {
     post_data = {
@@ -299,7 +285,7 @@
       'journal_year': document.getElementById("journal_year_input").value,
       'journal_stage': document.getElementById("journal_stage_input").value,
       'journal_num': document.getElementById("journal_num_input").value,
-      'record_update_method': document.getElementById("record_update_method").value
+      'journal_update_method': document.getElementById("journal_update_method").value
     }
     $.ajax({
       url: "journal_update", data: post_data, success: function (data) {
@@ -309,7 +295,6 @@
         } else {
           alert(data['message'])
         }
-
       }
     });
   }
