@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import datetime
+import random
+
 from database.user import UserDB
 from database.record import RecordDB
 from database.journal import JournalDB
 from backstage.users import Reader
 from backstage.users import JournalAdmin
 from backstage.users import Admin
-
+import re
+import smtplib
+from email.mime.text import MIMEText
+from email.header import Header
 
 class JsonPack(object):
     @classmethod
@@ -337,7 +342,49 @@ class JsonPack(object):
         return data
 
 
+    @classmethod
+    def validateEmail(email_address):
+        if len(email_address) > 7:
+            if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", email_address) != None:
+                sender = 'saltfishprr@163.com'
+                pwd = '123456aa'
+                receivers = email_address
+                def get_check_code():
+                    list1 = []
+                    for i in range(6):
 
+                        statu = random.randint(1, 3)
+                        if statu == 1:  # 随机大写字母
+                            a = random.randint(65, 90)
+                            a_chr = chr(a)
+                            list1.append(a_chr)
+                        elif statu == 2:  # 随机小写字母
+                            b = random.randint(97, 122)
+                            b_chr = chr(b)
+                            list1.append(b_chr)
+                        elif statu == 3:  # 0-9的随机数
+                            r = random.randint(0, 9)
+                            list1.append(str(r))
+                    ver_code = "".join(list1)
+                    return ver_code
+                message = MIMEText(get_check_code(),'plain','utf-8')
+                message['Subject'] = '期刊借阅系统验证码'
+                message['From'] = sender
+                message['To'] = receivers
+                smtp = smtplib.SMTP('smtp.163.com', port=25)
+                smtp.login(sender, pwd)
+                smtp.sendmail(sender, receivers, message.as_string())
+                smtp.quit()
+                flag =1
+        else:
+            flag = 0
+            def get_check_code():
+                return 0
+        data = {
+            'flag' :flag,
+            'check_code':get_check_code()
+        }
+        return
 
 if __name__ == '__main__':
     print()

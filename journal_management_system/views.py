@@ -422,6 +422,14 @@ def stock_table_by_journal_name(request):
     return JsonResponse(data)
 
 
+def email_get(request):
+    email_address = request.GET.get('email_address')
+    recv_dict =JsonPack.validateEmail(email_address)
+    flag = recv_dict['flag']
+    check_code =recv_dict['check_code']
+    redirect()
+
+
 def sign_up_operation(request):
     return render(request,'admin/sign_up_operation.html')
 
