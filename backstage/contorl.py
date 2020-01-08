@@ -343,7 +343,8 @@ class JsonPack(object):
 
 
     @classmethod
-    def validateEmail(email_address):
+    def validateEmail(cls,email_address):
+        check_code=""
         if len(email_address) > 7:
             if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", email_address) != None:
                 sender = 'saltfishprr@163.com'
@@ -367,7 +368,8 @@ class JsonPack(object):
                             list1.append(str(r))
                     ver_code = "".join(list1)
                     return ver_code
-                message = MIMEText(get_check_code(),'plain','utf-8')
+                check_code = get_check_code()
+                message = MIMEText(check_code,'plain','utf-8')
                 message['Subject'] = '期刊借阅系统验证码'
                 message['From'] = sender
                 message['To'] = receivers
@@ -378,13 +380,37 @@ class JsonPack(object):
                 flag =1
         else:
             flag = 0
-            def get_check_code():
-                return 0
+            check_code = '0'
         data = {
             'flag' :flag,
-            'check_code':get_check_code()
+            'check_code':check_code
         }
-        return
+        return data
+
+
+    @classmethod
+    def confirm_email_account(cls,user_name,pwd1,pwd2,account,correct_check,input_check):
+        if correct_check != input_check:
+            flag = 0
+            message ='验证码错误'
+        else:
+            if UserDB.check_user_exist(account) ==False:
+                flag = 0
+                message = '当前邮箱账户已经存在'
+            else:
+                if pwd1 != pwd2:
+                    flag = 0
+                    message = '两次密码不符'
+                else:
+                    UserDB.add_user(account,pwd1,user_name,'reader')
+
+        data = {
+            'flag':flag,
+            'message':message
+        }
+        return data
+
+
 
 if __name__ == '__main__':
     print()

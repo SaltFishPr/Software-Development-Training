@@ -425,9 +425,15 @@ def stock_table_by_journal_name(request):
 def email_get(request):
     email_address = request.GET.get('email_address')
     recv_dict =JsonPack.validateEmail(email_address)
+    print(recv_dict)
     flag = recv_dict['flag']
     check_code =recv_dict['check_code']
-    redirect()
+    data = {
+        'flag':flag
+    }
+    rep = JsonResponse(data)
+    rep.set_signed_cookie('check_code',check_code,salt='777')
+    return rep
 
 
 def sign_up_operation(request):
@@ -438,5 +444,15 @@ def update_operation(request):
     return render(request,'admin/update_operation.html')
 
 
+
 def sign_up_by_email(request):
     return render(request,'sign_up_by_email.html')
+
+
+def register_by_email_return(request):
+    correct_check = request.get_signed_cookie('check_code',salt='777')
+    user_name = request.GET.get('user_name')
+    pwd1 =request.GET.get('Password_1')
+    pwd2 =request.GET.get('Password_2')
+    account = request.GET.get('account')
+    input_check = request.GET.get('check_code')
