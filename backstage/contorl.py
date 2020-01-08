@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import datetime
+
 from database.user import UserDB
 from database.record import RecordDB
 from database.journal import JournalDB
@@ -164,6 +166,40 @@ class JsonPack(object):
             user = Reader(cur_account)
         return user
 
+    @classmethod
+    def line_chart_data(cls):
+        def date_list(i):
+            now_datetime = datetime.datetime.now()
+            return str((now_datetime - datetime.timedelta(days=i)).month) + "月 " + str(
+                (now_datetime - datetime.timedelta(days=i)).day) + "日"
+        record_day = [date_list(6), date_list(5), date_list(4), date_list(3), date_list(2), date_list(1), date_list(0)]
+
+        def get_a_date(i):
+            now_datetime = datetime.datetime.now()
+            delta_datetime = datetime.timedelta(days=i)
+            return (now_datetime - delta_datetime).__format__('%Y%m%d')
+
+        def num_list(choice: str):
+            res = []
+            for x in range(7):
+                temp = RecordDB.get_this_day_record_num(get_a_date(x), choice)
+                res.insert(0, temp)
+            return res
+
+        order_num = num_list('order')
+        borrow_num = num_list('borrow')
+        return_num = num_list('return')
+
+        data = {
+            'record_day': record_day,
+            'order_num': order_num,
+            'borrow_num': borrow_num,
+            'return_num': return_num
+        }
+
+        return data
+
 
 if __name__ == '__main__':
+    print(JsonPack.line_chart_data())
     pass

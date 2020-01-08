@@ -69,7 +69,8 @@ urlpatterns = [
     url('journal_admin_user_return_info', views.journal_admin_user_return_info),
     url('record_update', views.record_update),
     url('journal_update', views.journal_update),
-    url('user_journal_order',views.user_journal_order),
-    url('sign_out',views.sign_out),
+    url('user_journal_order', views.user_journal_order),
+    url('sign_out', views.sign_out),
+    url('journal_admin_7days_record', views.journal_admin_7days_record),
     url('', views.login_page)
 ]
