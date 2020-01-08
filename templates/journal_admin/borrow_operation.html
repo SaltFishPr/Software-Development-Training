@@ -35,7 +35,8 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
             <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="true">
-              <img class="img-xs rounded-circle" src="../../static/assets/images/faces/face8.jpg" alt="Profile image"> </a>
+              <img class="img-xs rounded-circle" src="../../static/assets/images/faces/face8.jpg" alt="Profile image">
+            </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <div class="dropdown-header text-center">
                 <img class="img-md rounded-circle" src="../../static/assets/images/faces/face8.jpg" alt="Profile image">
@@ -120,10 +121,10 @@
                   </thead>
                   <tbody id="borrow_table">
                     <tr class="table-info">
-                      <td> <input id="user_name_input" list="user_name_list"
-                          onchange="user_name_input_change()"></input><datalist id="user_name_list"></datalist> </td>
-                      <td> <input id="journal_name_input" list="journal_name_list"
-                          onchange="journal_name_input_change()"></input><datalist id="journal_name_list"></datalist>
+                      <td> <input id="user_name_input" list="user_name_list"></input><datalist
+                          id="user_name_list"></datalist> </td>
+                      <td> <input id="journal_name_input" list="journal_name_list"></input><datalist
+                          id="journal_name_list"></datalist>
                       </td>
                       <td> <input id="journal_year_input" list="journal_yearlist" type="number"
                           min=1978></input><datalist id="journal_yearlist"></datalist>
@@ -210,6 +211,65 @@
           alert(data['message'])
         }
 
+      }
+    });
+  }
+
+  function user_name_list_load() {
+    $.ajax({
+      url: "user_name_datalist:", success: function (data) {
+        user_name_datalist = data['user_name_datalist']
+        datalist_user_name = document.getElementById("user_name_list")
+
+
+        var user_name_datalist_length = 0;
+        for (var item in record_list) {
+          user_name_datalist_length++;
+        }
+        for (var i = 0; i < user_name_datalist_length; i++) {
+          var flag = 0
+          for (var j = 0; j < datalist_user_name.options.length; j++) {
+            var r = datalist_user_name.options[j].value
+            if (user_name_datalist[i] == r) {
+              flag = 1
+              break;
+            }
+          }
+          if (flag == 0) {
+            option_user_name = document.createElement("option")
+            option_user_name.setAttribute("value", user_name_datalist[i])
+            datalist_user_name.appendChild(option_user_name)
+          }
+
+        }
+      }
+    });
+  }
+  function journal_name_list_load() {
+    $.ajax({
+      url: "journal_name_datalist:", success: function (data) {
+        journal_name_datalist = data['journal_name_datalist']
+        datalist_journal_name = document.getElementById("journal_name_list")
+
+        var journal_name_datalist_length = 0;
+        for (var item in record_list) {
+          journal_name_datalist_length++;
+        }
+        for (var i = 0; i < journal_name_datalist_length; i++) {
+          var flag = 0
+          for (var j = 0; j < datalist_journal_name.options.length; j++) {
+            var r = datalist_journal_name.options[j].value
+            if (journal_name_datalist[i] == r) {
+              flag = 1
+              break;
+            }
+          }
+          if (flag == 0) {
+            option_journal_name = document.createElement("option")
+            option_journal_name.setAttribute("value", journal_name_datalist[i])
+            datalist_journal_name.appendChild(option_journal_name)
+          }
+        }
       }
     });
   }
