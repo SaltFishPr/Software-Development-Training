@@ -95,47 +95,86 @@
       <div class="main-panel">
         <div class="content-wrapper">
           <center>
-            <h1>用户信息</h1>
+            <h1>用户注册</h1>
           </center>
-          <div class="col-lg-12 stretch-card">
+          <div class="col-12 grid-margin">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">读者信息表</h4>
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th>account</th>
-                      <th>name</th>
-                      <th>grade</th>
-                    </tr>
-                  </thead>
-                  <tbody id="reader_table">
+                <h4 class="card-title">用户注册</h4>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label">account</label>
+                      <div class="col-sm-4">
+                        <input type="text" class="form-control" id="user_register_account">
+                      </div>
 
-                  </tbody>
-                </table>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label">name</label>
+                      <div class="col-sm-4">
+                        <input type="text" class="form-control" id="user_register_name">
+                      </div>
+
+
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label">password</label>
+                      <div class="col-sm-4">
+                        <input type="text" class="form-control" id="user_register_password">
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label">grade</label>
+                      <div class="col-sm-4">
+                        <input type="text" class="form-control" id="user_register_grade">
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label">identity</label>
+                      <div class="col-sm-4">
+                        <select class="form-control" id="user_register_identity">
+                          <option>reader</option>
+                          <option>journal_admin</option>
+                          <option>admin</option>
+                        </select>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="col-sm-10">
+                      <div class="form-group row">
+                        <input type="submit" value="注册" class="btn btn-success form-control " onclick="user_register()">
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <div class="col-lg-12 stretch-card">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title">期刊管理员信息表</h4>
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th>account</th>
-                      <th>name</th>
-                      <th>grade</th>
-                    </tr>
-                  </thead>
-                  <tbody id="journal_admin_table">
-
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
         </div>
         <!-- content-wrapper ends -->
 
@@ -173,12 +212,6 @@
     $.ajax({
       url: "admin_info", success: function (data) {
         admin_info(data)
-      }
-    });
-    $.ajax({
-      url: "admin_users_info", success: function (data) {
-        reader_table_load(data)
-        journal_admin_table_load(data)
       }
     });
 
@@ -228,7 +261,6 @@
 
     }
   }
-
 
 
 
@@ -320,6 +352,7 @@
               journal_admin_table_load(data)
             }
           });
+
 
 
           document.getElementById("user_account").value = ""

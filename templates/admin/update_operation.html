@@ -95,43 +95,93 @@
       <div class="main-panel">
         <div class="content-wrapper">
           <center>
-            <h1>用户信息</h1>
+            <h1>用户修改与注销</h1>
           </center>
-          <div class="col-lg-12 stretch-card">
+
+          <div class="col-12 grid-margin">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">读者信息表</h4>
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th>account</th>
-                      <th>name</th>
-                      <th>grade</th>
-                    </tr>
-                  </thead>
-                  <tbody id="reader_table">
+                <h4 class="card-title">用户信息修改</h4>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label">account select</label>
+                      <div class="col-sm-4">
+                        <select class="form-control" id="account_select" onchange="user_account_load()">
+                          <option></option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label">account</label>
+                      <div class="col-sm-4">
+                        <input type="text" class="form-control" id="user_account">
+                      </div>
+                      <div class="col-sm-4">
+                        <input type="submit" value="注销" class="btn btn-success mr-2" onclick="user_delete()">
+                      </div>
 
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-12 stretch-card">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title">期刊管理员信息表</h4>
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th>account</th>
-                      <th>name</th>
-                      <th>grade</th>
-                    </tr>
-                  </thead>
-                  <tbody id="journal_admin_table">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label">name</label>
+                      <div class="col-sm-4">
+                        <input type="text" class="form-control" id="user_name">
+                      </div>
+                      <div class="col-sm-4">
+                        <input type="submit" value="修改" class="btn btn-success mr-2" onclick="user_name_update()">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label">grade</label>
+                      <div class="col-sm-4">
+                        <input type="text" class="form-control" id="user_grade">
+                      </div>
+                      <div class="col-sm-4">
+                        <input type="submit" value="修改" class="btn btn-success mr-2" onclick="user_grade_update()">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label">identity</label>
+                      <div class="col-sm-4">
+                        <select class="form-control" id="user_identity">
+                          <option>reader</option>
+                          <option>journal_admin</option>
+                          <option>admin</option>
+                        </select>
+                      </div>
+                      <div class="col-sm-4">
+                        <input type="submit" value="修改" class="btn btn-success mr-2" onclick="user_identity_update()">
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-                  </tbody>
-                </table>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="col-sm-10">
+                      <div class="form-group row">
+                        <input type="submit" value="全部修改" class="btn btn-success form-control "
+                          onclick="admin_user_update()">
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -175,62 +225,46 @@
         admin_info(data)
       }
     });
+
     $.ajax({
-      url: "admin_users_info", success: function (data) {
-        reader_table_load(data)
-        journal_admin_table_load(data)
+      url: "account_select_load", success: function (data) {
+        account_select_load(data)
       }
     });
 
-
-  }
-
-  function reader_table_load(data) {
-    reader_list = data['reader_list']
-    var table = document.getElementById("reader_table");
-    table.innerHTML = ""
-    // table.deleteTFoot();
-    // var footer = table.createTFoot();
-    var reader_list_length = 0;
-    for (var item in reader_list) {
-      reader_list_length++;
-    }
-    for (var i = 0; i < reader_list_length; i++) {
-      var row = table.insertRow(0);
-      var cell1 = row.insertCell(0);
-      var cell2 = row.insertCell(1);
-      var cell3 = row.insertCell(2);
-      cell1.innerHTML = reader_list[i]['account'];
-      cell2.innerHTML = reader_list[i]['name'];
-      cell3.innerHTML = reader_list[i]['grade'];
-
-    }
-  }
-
-  function journal_admin_table_load(data) {
-    journal_admin_list = data['journal_admin_list']
-    var table = document.getElementById("journal_admin_table");
-    table.innerHTML = ""
-    // table.deleteTFoot();
-    // var footer = table.createTFoot();
-    var journal_admin_list_length = 0;
-    for (var item in journal_admin_list) {
-      journal_admin_list_length++;
-    }
-    for (var i = 0; i < journal_admin_list_length; i++) {
-      var row = table.insertRow(0);
-      var cell1 = row.insertCell(0);
-      var cell2 = row.insertCell(1);
-      var cell3 = row.insertCell(2);
-      cell1.innerHTML = journal_admin_list[i]['account'];
-      cell2.innerHTML = journal_admin_list[i]['name'];
-      cell3.innerHTML = journal_admin_list[i]['grade'];
-
-    }
   }
 
 
 
+  function account_select_load(data) {
+    account_list = data['account_list']
+    var account_list_length = 0;
+    for (var item in account_list) {
+      account_list_length++;
+    }
+    var sec = document.getElementById("account_select")
+    sec.innerHTML = ""
+    for (var i = 0; i < account_list_length; i++) {
+
+      var account = account_list[i]['account']
+      var flag = 0;
+      for (var j = 0; j < sec.options.length; j++) {
+        var r = sec.options[j].value
+        if (account == r) {
+          flag = 1
+          break;
+        }
+      }
+      if (flag == 1) {
+        continue;
+      }
+      var op = document.createElement("option")
+      op.setAttribute("value", account)
+      op.innerText = account
+      sec.appendChild(op)
+      console.log(document.getElementById("account_select").value)
+    }
+  }
 
   function user_account_load() {
     document.getElementById("user_account").value = document.getElementById("account_select").value
@@ -298,7 +332,11 @@
               journal_admin_table_load(data)
             }
           });
-
+          $.ajax({
+            url: "account_select_load", success: function (data) {
+              account_select_load(data)
+            }
+          });
         } else {
           alert("修改失败")
         }
@@ -320,7 +358,11 @@
               journal_admin_table_load(data)
             }
           });
-
+          $.ajax({
+            url: "account_select_load", success: function (data) {
+              account_select_load(data)
+            }
+          });
 
           document.getElementById("user_account").value = ""
           document.getElementById("user_name").value = ""
@@ -352,7 +394,11 @@
               journal_admin_table_load(data)
             }
           });
-
+          $.ajax({
+            url: "account_select_load", success: function (data) {
+              account_select_load(data)
+            }
+          });
         } else {
           alert("注册失败")
         }

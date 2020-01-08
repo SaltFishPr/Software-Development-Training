@@ -25,7 +25,7 @@
   <link rel="shortcut icon" href="../static/assets/images/favicon.png" />
 
 
-  <script>
+  <!-- <script>
     function mymothed() {
       Username = document.getElementById("Username").value
       console.log(Username)
@@ -53,7 +53,7 @@
         });
       }
     }
-  </script>
+  </script> -->
 </head>
 
 <body>
@@ -64,10 +64,12 @@
           <div class="col-lg-4 mx-auto">
             <h2 class="text-center mb-4">Register</h2>
             <div class="auto-form-wrapper">
-              <form action="register_return" id="myForm">
+              <form action="register_by_email_return" id="myForm">
+
+
                 <div class="form-group">
                   <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Username" name="Username" id="Username">
+                    <input type="password" class="form-control" placeholder="name" name="user_name" id="user_name">
                     <div class="input-group-append">
                       <span class="input-group-text">
 
@@ -75,6 +77,7 @@
                     </div>
                   </div>
                 </div>
+
                 <div class="form-group">
                   <div class="input-group">
                     <input type="password" class="form-control" placeholder="Password" name="Password_1"
@@ -90,6 +93,27 @@
                   <div class="input-group">
                     <input type="password" class="form-control" placeholder="Confirm Password" name="Password_2"
                       id="Password_2">
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <input type="email" class="form-control" placeholder="email-address" name="account" id="account">
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+
+                      </span>
+                    </div>
+                    <input class="btn btn-success mr-1" value="获取验证码" onclick="email_get()"></input>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <input type="password" class="form-control" placeholder="验证码" name="check_code" id="check_code">
                     <div class="input-group-append">
                       <span class="input-group-text">
 
@@ -128,5 +152,28 @@
   <script src="../static/assets/js/shared/misc.js"></script>
   <!-- endinject -->
 </body>
+<script>
+  function email_get() {
+    email_address = document.getElementById("account").value
+    if (email_address == "") {
+      alert("请先输入邮箱")
+    }
+    else {
+      post_data = {
+        'email_address': email_address
+      }
+      $.ajax({
+        url: "email_get", data: post_data, success: function (data) {
+          if (data['flag'] == 1) {
+            alert("验证码发送成功")
+          } else {
+            alert("验证码发送失败")
+          }
+        }
+      });
+    }
+  }
+
+</script>
 
 </html>

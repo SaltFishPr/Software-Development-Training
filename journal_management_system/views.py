@@ -428,3 +428,15 @@ def email_get(request):
     flag = recv_dict['flag']
     check_code =recv_dict['check_code']
     redirect()
+
+
+def sign_up_operation(request):
+    return render(request,'admin/sign_up_operation.html')
+
+
+def update_operation(request):
+    return render(request,'admin/update_operation.html')
+
+
+def sign_up_by_email(request):
+    return render(request,'sign_up_by_email.html')
