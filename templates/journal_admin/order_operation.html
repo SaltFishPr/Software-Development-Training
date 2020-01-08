@@ -35,7 +35,8 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
             <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="true">
-              <img class="img-xs rounded-circle" src="../../static/assets/images/faces/face8.jpg" alt="Profile image"> </a>
+              <img class="img-xs rounded-circle" src="../../static/assets/images/faces/face8.jpg" alt="Profile image">
+            </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <div class="dropdown-header text-center">
                 <img class="img-md rounded-circle" src="../../static/assets/images/faces/face8.jpg" alt="Profile image">
@@ -349,17 +350,19 @@
     }
     $.ajax({
       url: "record_table_by_user_name", data: post_data, success: function (data) {
+        console.log("123")
         record_table_load()
       }
     });
   }
-  function user_name_input_change() {
+  function journal_name_input_change() {
     post_data = {
       'journal_name': document.getElementById("journal_name_input").value,
       'status': "预约未借阅"
     }
     $.ajax({
       url: "record_table_by_journal_name", data: post_data, success: function (data) {
+        console.log("123")
         record_table_load()
       }
     });
