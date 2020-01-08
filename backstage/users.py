@@ -366,15 +366,18 @@ class JournalAdmin(User):
         }
         return data
 
-    def journal_total_num_update(self, journal_name, journal_year, journal_stage, update_method, num):
-        journal_info = JournalDB.get_journal_by_name_year_stage(journal_name, journal_year, journal_stage)
-        key = journal_info[0][0]
+    def journal_num_update(self, journal_name, journal_year, journal_stage, update_method, num):
+
         if update_method == '库存增加':
+            journal_info = JournalDB.get_journal_by_name_year_stage(journal_name, journal_year, journal_stage)
+            key = journal_info[0][0]
             JournalDB.update_journal_num(key, journal_info[0][6] + num, journal_info[0][7], journal_info[0][8],
                                          journal_info[0][9] + num)
             flag = 1
             message = '成功'
         elif update_method == '库存减少':
+            journal_info = JournalDB.get_journal_by_name_year_stage(journal_name, journal_year, journal_stage)
+            key = journal_info[0][0]
             if num <= journal_info[0][6]:
                 JournalDB.update_journal_num(key, journal_info[0][6] - num, journal_info[0][7], journal_info[0][8],
                                              journal_info[0][9] - num)
@@ -388,11 +391,24 @@ class JournalAdmin(User):
             # total_num=stock_num=num len_num=ordernum=0
             # 暂时不管其他的属性
             # 直接插入到数据库生成相应的key
-
-            pass
+            JournalDB.insert_journal(journal_year,journal_stage,journal_name,'test',num,0,0,num)
+            flag = 1
+            message = '成功'
         elif update_method == '销毁期刊':
             # 如果 len_num=0 order_num=0 执行数据库的del操作 把name year stage这一行删除
-            pass
+            get_journal_info = {
+                'name':journal_name,
+                'year':journal_year,
+                'stage':journal_stage
+            }
+            journal_results = JournalDB.get_info_by_dict('journal',get_journal_info)
+            if journal_results[0][7]==0 and journal_results[0][8] ==0:
+                JournalDB.remove_journal(journal_name,journal_year,journal_stage)
+                flag = 1
+                message = '销毁成功'
+            else:
+                flag = 0
+                message = '有用户在使用'
         else:
             flag = 0
             message = '异常情况'
@@ -540,6 +556,6 @@ class Reader(User):
 
 
 if __name__ == '__main__':
-    # user_obj = JournalAdmin('wws')
-    # print(user_obj.record_update('badwoman', 'science', 1999, 1, '归还'))
-    print(datetime.now() - RecordDB.str_to_datetime('20200108195116'))
+    user_obj = JournalAdmin('wws')
+    user_obj.journal_num_update('test', 1, 1,'销毁期刊',100)
+
