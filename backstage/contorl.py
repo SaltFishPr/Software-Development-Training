@@ -250,7 +250,7 @@ class JsonPack(object):
                     'borrow_flag': 1,
                     'return_flag': 0
                 }
-            else:
+            elif status == '归还':
                 get_record_info = {
                     'key': key,
                     'return_flag': 1
@@ -323,6 +323,8 @@ class JsonPack(object):
         }
 
         return data
+
+
 
 
 if __name__ == '__main__':

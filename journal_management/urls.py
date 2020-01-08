@@ -73,6 +73,7 @@ urlpatterns = [
     url('sign_out',views.sign_out),
     url('record_table_by_user_name',views.record_table_by_user_name),
     url('record_table_by_journal_name',views.record_table_by_journal_name),
+    url('stock_table_by_journal_name',views.stock_table_by_journal_name),
     url('journal_admin_7days_record', views.journal_admin_7days_record),
     url('user_name_datalist',views.user_name_datalist),
     url('journal_name_datalist',views.journal_name_datalist),
