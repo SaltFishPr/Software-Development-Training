@@ -423,8 +423,8 @@ class JournalAdmin(User):
         for i in range(len(journal_results)):
             journal_element = dict()
             journal_element['journal_name'] = journal_name
-            journal_element['journal_year'] = journal_results[i][year]
-            journal_element['journal_stage'] = journal_results[i][stage]
+            journal_element['journal_year'] = journal_results[i][2]
+            journal_element['journal_stage'] = journal_results[i][3]
             journal_list.append(journal_element)
         data = {
             'journal_list':journal_list
