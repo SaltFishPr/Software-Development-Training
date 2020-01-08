@@ -13,7 +13,7 @@ def register_judge(request):
     account = request.GET.get('username')
     password = request.GET.get('password')
     # name=request.GET.get('name')
-    name = account + '_testname'
+    name = account
     identity = 'reader'
     grade = 1
     # dict1 = {
@@ -363,9 +363,11 @@ def user_journal_order(request):
 
 
 def sign_out(request):
-    cur_account = request.get_signed_cookie('account',salt='666')
     rep = redirect('/login_page')
     rep.delete_cookie('account')
-    return render(request,'')
+    return rep
 
 
+def journal_admin_7days_record(request):
+    data = JsonPack.line_chart_data()
+    return JsonResponse(data)
