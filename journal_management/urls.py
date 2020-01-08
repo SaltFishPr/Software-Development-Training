@@ -30,7 +30,7 @@ urlpatterns = [
     # path('font-awesome.html', views.test_icon),
     # url('index_v1', views.test)
 
-    url('login_page', views.login_page),
+    url('login_page', views.login),
     url('login_judge', views.login_judge),
     url('login_return', views.login_return),
     url('register_judge', views.register_judge),
@@ -74,5 +74,5 @@ urlpatterns = [
     url('record_table_by_user_name',views.record_table_by_user_name),
     url('record_table_by_journal_name',views.record_table_by_journal_name),
     url('journal_admin_7days_record', views.journal_admin_7days_record),
-    url('', views.login_page)
+    url('', views.login)
 ]

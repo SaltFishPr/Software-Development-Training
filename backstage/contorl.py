@@ -170,21 +170,24 @@ class JsonPack(object):
         record_list = []
         for i in range(len(results)):
             record_element=dict()
-            key = results[i][0]
+            key = (results[i][1])
             record_element['user_name'] = account
             record_element['journal_name'] = JournalDB.get_name_by_key(key)
             record_element['journal_year'] = JournalDB.get_year_by_key(key)
             record_element['journal_stage'] = JournalDB.get_stage_by_key(key)
+            record_element['status'] = status
             if status == '预约未借阅':
                 record_element['time'] = results[i][2]
             elif status == '借阅中':
                 record_element['time'] = results[i][3]
             else:
                 record_element['time'] = results[i][4]
+
             record_list.append(record_element)
         data = {
             'record_list': record_list
         }
+        print(data)
         return data
 
     @classmethod
@@ -194,7 +197,7 @@ class JsonPack(object):
         }
         journal_results = JournalDB.get_info_by_dict('journal',get_journal_info)
         record_list = []
-        for i in range(journal_results):
+        for i in range(len(journal_results)):
             record_element = dict()
             key = journal_results[i][0]
             get_record_info={

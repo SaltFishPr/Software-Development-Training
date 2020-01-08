@@ -114,7 +114,7 @@ class JournalDB(DBBase):
         """
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
-        sql = "SELECT name FROM journal WHERE key = '%d' " % key
+        sql = "SELECT name FROM journal WHERE key = %d " % key
         mycursor.execute(sql)
         results = mycursor.fetchall()
         name = results[0][0]
