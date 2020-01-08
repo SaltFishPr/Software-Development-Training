@@ -366,6 +366,6 @@ def sign_out(request):
     cur_account = request.get_signed_cookie('account',salt='666')
     rep = redirect('/login_page')
     rep.delete_cookie('account')
-    return render(request,'')
+    return rep
 
 

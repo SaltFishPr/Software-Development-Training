@@ -123,18 +123,17 @@
                   </thead>
                   <tbody id="borrow_table">
                     <tr class="table-info">
-                      <td> <input id="user_name_input"></input><select id="user_name_select">
-                          <option></option>
-                        </select> </td>
-                      <td> <input id="journal_name_input"></input><select id="journal_name_select">
-                          <option></option>
-                        </select> </td>
-                      <td> <input id="journal_year_input"></input><select id="journal_year_select">
-                          <option></option>
-                        </select> </td>
-                      <td> <input id="journal_stage_input"></input><select id="journal_stage_select">
-                          <option></option>
-                        </select> </td>
+                      <td> <input id="user_name_input" list="user_name_list"
+                          onchange="user_name_input_change()"></input><datalist id="user_name_list"></datalist> </td>
+                      <td> <input id="journal_name_input" list="journal_name_list"
+                          onchange="journal_name_input_change()"></input><datalist id="journal_name_list"></datalist>
+                      </td>
+                      <td> <input id="journal_year_input" list="journal_yearlist" type="number"
+                          min=1978></input><datalist id="journal_yearlist"></datalist>
+                      </td>
+                      <td> <input id="journal_stage_input" list="journal_stage_list" type="number"
+                          min=1></input><datalist id="journal_stage_list"></datalist>
+                      </td>
                       <td><select id="record_update_mothed">
                           <option>预约处理</option>
                         </select></td>
@@ -210,6 +209,11 @@
   function record_table_load(data) {
     record_list = data['record_list']
     var table = document.getElementById("record_table");
+    datalist_user_name = document.getElementById("user_name_list")
+    datalist_journal_name = document.getElementById("journal_name_list")
+
+    datalist_journal_name.innerHTML = ""
+    datalist_user_name.innerHTML = ""
     table.innerHTML = ""
     // table.deleteTFoot();
     // var footer = table.createTFoot();
@@ -226,7 +230,38 @@
       var cell5 = row.insertCell(4);
       var cell6 = row.insertCell(5);
       cell1.innerText = record_list[i]['user_name'];
+      var flag = 0
+      for (var j = 0; j < datalist_user_name.options.length; j++) {
+        var r = datalist_user_name.options[j].value
+        if (record_list[i]['user_name'] == r) {
+          flag = 1
+          break;
+        }
+      }
+      if (flag == 0) {
+        option_user_name = document.createElement("option")
+        option_user_name.setAttribute("value", record_list[i]['user_name'])
+        datalist_user_name.appendChild(option_user_name)
+      }
+
+
       cell2.innerText = record_list[i]['journal_name'];
+
+      var flag = 0
+      for (var j = 0; j < datalist_journal_name.options.length; j++) {
+        var r = datalist_journal_name.options[j].value
+        if (record_list[i]['journal_name'] == r) {
+          flag = 1
+          break;
+        }
+      }
+      if (flag == 0) {
+        option_journal_name = document.createElement("option")
+        option_journal_name.setAttribute("value", record_list[i]['journal_name'])
+        datalist_journal_name.appendChild(option_journal_name)
+      }
+
+
       cell3.innerText = record_list[i]['journal_year'];
       cell4.innerText = record_list[i]['journal_stage'];
       cell5.innerText = record_list[i]['status'];
@@ -304,6 +339,26 @@
           //alert(data['message'])
         }
 
+      }
+    });
+  }
+  function user_name_input_change() {
+    post_data = {
+      'user_name': document.getElementById("user_name_input").value,
+    }
+    $.ajax({
+      url: "record_table_by_user_name", data: post_data, success: function (data) {
+        record_table_load()
+      }
+    });
+  }
+  function user_name_input_change() {
+    post_data = {
+      'journal_name': document.getElementById("journal_name_input").value,
+    }
+    $.ajax({
+      url: "record_table_by_journal_name", data: post_data, success: function (data) {
+        record_table_load()
       }
     });
   }
