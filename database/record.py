@@ -13,7 +13,7 @@ class RecordDB(DBBase):
         """
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
-        order_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        order_time = time.strftime("%Y%m%d%H%M%S", time.localtime())
         sql = "INSERT INTO record (account,key,order_time,order_flag,borrow_flag,return_flag) " \
               "VALUES ('%s','%s','%s',1,0,0)" % (account, key, order_time)
         mycursor.execute(sql)
@@ -31,7 +31,7 @@ class RecordDB(DBBase):
         """
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
-        borrow_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        borrow_time = time.strftime("%Y%m%d%H%M%S", time.localtime())
         sql = "INSERT INTO record (account,key,borrow_time,order_flag,borrow_flag,return_flag) " \
               "VALUES ('%s','%s','%s',0,1,0)" % (account, key, borrow_time)
         mycursor.execute(sql)
@@ -50,7 +50,7 @@ class RecordDB(DBBase):
         """
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
-        borrow_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        borrow_time = time.strftime("%Y%m%d%H%M%S", time.localtime())
         sql = "UPDATE record SET borrow_time='%s'  Where account = '%s' AND key='%s' AND order_time='%s'" % (
             borrow_time, account, key, order_time)
         mycursor.execute(sql)
@@ -72,7 +72,7 @@ class RecordDB(DBBase):
         """
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
-        return_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        return_time = time.strftime("%Y%m%d%H%M%S", time.localtime())
         sql = "UPDATE record SET return_time='%s',return_flag = 1 Where account = '%s' AND key='%s' AND borrow_time='%s'" % (
             return_time, account, key, borrow_time)
         mycursor.execute(sql)
@@ -142,10 +142,24 @@ class RecordDB(DBBase):
         mydb.close()
         return len(results)
 
+    @classmethod
+    def get_this_day_record_num(cls, date: str, choice: str):
+        mydb = DBBase.connect()
+        mycursor = mydb.cursor()
+        sql = ""
+        if choice == 'order':
+            sql = "SELECT COUNT(*) AS this_day_order_num FROM record WHERE order_time LIKE '" + date + "%'"
+        elif choice == 'borrow':
+            sql = "SELECT COUNT(*) AS this_day_order_num FROM record WHERE borrow_time LIKE '" + date + "%'"
+        elif choice == 'return':
+            sql = "SELECT COUNT(*) AS this_day_order_num FROM record WHERE return_time LIKE '" + date + "%'"
+        mycursor.execute(sql)
+        results = mycursor.fetchall()
+        mycursor.close()
+        mydb.close()
+        return results[0][0]
+
 
 if __name__ == '__main__':
-    get_record_info = {
-        'account': 'jl'
-    }
-    results=RecordDB.get_info_by_dict('record',get_record_info)
-    print(results)
+    print()
+    pass

@@ -7,22 +7,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title></title>
   <!-- plugins:css -->
-  <link rel="stylesheet" href="../static/assets/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
-  <link rel="stylesheet" href="../static/assets/vendors/iconfonts/ionicons/css/ionicons.css">
-  <link rel="stylesheet" href="../static/assets/vendors/iconfonts/typicons/src/font/typicons.css">
-  <link rel="stylesheet" href="../static/assets/vendors/iconfonts/flag-icon-css/css/flag-icon.min.css">
-  <link rel="stylesheet" href="../static/assets/vendors/css/vendor.bundle.base.css">
-  <link rel="stylesheet" href="../static/assets/vendors/css/vendor.bundle.addons.css">
+  <link rel="stylesheet" href="../../static/assets/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="../../static/assets/vendors/iconfonts/ionicons/css/ionicons.css">
+  <link rel="stylesheet" href="../../static/assets/vendors/iconfonts/typicons/src/font/typicons.css">
+  <link rel="stylesheet" href="../../static/assets/vendors/iconfonts/flag-icon-css/css/flag-icon.min.css">
+  <link rel="stylesheet" href="../../static/assets/vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="../../static/assets/vendors/css/vendor.bundle.addons.css">
   <!-- endinject -->
   <!-- plugin css for this page -->
   <!-- End plugin css for this page -->
   <!-- inject:css -->
-  <link rel="stylesheet" href="../static/assets/css/shared/style.css">
+  <link rel="stylesheet" href="../../static/assets/css/shared/style.css">
   <!-- endinject -->
   <!-- Layout styles -->
-  <link rel="stylesheet" href="../static/assets/css/demo_1/style.css">
+  <link rel="stylesheet" href="../../static/assets/css/demo_1/style.css">
   <!-- End Layout styles -->
-  <link rel="shortcut icon" href="../static/assets/images/favicon.png" />
+  <link rel="shortcut icon" href="../../static/assets/images/favicon.png" />
 </head>
 
 <body>
@@ -35,10 +35,10 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
             <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="true">
-              <img class="img-xs rounded-circle" src="../static/assets/images/faces/face8.jpg" alt="Profile image"> </a>
+              <img class="img-xs rounded-circle" src="../../static/assets/images/faces/face8.jpg" alt="Profile image"> </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <div class="dropdown-header text-center">
-                <img class="img-md rounded-circle" src="../static/assets/images/faces/face8.jpg" alt="Profile image">
+                <img class="img-md rounded-circle" src="../../static/assets/images/faces/face8.jpg" alt="Profile image">
                 <p class="mb-1 mt-3 font-weight-semibold" id="user_name_img_place_0">Allen Moreno</p>
                 <p class="font-weight-light text-muted mb-0" id="user_grade_img_place_0">allenmoreno@gmail.com</p>
               </div>
@@ -59,7 +59,7 @@
           <li class="nav-item nav-profile">
             <a href="#" class="nav-link">
               <div class="profile-image">
-                <img class="img-xs rounded-circle" src="../static/assets/images/faces/face8.jpg" alt="profile image">
+                <img class="img-xs rounded-circle" src="../../static/assets/images/faces/face8.jpg" alt="profile image">
                 <!-- <div class="dot-indicator bg-success"></div> -->
               </div>
               <div class="text-wrapper">
@@ -107,7 +107,48 @@
           <div class="col-lg-12 stretch-card">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">借阅信息</h4>
+                <h4 class="card-title">期刊借阅信息</h4>
+                <p class="card-description"> Add class <code>.table-{color}</code></p>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>用户</th>
+                      <th>期刊名</th>
+                      <th>年</th>
+                      <th>期</th>
+                      <th>操作</th>
+                      <th>执行</th>
+                    </tr>
+                  </thead>
+                  <tbody id="borrow_table">
+                    <tr class="table-info">
+                      <td> <input id="user_name_input"></input><select id="user_name_select">
+                          <option></option>
+                        </select> </td>
+                      <td> <input id="journal_name_input"></input><select id="journal_name_select">
+                          <option></option>
+                        </select> </td>
+                      <td> <input id="journal_year_input"></input><select id="journal_year_select">
+                          <option></option>
+                        </select> </td>
+                      <td> <input id="journal_stage_input"></input><select id="journal_stage_select">
+                          <option></option>
+                        </select> </td>
+                      <td><select id="record_update_method">
+                          <option>归还</option>
+                        </select></td>
+                      <td><input type="submit" value="执行" class="btn btn-success mr-2"
+                          onclick="record_uptade()"></input></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12 stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">期刊借阅信息</h4>
                 <p class="card-description"> Add class <code>.table-{color}</code></p>
                 <table class="table table-bordered">
                   <thead>
@@ -128,23 +169,26 @@
             </div>
           </div>
 
-        </div>
-        <!-- content-wrapper ends -->
+        </div> -->
+
       </div>
-      <!-- main-panel ends -->
+      <!-- content-wrapper ends -->
+
     </div>
-    <!-- page-body-wrapper ends -->
+    <!-- main-panel ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
   </div>
   <!-- container-scroller -->
   <!-- plugins:js -->
-  <script src="../static/assets/vendors/js/vendor.bundle.base.js"></script>
-  <script src="../static/assets/vendors/js/vendor.bundle.addons.js"></script>
+  <script src="../../static/assets/vendors/js/vendor.bundle.base.js"></script>
+  <script src="../../static/assets/vendors/js/vendor.bundle.addons.js"></script>
   <!-- endinject -->
   <!-- Plugin js for this page-->
   <!-- End plugin js for this page-->
   <!-- inject:js -->
-  <script src="../static/assets/js/shared/off-canvas.js"></script>
-  <script src="../static/assets/js/shared/misc.js"></script>
+  <script src="../../static/assets/js/shared/off-canvas.js"></script>
+  <script src="../../static/assets/js/shared/misc.js"></script>
   <!-- endinject -->
   <!-- Custom js for this page-->
   <!-- End custom js for this page-->
@@ -198,7 +242,7 @@
 
   function journal_record_info_load() {
     $.ajax({
-      url: "journal_admin_user_info", success: function (data) {
+      url: "journal_admin_user_return_info", success: function (data) {
         // journal_table_load(data)
         record_table_load(data)
         journal_admin_user_info_load(data)
@@ -208,7 +252,64 @@
   window.onload = function () {
     journal_record_info_load()
   }
+  function record_table_select() {
+    var td = event.srcElement;
+    var table = document.getElementById("record_table")
+    document.getElementById("user_name_input").value = table.rows[td.parentElement.rowIndex - 1].cells[0].innerText
+    document.getElementById("journal_name_input").value = table.rows[td.parentElement.rowIndex - 1].cells[1].innerText
+    document.getElementById("journal_year_input").value = table.rows[td.parentElement.rowIndex - 1].cells[2].innerText
+    document.getElementById("journal_stage_input").value = table.rows[td.parentElement.rowIndex - 1].cells[3].innerText
+  }
 
+  function account_select_load(data) {
+    account_list = data['account_list']
+    var account_list_length = 0;
+    for (var item in account_list) {
+      account_list_length++;
+    }
+    var sec = document.getElementById("account_select")
+    sec.innerHTML = ""
+    for (var i = 0; i < account_list_length; i++) {
+
+      var account = account_list[i]['account']
+      var flag = 0;
+      for (var j = 0; j < sec.options.length; j++) {
+        var r = sec.options[j].value
+        if (account == r) {
+          flag = 1
+          break;
+        }
+      }
+      if (flag == 1) {
+        continue;
+      }
+      var op = document.createElement("option")
+      op.setAttribute("value", account)
+      op.innerText = account
+      sec.appendChild(op)
+    }
+  }
+
+  function record_uptade() {
+    post_data = {
+      'user_name': document.getElementById("user_name_input").value,
+      'journal_name': document.getElementById("journal_name_input").value,
+      'journal_year': document.getElementById("journal_year_input").value,
+      'journal_stage': document.getElementById("journal_stage_input").value,
+      'record_update_method': document.getElementById("record_update_method").value
+    }
+    $.ajax({
+      url: "record_update", data: post_data, success: function (data) {
+        if (data['flag'] == 1) {
+          journal_record_info_load()
+          alert(data['message'])
+        } else {
+          alert(data['message'])
+        }
+
+      }
+    });
+  }
 
 
 
