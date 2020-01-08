@@ -1,5 +1,6 @@
+import datetime
+
 from database.db_base import DBBase
-import time
 
 
 class RecordDB(DBBase):
@@ -73,33 +74,12 @@ class RecordDB(DBBase):
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
         return_time = time.strftime("%Y%m%d%H%M%S", time.localtime())
-        sql = "UPDATE record SET return_time='%s',return_flag = 1 Where account = '%s' AND key='%s' AND borrow_time='%s'" % (
-            return_time, account, key, borrow_time)
+        sql = "UPDATE record SET return_time='%s',return_flag = 1 Where account = '%s' AND key='%s' AND " \
+              "borrow_time='%s'" % (return_time, account, key, borrow_time)
         mycursor.execute(sql)
         mydb.commit()
         mycursor.close()
         mydb.close()
-
-    @classmethod
-    def get_record(cls, account, key, order_flag, borrow_flag, return_flag):
-        """
-        查询特定借阅记录
-        :param account: 用户账户
-        :param key: 期刊标识
-        :param order_flag:
-        :param borrow_flag:
-        :param return_flag:
-        :return: 该用户该期刊，根据三个flag选项选出的借阅记录
-        """
-        mydb = DBBase.connect()
-        mycursor = mydb.cursor()
-        sql = "SELECT * FROM record WHERE account = '%s' AND key='%s' AND order_flag='%s' AND borrow_flag='%s' AND " \
-              "return_flag='%s'" % (account, key, order_flag, borrow_flag, return_flag)
-        mycursor.execute(sql)
-        results = mycursor.fetchall()
-        mycursor.close()
-        mydb.close()
-        return results
 
     @classmethod
     def get_record_by_account(cls, account):
@@ -158,6 +138,14 @@ class RecordDB(DBBase):
         mycursor.close()
         mydb.close()
         return results[0][0]
+
+    @classmethod
+    def datetime_to_str(cls, date_time):
+        return datetime.datetime.strftime(date_time, '%Y%m%d%H%M%S')
+
+    @classmethod
+    def str_to_datetime(cls, str1):
+        return datetime.datetime.strptime(str1, '%Y%m%d%H%M%S')
 
 
 if __name__ == '__main__':
