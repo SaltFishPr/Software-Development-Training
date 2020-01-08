@@ -167,6 +167,7 @@
       $.ajax({
         url: "register_by_email_return", data: post_data, success: function (data) {
           if (data['flag'] == 1) {
+              console.log(data)
             alert(data['message'])
             document.getElementById("myForm").submit();
           } else if (data['flag'] == 0) {
