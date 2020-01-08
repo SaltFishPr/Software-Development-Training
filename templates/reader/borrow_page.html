@@ -379,7 +379,10 @@
     }
     $.ajax({
       url: "journal_name_search", data: post_data, success: function (data) {
-        journal_year_select_load(data)
+          if(document.getElementById("name_select").value!=""){
+              journal_year_select_load(data)
+          }
+
         journal_card_load(data)
 
       }
@@ -393,7 +396,10 @@
     }
     $.ajax({
       url: "journal_year_search", data: post_data, success: function (data) {
-        journal_stage_select_load(data)
+          if(document.getElementById("name_select").value!=""&&document.getElementById("year_select").value!=""){
+              journal_stage_select_load(data)
+          }
+
         journal_card_load(data)
       }
     });

@@ -190,7 +190,7 @@ def journal_year_search(request):
     :return:
     """
     name = request.GET.get('name')
-    year = int(request.GET.get('year'))
+    year = (request.GET.get('year'))
     data = JsonPack.get_journal_stage(name, year)
     return JsonResponse(data)
 

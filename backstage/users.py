@@ -529,15 +529,15 @@ class Reader(User):
             # 1 0 0预约未借阅
             # x 1 0  借阅 未归还
             # x 1 1 归还
-            if results[5] == 1 and results[6] == 0 and results[7] == 0:
+            if results[i][5] == 1 and results[i][6] == 0 and results[i][7] == 0:
                 borrow['status'] = '预约未借阅'
                 borrow['time_1'] = '未借阅'
                 borrow['time_2'] = '未借阅'
-            elif results[6] == 1 and results[7] == 0:
+            elif results[i][6] == 1 and results[i][7] == 0:
                 borrow['status'] = '借阅中'
                 borrow['time_1'] = RecordDB.str_to_datetime(results[i][3]).strftime('%Y-%m-%d %H:%M:%S')
                 borrow['time_2'] = '未归还'
-            elif results[6] == 1 and results[7] == 1:
+            elif results[i][6] == 1 and results[i][7] == 1:
                 borrow['status'] = '已归还'
                 borrow['time_1'] = RecordDB.str_to_datetime(results[i][3]).strftime('%Y-%m-%d %H:%M:%S')
                 borrow['time_2'] = RecordDB.str_to_datetime(results[i][4]).strftime('%Y-%m-%d %H:%M:%S')

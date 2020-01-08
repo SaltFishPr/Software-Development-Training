@@ -100,9 +100,14 @@ class JsonPack(object):
         data = {
             'journal_list': journal_list
         }
+
         get_journal_dict = {
-            'name': name
+
         }
+        if name !="":
+            get_journal_dict = {
+                'name': name
+            }
         results = JournalDB.get_info_by_dict("journal", get_journal_dict)
         len_info = len(results)
         for i in range(len_info):
@@ -125,13 +130,22 @@ class JsonPack(object):
         data = {
             'journal_list': journal_list
         }
-        results = JournalDB.get_stage_by_name_year(name, year)
-        for temp in results:
-            journal = dict()
-            journal['name'] = name
-            journal['year'] = year
-            journal['stage'] = temp
-            journal_list.append(journal)
+        get_journal_info = {
+            'name':name
+        }
+        if year != "":
+            get_journal_info = {
+                'name': name,
+                'year':year
+            }
+            year = int(year)
+        results = JournalDB.get_info_by_dict('journal',get_journal_info)
+        for i in range(len(results)):
+            journal_element = dict()
+            journal_element['name'] = results[i][4]
+            journal_element['year'] = results[i][2]
+            journal_element['stage'] = results[i][3]
+            journal_list.append(journal_element)
         return data
 
     @classmethod
