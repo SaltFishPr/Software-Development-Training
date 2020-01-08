@@ -4,6 +4,29 @@ from database.record import RecordDB
 
 class JournalDB(DBBase):
     @classmethod
+    def insert_journal(cls, year, stage, name, tags, stock_num, order_num, lend_num, total_num, issn='default',
+                       press='defalut', editor='default'):
+        mydb = DBBase.connect()
+        mycursor = mydb.cursor()
+        sql = "INSERT INTO journal (issn, year, stage, name, tag, stock_num, order_num, lend_num, total_num, press," \
+              " editor) values ('%s',%d,%d,'%s','%s',%d,%d,%d,%d,'%s','%s')" % (
+                  issn, year, stage, name, tags, stock_num, order_num, lend_num, total_num, press, editor)
+        mycursor.execute(sql)
+        mydb.commit()
+        mycursor.close()
+        mydb.close()
+
+    @classmethod
+    def remove_journal(cls, name, year, stage):
+        mydb = DBBase.connect()
+        mycursor = mydb.cursor()
+        sql = "DELETE FROM journal WHERE name = '%s'AND year =%d AND stage =%d " % (name, year, stage)
+        mycursor.execute(sql)
+        mydb.commit()
+        mycursor.close()
+        mydb.close()
+
+    @classmethod
     def get_journal(cls):
         """
         查询所有期刊
@@ -178,8 +201,6 @@ class JournalDB(DBBase):
         mycursor.close()
         mydb.close()
         return results
-
-
 
 
 if __name__ == '__main__':

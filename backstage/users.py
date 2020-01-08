@@ -328,7 +328,7 @@ class JournalAdmin(User):
             message = '处理成功'
             flag = 1
         elif record_operation == '借阅':
-            if UserDB.get_user_grade(account) <=0:
+            if UserDB.get_user_grade(account) <= 0:
                 data = {
                     'flag': 0,
                     'message': '当前信誉等级过低，请联系系统管理员提高等级'
@@ -388,9 +388,10 @@ class JournalAdmin(User):
             # total_num=stock_num=num len_num=ordernum=0
             # 暂时不管其他的属性
             # 直接插入到数据库生成相应的key
+
             pass
         elif update_method == '销毁期刊':
-            #如果 len_num=0 order_num=0 执行数据库的del操作 把name year stage这一行删除
+            # 如果 len_num=0 order_num=0 执行数据库的del操作 把name year stage这一行删除
             pass
         else:
             flag = 0
@@ -401,41 +402,38 @@ class JournalAdmin(User):
         }
         return data
 
-
     def get_order_user_info(self):
         user_account_list = []
-        get_user_info={
+        get_user_info = {
 
         }
-        user_results = UserDB.get_info_by_dict('user',get_user_info)
+        user_results = UserDB.get_info_by_dict('user', get_user_info)
         for i in range(len(user_results)):
             user_account_list.append(user_results[i][0])
-        data ={
-            'user_name_datalist':user_account_list
+        data = {
+            'user_name_datalist': user_account_list
         }
         return data
-
 
     def get_journal_name_info(self):
         journal_name_list = []
         get_journal_info = {
 
         }
-        journal_results = JournalDB.get_info_by_dict('journal',get_journal_info)
+        journal_results = JournalDB.get_info_by_dict('journal', get_journal_info)
         for i in range(len(journal_results)):
             journal_name_list.append(journal_results[i][4])
-        data ={
+        data = {
             "journal_name_datalist": journal_name_list
         }
         return data
 
-
-    def get_journal_info_by_name(self,journal_name):
+    def get_journal_info_by_name(self, journal_name):
         journal_list = []
         get_journal_info = {
-            'name':journal_name
+            'name': journal_name
         }
-        journal_results = JournalDB.get_info_by_dict('journal',get_journal_info)
+        journal_results = JournalDB.get_info_by_dict('journal', get_journal_info)
         for i in range(len(journal_results)):
             journal_element = dict()
             journal_element['journal_name'] = journal_name
@@ -443,9 +441,10 @@ class JournalAdmin(User):
             journal_element['journal_stage'] = journal_results[i][3]
             journal_list.append(journal_element)
         data = {
-            'journal_list':journal_list
+            'journal_list': journal_list
         }
         return data
+
 
 class Reader(User):
     def __init__(self, account):
@@ -513,10 +512,10 @@ class Reader(User):
         :param journal_stage:
         :return:
         """
-        if UserDB.get_user_grade(self._account) <=0:
+        if UserDB.get_user_grade(self._account) <= 0:
             data = {
-                'flag':0,
-                'message':'当前信誉等级过低，请联系系统管理员提高等级'
+                'flag': 0,
+                'message': '当前信誉等级过低，请联系系统管理员提高等级'
             }
             return data
         journal_info = JournalDB.get_journal_by_name_year_stage(journal_name, journal_year, journal_stage)
