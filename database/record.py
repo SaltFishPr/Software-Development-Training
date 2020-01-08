@@ -144,4 +144,8 @@ class RecordDB(DBBase):
 
 
 if __name__ == '__main__':
-    print(RecordDB.get_info_by_dict('Record', {}))
+    get_record_info = {
+        'account': 'jl'
+    }
+    results=RecordDB.get_info_by_dict('record',get_record_info)
+    print(results)

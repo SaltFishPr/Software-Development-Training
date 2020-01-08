@@ -71,5 +71,7 @@ urlpatterns = [
     url('journal_update', views.journal_update),
     url('user_journal_order',views.user_journal_order),
     url('sign_out',views.sign_out),
+    url('record_table_by_user_name',views.record_table_by_user_name),
+    url('record_table_by_journal_name',views.record_table_by_journal_name),
     url('', views.login_page)
 ]

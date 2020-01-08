@@ -153,6 +153,79 @@ class JsonPack(object):
         journal_list.append(journal)
         return data
 
+
+    @classmethod
+    def get_record_by_account(cls,account,status):
+        """
+        根据借书的用户名得到相应的数据
+        :param account: 借书的用户名
+        :return: data
+        """
+        get_record_info={
+            'account' : account
+        }
+        results = RecordDB.get_info_by_dict('record',get_record_info)
+        record_list = []
+        for i in range(len(results)):
+            record_element=dict()
+            key = results[i][0]
+            record_element['user_name'] = account
+            record_element['journal_name'] = JournalDB.get_name_by_key(key)
+            record_element['journal_year'] = JournalDB.get_year_by_key(key)
+            record_element['journal_stage'] = JournalDB.get_stage_by_key(key)
+            if status == '预约未借阅':
+                record_element['time'] = results[i][2]
+            elif status == '借阅中':
+                record_element['time'] = results[i][3]
+            else:
+                record_element['time'] = results[i][4]
+            record_list.append(record_element)
+        data = {
+            'record_list': record_list
+        }
+        return data
+
+    @classmethod
+    def get_record_by_journal_name(cls,journal_name,status):
+        get_journal_info={
+            'name':journal_name
+        }
+        journal_results = JournalDB.get_info_by_dict('journal',get_journal_info)
+        record_list = []
+        for i in range(journal_results):
+            record_element = dict()
+            key = journal_results[i][0]
+            get_record_info={
+                'key':key
+            }
+            record_results =RecordDB.get_info_by_dict('record',get_record_info)
+            if len(record_results) ==0:
+                continue
+            else:
+                for j in range(len(record_results)):
+                    temp_key = record_results[j][1]
+                    record_element['user_name'] = record_results[j][0]
+                    record_element['journal_name'] = JournalDB.get_name_by_key(temp_key)
+                    record_element['journal_year'] =JournalDB.get_year_by_key(temp_key)
+                    record_element['journal_stage'] =JournalDB.get_stage_by_key(temp_key)
+                    record_element['status'] = status
+                    if status == '预约未借阅':
+                        record_element['time'] = record_results[j][2]
+                    elif status == '借阅中':
+                        record_element['time'] = record_results[j][3]
+                    else:
+                        record_element['time'] = record_results[j][4]
+                    record_list.append(record_element)
+        data ={
+            'record_list': record_list
+        }
+        return data
+
+
+
+
+
+
     @classmethod
     def get_object_by_account(cls, cur_account):
         user = object()
@@ -163,6 +236,8 @@ class JsonPack(object):
         elif UserDB.get_user_identity(cur_account):
             user = Reader(cur_account)
         return user
+
+
 
 
 if __name__ == '__main__':

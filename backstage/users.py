@@ -38,10 +38,10 @@ class User(object):
         if choice == 'account_name_grade':
             user['account'] = user_info_results[0][0]
             user['name'] = user_info_results[0][2]
-            user['grade'] = user_info_results[0][4]
+            user['grade'] = '等级:'+str(user_info_results[0][4])
         elif choice == 'name_grade':
             user['name'] = user_info_results[0][2]
-            user['grade'] = user_info_results[0][4]
+            user['grade'] = '等级:'+str(user_info_results[0][4])
 
         return data
 
@@ -142,7 +142,7 @@ class Admin(User):
         }
         user_info_results = UserDB.get_info_by_dict('User', get_user_dict)
         data['name'] = user_info_results[0][2]
-        data['grade'] = user_info_results[0][4]
+        data['grade'] = '等级:'+str(user_info_results[0][4])
         data['identity'] = user_info_results[0][3]
 
         return data
@@ -161,14 +161,14 @@ class Admin(User):
         for user_info in UserDB.get_info_by_dict('User', get_user_dict):
             reader_list.append({'account': list(user_info)[0],
                                 'name': list(user_info)[2],
-                                'grade': list(user_info)[4]})
+                                'grade': '等级:'+str(list(user_info)[4])})
         get_user_dict = {
             'identity': 'journal_admin'
         }
         for user_info in UserDB.get_info_by_dict('User', get_user_dict):
             journal_admin_list.append({'account': list(user_info)[0],
                                        'name': list(user_info)[2],
-                                       'grade': list(user_info)[4]})
+                                       'grade': '等级:'+str(list(user_info)[4])})
         data = {
             'reader_list': reader_list,
             'journal_admin_list': journal_admin_list,
@@ -224,7 +224,7 @@ class JournalAdmin(User):
     def get_journal_admin_info(self, choice):
         user_info = {
             'name': UserDB.get_user_name(self._account),
-            'grade': UserDB.get_user_grade(self._account)
+            'grade': '等级:'+str(UserDB.get_user_grade(self._account))
         }
         record_list = []
         journal_list = []
@@ -407,7 +407,7 @@ class Reader(User):
         grarde = UserDB.get_user_grade(self._account)
         user_info = {
             'name': name,
-            'grade': grarde
+            'grade': '等级:'+str(grarde)
         }
         borrow_list = []
         borrow = {

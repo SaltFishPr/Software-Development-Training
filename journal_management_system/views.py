@@ -366,6 +366,19 @@ def sign_out(request):
     cur_account = request.get_signed_cookie('account',salt='666')
     rep = redirect('/login_page')
     rep.delete_cookie('account')
-    return render(request,'')
+    return rep
+
+def record_table_by_user_name(request):
+    account = request.GET.get('user_name')
+    status = request.GET.get('status')
+    data =JsonPack.get_record_by_account(account,status)
+    return JsonResponse(data)
+
+def record_table_by_journal_name(request):
+    journal_name = request.GET.get('journal_name')
+    status = request.GET.get('status')
+    data = JsonPack.get_record_by_journal_name(journal_name,status)
+    return JsonResponse(data)
+
 
 
