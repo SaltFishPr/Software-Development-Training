@@ -180,6 +180,8 @@ class JournalDB(DBBase):
         return results
 
 
+
+
 if __name__ == '__main__':
     print(JournalDB.search_journal("sc"))
     pass
