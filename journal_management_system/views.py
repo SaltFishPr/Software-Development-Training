@@ -420,3 +420,11 @@ def stock_table_by_journal_name(request):
     user = JsonPack.get_object_by_account(cur_account)
     data = user.get_stock_table_info(journal_name)
     return JsonResponse(data)
+
+
+def email_get(request):
+    email_address = request.GET.get('email_address')
+    recv_dict =JsonPack.validateEmail(email_address)
+    flag = recv_dict['flag']
+    check_code =recv_dict['check_code']
+    redirect()

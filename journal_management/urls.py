@@ -78,5 +78,7 @@ urlpatterns = [
     url('user_name_datalist',views.user_name_datalist),
     url('journal_name_datalist',views.journal_name_datalist),
     url('journal_table_by_journal_name',views.journal_table_by_journal_name),
+    url('email_get',views.email_get),
+    url('register_by_email_return',views.register_by_email_return),
     url('', views.login)
 ]
