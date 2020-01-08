@@ -368,20 +368,46 @@ def sign_out(request):
     rep.delete_cookie('account')
     return rep
 
+
 def record_table_by_user_name(request):
     account = request.GET.get('user_name')
     status = request.GET.get('status')
-    data =JsonPack.get_record_by_account(account,status)
+    data = JsonPack.get_record_by_account(account, status)
     return JsonResponse(data)
+
 
 def record_table_by_journal_name(request):
     journal_name = request.GET.get('journal_name')
     status = request.GET.get('status')
-    data = JsonPack.get_record_by_journal_name(journal_name,status)
+    data = JsonPack.get_record_by_journal_name(journal_name, status)
     return JsonResponse(data)
-
 
 
 def journal_admin_7days_record(request):
     data = JsonPack.line_chart_data()
     return JsonResponse(data)
+
+
+def user_name_datalist(request):
+    cur_account = request.get_signed_cookie('account',salt='666')
+    user = JsonPack.get_object_by_account(cur_account)
+    data = user.get_order_user_info()
+    return JsonResponse(data)
+
+def journal_name_datalist(request):
+    cur_account = request.get_signed_cookie('account', salt='666')
+    user = JsonPack.get_object_by_account(cur_account)
+    data = user.get_journal_name_info()
+    print(data)
+    return JsonResponse(data)
+
+
+def journal_table_by_journal_name(request):
+    cur_account = request.get_signed_cookie('account', salt='666')
+    journal_name = request.GET.get('journal_name')
+    user = JsonPack.get_object_by_account(cur_account)
+    data = user.get_journal_info_by_name(journal_name)
+    return JsonResponse(data)
+
+
+
