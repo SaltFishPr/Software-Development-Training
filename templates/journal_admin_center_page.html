@@ -104,6 +104,17 @@
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
+          <div class="row">
+            <div class="col-md-8 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <canvas class="mt-5 chartjs-render-monitor" height="233" id="sales-statistics-overview"
+                    style="display: block; width: 583px; height: 233px;" width="583"></canvas>
+                </div>
+              </div>
+            </div>
+
+          </div>
           <div class="col-lg-12 stretch-card">
             <div class="card">
               <div class="card-body">
@@ -204,9 +215,80 @@
         journal_admin_user_info_load(data)
       }
     });
+    $.ajax({
+      url: "journal_admin_7days_record", success: function (data) {
+        console.log("123")
+        journal_admin_7days_record_load(data)
+      }
+    });
   }
   window.onload = function () {
     journal_record_info_load()
+
+  }
+
+  function journal_admin_7days_record_load(data) {
+    document.getElementById("sales-statistics-overview").innerHTML = ""
+    var salesChartCanvas = $("#sales-statistics-overview").get(0).getContext("2d");
+    var gradientStrokeFill_1 = salesChartCanvas.createLinearGradient(0, 0, 0, 450);
+    gradientStrokeFill_1.addColorStop(1, 'rgba(255,255,255, 0.0)');
+    gradientStrokeFill_1.addColorStop(0, 'rgba(102,78,235, 0.2)');
+    var gradientStrokeFill_2 = salesChartCanvas.createLinearGradient(0, 0, 0, 400);
+    gradientStrokeFill_2.addColorStop(1, 'rgba(255, 255, 255, 0.01)');
+    gradientStrokeFill_2.addColorStop(0, '#14c671');
+    var areaData = {
+      labels: data['record_day'],
+      datasets: [{
+        label: '预约',
+        data: data['order_num'],
+        borderColor: "",
+        backgroundColor: "",
+        borderWidth: 2
+      }, {
+        label: '借阅',
+        data: data['data_num'],
+        borderColor: infoColor,
+        backgroundColor: gradientStrokeFill_1,
+        borderWidth: 2
+      }, {
+        label: '归还',
+        data: data['data_num'],
+        borderColor: successColor,
+        backgroundColor: gradientStrokeFill_2,
+        borderWidth: 2
+      }]
+    };
+    var areaOptions = {
+      responsive: true,
+      animation: {
+        animateScale: true,
+        animateRotate: true
+      },
+      elements: {
+        point: {
+          radius: 3,
+          backgroundColor: "#fff"
+        },
+        line: {
+          tension: 0
+        }
+      },
+      layout: {
+        padding: {
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0
+        }
+      },
+    }
+    var salesChart = new Chart(salesChartCanvas, {
+      type: 'line',
+      data: areaData,
+      options: areaOptions
+    });
+
+
   }
 
 
