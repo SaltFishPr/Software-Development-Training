@@ -566,6 +566,12 @@ class Reader(User):
             }
             return data
         journal_info = JournalDB.get_journal_by_name_year_stage(journal_name, journal_year, journal_stage)
+        if len(journal_info) == 0:
+            data = {
+                'flag': 0,
+                'message': '请核对期刊信息'
+            }
+            return data
         key = journal_info[0][0]
 
         # 库存数大于预约数 可以预约
