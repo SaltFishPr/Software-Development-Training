@@ -31,6 +31,25 @@
     <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
       </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
+            <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="true">
+              <img class="img-xs rounded-circle" src="../static/assets/images/faces/face8.jpg" alt="Profile image"> </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+              <div class="dropdown-header text-center">
+                <img class="img-md rounded-circle" src="../static/assets/images/faces/face8.jpg" alt="Profile image">
+                <p class="mb-1 mt-3 font-weight-semibold" id="user_name_img_place_0">Allen Moreno</p>
+                <p class="font-weight-light text-muted mb-0" id="user_grade_img_place_0">allenmoreno@gmail.com</p>
+              </div>
+              <form action="sign_out" method="GET" id="form_sign_out">
+              </form>
+              <a class="dropdown-item" onclick="{document.getElementById('form_sign_out').submit()}">Sign Out <i
+                  class="dropdown-item-icon ti-power-off"></i></a>
+            </div>
+          </li>
+        </ul>
+      </div>
     </nav>
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
@@ -184,7 +203,9 @@
     user_name = user['name']
     user_grade = user['grade']
     document.getElementById("user_name_img_place").innerText = user_name
+    document.getElementById("user_name_img_place_0").innerText = user_name
     document.getElementById("user_grade_img_place").innerText = user_grade
+    document.getElementById("user_grade_img_place_0").innerText = user_grade
   }
   function record_table_load(data) {
     record_list = data['record_list']
@@ -275,11 +296,11 @@
       url: "record_update", data: post_data, success: function (data) {
         if (data['flag'] == 1) {
           journal_record_info_load()
-            alert(data['message'])
+          alert(data['message'])
           //alert(data['message'])
         } else {
-            console.log(data['flag'])
-            alert(data['message'])
+          console.log(data['flag'])
+          alert(data['message'])
           //alert(data['message'])
         }
 
