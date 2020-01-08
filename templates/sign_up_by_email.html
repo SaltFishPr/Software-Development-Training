@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title></title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="../static/assets/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="../static/assets/vendors/iconfonts/ionicons/css/ionicons.css">
+  <link rel="stylesheet" href="../static/assets/vendors/iconfonts/typicons/src/font/typicons.css">
+  <link rel="stylesheet" href="../static/assets/vendors/iconfonts/flag-icon-css/css/flag-icon.min.css">
+  <link rel="stylesheet" href="../static/assets/vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="../static/assets/vendors/css/vendor.bundle.addons.css">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="../static/assets/css/shared/style.css">
+  <!-- endinject -->
+  <!-- Layout styles -->
+  <link rel="stylesheet" href="../static/assets/css/demo_1/style.css">
+  <!-- End Layout styles -->
+  <link rel="shortcut icon" href="../static/assets/images/favicon.png" />
+
+
+  <!-- <script>
+    function mymothed() {
+      Username = document.getElementById("Username").value
+      console.log(Username)
+      Password_1 = document.getElementById("Password_1").value
+      console.log(Password_1)
+      Password_2 = document.getElementById("Password_2").value
+      console.log(Password_2)
+      if (Password_1 != Password_2) {
+        alert("密码不一致")
+      } else {
+        var post_data = {
+          "username": Username,
+          "password": Password_1
+        };
+        $.ajax({
+          url: "register_judge", data: post_data, success: function (data) {
+            if (data['dict']['flag'] == 1) {
+
+              document.getElementById("myForm").submit();
+
+            } else if (data['dict']['flag'] == 0) {
+              alert("账号已存在")
+            }
+          }
+        });
+      }
+    }
+  </script> -->
+</head>
+
+<body>
+  <div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+      <div class="content-wrapper d-flex align-items-center auth register-bg-1 theme-one">
+        <div class="row w-100">
+          <div class="col-lg-4 mx-auto">
+            <h2 class="text-center mb-4">Register</h2>
+            <div class="auto-form-wrapper">
+              <form action="register_by_email_return" id="myForm">
+
+
+                <div class="form-group">
+                  <div class="input-group">
+                    <input type="password" class="form-control" placeholder="name" name="user_name" id="user_name">
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="input-group">
+                    <input type="password" class="form-control" placeholder="Password" name="Password_1"
+                      id="Password_1">
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <input type="password" class="form-control" placeholder="Confirm Password" name="Password_2"
+                      id="Password_2">
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <input type="email" class="form-control" placeholder="email-address" name="account" id="account">
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+
+                      </span>
+                    </div>
+                    <input class="btn btn-success mr-1" value="获取验证码" onclick="email_get()"></input>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <input type="password" class="form-control" placeholder="验证码" name="check_code" id="check_code">
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <input type="submit" class="btn btn-primary submit-btn btn-block" value="register"
+                    style="display: none;"></input>
+                </div>
+                <div class="text-block text-center my-3">
+                  <span class="text-small font-weight-semibold">Already have and account ?</span>
+                  <a href="login_page" class="text-black text-small">Login</a>
+                </div>
+              </form>
+              <div class="form-group">
+                <input type="submit" value="Register" class="btn btn-primary submit-btn btn-block" onclick="mymothed()">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- content-wrapper ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+  <!-- plugins:js -->
+  <script src="../static/assets/vendors/js/vendor.bundle.base.js"></script>
+  <script src="../static/assets/vendors/js/vendor.bundle.addons.js"></script>
+  <!-- endinject -->
+  <!-- inject:js -->
+  <script src="../static/assets/js/shared/off-canvas.js"></script>
+  <script src="../static/assets/js/shared/misc.js"></script>
+  <!-- endinject -->
+</body>
+<script>
+  function email_get() {
+    email_address = document.getElementById("account").value
+    if (email_address == "") {
+      alert("请先输入邮箱")
+    }
+    else {
+      post_data = {
+        'email_address': email_address
+      }
+      $.ajax({
+        url: "email_get", data: post_data, success: function (data) {
+          if (data['flag'] == 1) {
+            alert("验证码发送成功")
+          } else {
+            alert("验证码发送失败")
+          }
+        }
+      });
+    }
+  }
+
+</script>
+
+</html>

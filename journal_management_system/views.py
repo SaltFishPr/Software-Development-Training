@@ -428,3 +428,7 @@ def sign_up_operation(request):
 
 def update_operation(request):
     return render(request,'admin/update_operation.html')
+
+
+def sign_up_by_email(request):
+    return render(request,'sign_up_by_email.html')

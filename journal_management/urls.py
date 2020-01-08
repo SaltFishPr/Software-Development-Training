@@ -80,5 +80,6 @@ urlpatterns = [
     url('journal_table_by_journal_name',views.journal_table_by_journal_name),
     url('sign_up_operation',views.sign_up_operation),
     url('update_operation',views.update_operation),
+    url('sign_up_by_email', views.sign_up_by_email),
     url('', views.login)
 ]
