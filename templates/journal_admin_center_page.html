@@ -131,7 +131,7 @@
                       <th>time</th>
                     </tr>
                   </thead>
-                  <tbody id="record_table" onclick="record_table_select()">
+                  <tbody id="record_table">
 
                   </tbody>
                 </table>
@@ -246,13 +246,13 @@
         borderWidth: 2
       }, {
         label: '借阅',
-        data: data['data_num'],
+        data: data['borrow_num'],
         borderColor: infoColor,
         backgroundColor: gradientStrokeFill_1,
         borderWidth: 2
       }, {
         label: '归还',
-        data: data['data_num'],
+        data: data['return_num'],
         borderColor: successColor,
         backgroundColor: gradientStrokeFill_2,
         borderWidth: 2
