@@ -385,7 +385,7 @@ class JournalAdmin(User):
         elif update_method == '库存减少':
             journal_info = JournalDB.get_journal_by_name_year_stage(journal_name, journal_year, journal_stage)
             key = journal_info[0][0]
-            if num <= journal_info[0][6] and journal_info[0][6] -num >= journal_info[0][7]:
+            if num <= journal_info[0][6] and journal_info[0][6] - num >= journal_info[0][7]:
                 JournalDB.update_journal_num(key, journal_info[0][6] - num, journal_info[0][7], journal_info[0][8],
                                              journal_info[0][9] - num)
                 flag = 1
@@ -468,12 +468,16 @@ class JournalAdmin(User):
         }
         return data
 
+    def get_stock_table_info(self, journal_name):
 
-    def get_stock_table_info(self,journal_name):
         get_journal_info = {
-            'name': journal_name
+
         }
-        journal_results = JournalDB.get_info_by_dict('journal',get_journal_info)
+        if journal_name != "":
+            get_journal_info = {
+                'name': journal_name
+            }
+        journal_results = JournalDB.get_info_by_dict('journal', get_journal_info)
         journal_list = []
         for i in range(len(journal_results)):
             journal_element = dict()
@@ -486,11 +490,9 @@ class JournalAdmin(User):
             journal_element['total_num'] = journal_results[i][9]
             journal_list.append(journal_element)
         data = {
-            'journal_list':journal_list
+            'journal_list': journal_list
         }
         return data
-
-
 
 
 class Reader(User):
