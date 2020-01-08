@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import datetime
-
+import time
 from database.user import UserDB
 from database.record import RecordDB
 from database.journal import JournalDB
@@ -155,21 +155,24 @@ class JsonPack(object):
         journal_list.append(journal)
         return data
 
-
     @classmethod
-    def get_record_by_account(cls,account,status):
+    def get_record_by_account(cls, account, status):
         """
         根据借书的用户名得到相应的数据
         :param account: 借书的用户名
         :return: data
         """
-        get_record_info={
-            'account' : account
+        get_record_info = {
+
         }
-        results = RecordDB.get_info_by_dict('record',get_record_info)
+        if account != "":
+            get_record_info = {
+                'account': account
+            }
+        results = RecordDB.get_info_by_dict('record', get_record_info)
         record_list = []
         for i in range(len(results)):
-            record_element=dict()
+            record_element = dict()
             key = (results[i][1])
             record_element['user_name'] = account
             record_element['journal_name'] = JournalDB.get_name_by_key(key)
@@ -187,32 +190,32 @@ class JsonPack(object):
         data = {
             'record_list': record_list
         }
-        print(data)
+
         return data
 
     @classmethod
-    def get_record_by_journal_name(cls,journal_name,status):
-        get_journal_info={
-            'name':journal_name
+    def get_record_by_journal_name(cls, journal_name, status):
+        get_journal_info = {
+            'name': journal_name
         }
-        journal_results = JournalDB.get_info_by_dict('journal',get_journal_info)
+        journal_results = JournalDB.get_info_by_dict('journal', get_journal_info)
         record_list = []
         for i in range(len(journal_results)):
             record_element = dict()
             key = journal_results[i][0]
-            get_record_info={
-                'key':key
+            get_record_info = {
+                'key': key
             }
-            record_results =RecordDB.get_info_by_dict('record',get_record_info)
-            if len(record_results) ==0:
+            record_results = RecordDB.get_info_by_dict('record', get_record_info)
+            if len(record_results) == 0:
                 continue
             else:
                 for j in range(len(record_results)):
                     temp_key = record_results[j][1]
                     record_element['user_name'] = record_results[j][0]
                     record_element['journal_name'] = JournalDB.get_name_by_key(temp_key)
-                    record_element['journal_year'] =JournalDB.get_year_by_key(temp_key)
-                    record_element['journal_stage'] =JournalDB.get_stage_by_key(temp_key)
+                    record_element['journal_year'] = JournalDB.get_year_by_key(temp_key)
+                    record_element['journal_stage'] = JournalDB.get_stage_by_key(temp_key)
                     record_element['status'] = status
                     if status == '预约未借阅':
                         record_element['time'] = record_results[j][2]
@@ -221,15 +224,10 @@ class JsonPack(object):
                     else:
                         record_element['time'] = record_results[j][4]
                     record_list.append(record_element)
-        data ={
+        data = {
             'record_list': record_list
         }
         return data
-
-
-
-
-
 
     @classmethod
     def get_object_by_account(cls, cur_account):
@@ -248,6 +246,7 @@ class JsonPack(object):
             now_datetime = datetime.datetime.now()
             return str((now_datetime - datetime.timedelta(days=i)).month) + "月 " + str(
                 (now_datetime - datetime.timedelta(days=i)).day) + "日"
+
         record_day = [date_list(6), date_list(5), date_list(4), date_list(3), date_list(2), date_list(1), date_list(0)]
 
         def get_a_date(i):
@@ -274,8 +273,6 @@ class JsonPack(object):
         }
 
         return data
-
-
 
 
 if __name__ == '__main__':
