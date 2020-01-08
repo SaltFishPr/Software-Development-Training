@@ -25,35 +25,9 @@
   <link rel="shortcut icon" href="../static/assets/images/favicon.png" />
 
 
-  <!-- <script>
-    function mymothed() {
-      Username = document.getElementById("Username").value
-      console.log(Username)
-      Password_1 = document.getElementById("Password_1").value
-      console.log(Password_1)
-      Password_2 = document.getElementById("Password_2").value
-      console.log(Password_2)
-      if (Password_1 != Password_2) {
-        alert("密码不一致")
-      } else {
-        var post_data = {
-          "username": Username,
-          "password": Password_1
-        };
-        $.ajax({
-          url: "register_judge", data: post_data, success: function (data) {
-            if (data['dict']['flag'] == 1) {
+  <script>
 
-              document.getElementById("myForm").submit();
-
-            } else if (data['dict']['flag'] == 0) {
-              alert("账号已存在")
-            }
-          }
-        });
-      }
-    }
-  </script> -->
+  </script>
 </head>
 
 <body>
@@ -64,7 +38,7 @@
           <div class="col-lg-4 mx-auto">
             <h2 class="text-center mb-4">Register</h2>
             <div class="auto-form-wrapper">
-              <form action="register_by_email_return" id="myForm">
+              <form action="login" id="myForm">
 
 
                 <div class="form-group">
@@ -168,6 +142,35 @@
             alert("验证码发送成功")
           } else {
             alert("验证码发送失败")
+          }
+        }
+      });
+    }
+  }
+
+  function mymothed() {
+    Password_1 = document.getElementById("Password_1").value
+    console.log(Password_1)
+    Password_2 = document.getElementById("Password_2").value
+    console.log(Password_2)
+
+    if (Password_1 != Password_2) {
+      alert("密码不一致")
+    } else {
+      var post_data = {
+        "user_name": user_name,
+        "Password_1": Password_1,
+        "Password_2": Password_2,
+        "account": account,
+        "check_code": check_code
+      };
+      $.ajax({
+        url: "register_by_email_return", data: post_data, success: function (data) {
+          if (data['flag'] == 1) {
+            alert(data['message'])
+            document.getElementById("myForm").submit();
+          } else if (data['flag'] == 0) {
+            alert("注册失败")
           }
         }
       });
