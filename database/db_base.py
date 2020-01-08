@@ -86,6 +86,7 @@ def generate_journal_info():
 
 
 if __name__ == '__main__':
+    generate_journal_info()
     pass
 
     # print(DBBase.get_info_by_dict('user', {'account': 'jl'}))

@@ -155,11 +155,12 @@ class JsonPack(object):
 
     @classmethod
     def get_object_by_account(cls, cur_account):
+        user = object()
         if UserDB.get_user_identity(cur_account) == 'admin':
             user = Admin(cur_account)
         elif UserDB.get_user_identity(cur_account) == 'journal_admin':
             user = JournalAdmin(cur_account)
-        else:
+        elif UserDB.get_user_identity(cur_account):
             user = Reader(cur_account)
         return user
 

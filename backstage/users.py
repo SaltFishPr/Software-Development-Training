@@ -10,7 +10,7 @@ from backstage.records import Record
 class User(object):
     def __init__(self, account):
         self._account = account
-        self._identity = 'reader'
+        self._identity = UserDB.get_user_identity(account)
 
     def get_identity(self):
         """
@@ -92,7 +92,6 @@ class User(object):
 class Admin(User):
     def __init__(self, account):
         super(Admin, self).__init__(account)
-        self._identity = "admin"
 
     def get_all_user_info(self):
         """
@@ -221,7 +220,6 @@ class Admin(User):
 class JournalAdmin(User):
     def __init__(self, account):
         super(JournalAdmin, self).__init__(account)
-        self.__identity = "periodical_admin"
 
     def get_journal_admin_info(self, choice):
         user_info = {
@@ -391,7 +389,6 @@ class JournalAdmin(User):
 class Reader(User):
     def __init__(self, account):
         super(Reader, self).__init__(account)
-        self.__identity = "reader"
 
     def _update_user_name(self, name):
         self._name = name

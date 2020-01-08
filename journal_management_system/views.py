@@ -39,7 +39,22 @@ def register_return(request):
 
 # 跳转到登陆界面
 def login_page(request):
-    return render(request, 'login_page.html')
+    try:
+        cur_account = request.get_signed_cookie('account', salt="666")
+    except KeyError:
+        print('no cookie')
+        return render(request, 'login_page.html')
+    else:
+        user = JsonPack.get_object_by_account(cur_account)
+        print(user.get_self_info('account_name_grade'))
+        identity = user.get_identity()
+        print(identity)
+        if identity == 'reader':
+            return render(request, 'user_center_page.html')
+        elif identity == 'journal_admin':
+            return render(request, 'journal_admin_center_page.html')
+        elif identity == 'admin':
+            return render(request, 'system_admin_center_page.html')
 
 
 # 确认登陆
@@ -62,7 +77,7 @@ def login_judge(request):
 
 # 确定登陆权限
 def login_return(request):
-    password = (request.GET.get('password'))
+    password = request.GET.get('password')
     username = request.GET.get('username')
     if password == '1':
         rep = redirect('/user_center_page')
@@ -76,7 +91,6 @@ def login_return(request):
 
 # 跳转到用户中心
 def user_center_page(request):
-    ret = request.get_signed_cookie('account', salt="666")
     return render(request, 'user_center_page.html')
 
 
