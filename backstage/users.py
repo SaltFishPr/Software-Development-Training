@@ -386,6 +386,51 @@ class JournalAdmin(User):
         return data
 
 
+    def get_order_user_info(self):
+        user_account_list = []
+        get_user_info={
+
+        }
+        user_results = UserDB.get_info_by_dict('user',get_user_info)
+        for i in range(len(user_results)):
+            user_account_list.append(user_results[i][0])
+        data ={
+            'user_name_datalist':user_account_list
+        }
+        return data
+
+
+    def get_journal_name_info(self):
+        journal_name_list = []
+        get_journal_info = {
+
+        }
+        journal_results = JournalDB.get_info_by_dict('journal',get_journal_info)
+        for i in range(len(journal_results)):
+            journal_name_list.append(journal_results[i][4])
+        data ={
+            "journal_name_datalist": journal_name_list
+        }
+        return data
+
+
+    def get_journal_info_by_name(self,journal_name):
+        journal_list = []
+        get_journal_info = {
+            'name':journal_name
+        }
+        journal_results = JournalDB.get_info_by_dict('journal',get_journal_info)
+        for i in range(len(journal_results)):
+            journal_element = dict()
+            journal_element['journal_name'] = journal_name
+            journal_element['journal_year'] = journal_results[i][year]
+            journal_element['journal_stage'] = journal_results[i][stage]
+            journal_list.append(journal_element)
+        data = {
+            'journal_list':journal_list
+        }
+        return data
+
 class Reader(User):
     def __init__(self, account):
         super(Reader, self).__init__(account)
