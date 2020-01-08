@@ -1,5 +1,5 @@
 import datetime
-
+import time
 from database.db_base import DBBase
 
 
@@ -12,15 +12,10 @@ class RecordDB(DBBase):
         :param key: 期刊标识
         :return:
         """
-        mydb = DBBase.connect()
-        mycursor = mydb.cursor()
         order_time = time.strftime("%Y%m%d%H%M%S", time.localtime())
         sql = "INSERT INTO record (account,key,order_time,order_flag,borrow_flag,return_flag) " \
               "VALUES ('%s','%s','%s',1,0,0)" % (account, key, order_time)
-        mycursor.execute(sql)
-        mydb.commit()
-        mycursor.close()
-        mydb.close()
+        cls._execute_sql(RecordDB(), sql, 'insert')
 
     @classmethod
     def add_borrow(cls, account, key):
@@ -30,15 +25,10 @@ class RecordDB(DBBase):
         :param key: 期刊标识
         :return:
         """
-        mydb = DBBase.connect()
-        mycursor = mydb.cursor()
         borrow_time = time.strftime("%Y%m%d%H%M%S", time.localtime())
         sql = "INSERT INTO record (account,key,borrow_time,order_flag,borrow_flag,return_flag) " \
               "VALUES ('%s','%s','%s',0,1,0)" % (account, key, borrow_time)
-        mycursor.execute(sql)
-        mydb.commit()
-        mycursor.close()
-        mydb.close()
+        cls._execute_sql(RecordDB(), sql, 'insert')
 
     @classmethod
     def update_borrow_time(cls, account, key, order_time):
@@ -49,18 +39,10 @@ class RecordDB(DBBase):
         :param order_time: 预订时间
         :return:
         """
-        mydb = DBBase.connect()
-        mycursor = mydb.cursor()
         borrow_time = time.strftime("%Y%m%d%H%M%S", time.localtime())
-        sql = "UPDATE record SET borrow_time='%s'  Where account = '%s' AND key='%s' AND order_time='%s'" % (
-            borrow_time, account, key, order_time)
-        mycursor.execute(sql)
-        sql = "UPDATE record SET borrow_flag= 1  Where account = '%s' AND key='%s' AND order_time='%s'" % (
-            account, key, order_time)
-        mycursor.execute(sql)
-        mydb.commit()
-        mycursor.close()
-        mydb.close()
+        sql = "UPDATE record SET borrow_time = '%s', borrow_flag = 1  Where account = '%s' AND key = %d AND " \
+              "order_time = '%s'" % (borrow_time, account, key, order_time)
+        cls._execute_sql(RecordDB(), sql, 'update')
 
     @classmethod
     def update_return_time(cls, account, key, borrow_time):
@@ -71,15 +53,10 @@ class RecordDB(DBBase):
         :param borrow_time: 借阅时间
         :return:
         """
-        mydb = DBBase.connect()
-        mycursor = mydb.cursor()
         return_time = time.strftime("%Y%m%d%H%M%S", time.localtime())
         sql = "UPDATE record SET return_time='%s',return_flag = 1 Where account = '%s' AND key='%s' AND " \
               "borrow_time='%s'" % (return_time, account, key, borrow_time)
-        mycursor.execute(sql)
-        mydb.commit()
-        mycursor.close()
-        mydb.close()
+        cls._execute_sql(RecordDB(), sql, 'update')
 
     @classmethod
     def get_record_by_account(cls, account):
@@ -88,44 +65,21 @@ class RecordDB(DBBase):
         :param account: 用户账户
         :return: 该用户所有借阅记录
         """
-        mydb = DBBase.connect()
-        mycursor = mydb.cursor()
         sql = "SELECT * FROM record WHERE account = '%s' " % account
-        mycursor.execute(sql)
-        results = mycursor.fetchall()
-        mycursor.close()
-        mydb.close()
+        results = cls._execute_sql(RecordDB(), sql, 'select')
         return results
 
     @classmethod
     def get_key_by_account(cls, account):
-        mydb = DBBase.connect()
-        mycursor = mydb.cursor()
         sql = "SELECT key FROM record WHERE account = '%s' " % account
-        mycursor.execute(sql)
-        results = mycursor.fetchall()
+        results = cls._execute_sql(RecordDB(), sql, 'select')
         key = []
         for row in results:
             key.append(row[0])
-        mycursor.close()
-        mydb.close()
         return key
 
     @classmethod
-    def get_info_length(cls, account):
-        mydb = DBBase.connect()
-        mycursor = mydb.cursor()
-        sql = "SELECT key FROM record WHERE account  = '%s'" % account
-        mycursor.execute(sql)
-        results = mycursor.fetchall()
-        mycursor.close()
-        mydb.close()
-        return len(results)
-
-    @classmethod
     def get_this_day_record_num(cls, date: str, choice: str):
-        mydb = DBBase.connect()
-        mycursor = mydb.cursor()
         sql = ""
         if choice == 'order':
             sql = "SELECT COUNT(*) AS this_day_order_num FROM record WHERE order_time LIKE '" + date + "%'"
@@ -133,10 +87,7 @@ class RecordDB(DBBase):
             sql = "SELECT COUNT(*) AS this_day_order_num FROM record WHERE borrow_time LIKE '" + date + "%'"
         elif choice == 'return':
             sql = "SELECT COUNT(*) AS this_day_order_num FROM record WHERE return_time LIKE '" + date + "%'"
-        mycursor.execute(sql)
-        results = mycursor.fetchall()
-        mycursor.close()
-        mydb.close()
+        results = cls._execute_sql(RecordDB(), sql, 'select')
         return results[0][0]
 
     @classmethod
