@@ -367,7 +367,14 @@ class JournalAdmin(User):
         return data
 
     def journal_num_update(self, journal_name, journal_year, journal_stage, update_method, num):
-
+        if (num == "" or num is None) and (update_method != '销毁期刊'):
+            flag = 0
+            message = '请输入数目'
+            data = {
+                'flag': flag,
+                'message': message
+            }
+            return data
         if update_method == '库存增加':
             journal_info = JournalDB.get_journal_by_name_year_stage(journal_name, journal_year, journal_stage)
             key = journal_info[0][0]
@@ -378,7 +385,7 @@ class JournalAdmin(User):
         elif update_method == '库存减少':
             journal_info = JournalDB.get_journal_by_name_year_stage(journal_name, journal_year, journal_stage)
             key = journal_info[0][0]
-            if num <= journal_info[0][6]:
+            if num <= journal_info[0][6] and journal_info[0][6] -num >= journal_info[0][7]:
                 JournalDB.update_journal_num(key, journal_info[0][6] - num, journal_info[0][7], journal_info[0][8],
                                              journal_info[0][9] - num)
                 flag = 1
@@ -460,6 +467,30 @@ class JournalAdmin(User):
             'journal_list': journal_list
         }
         return data
+
+
+    def get_stock_table_info(self,journal_name):
+        get_journal_info = {
+            'name': journal_name
+        }
+        journal_results = JournalDB.get_info_by_dict('journal',get_journal_info)
+        journal_list = []
+        for i in range(len(journal_results)):
+            journal_element = dict()
+            journal_element['journal_year'] = journal_results[i][2]
+            journal_element['journal_stage'] = journal_results[i][3]
+            journal_element['journal_name'] = journal_results[i][4]
+            journal_element['stock_num'] = journal_results[i][6]
+            journal_element['order_num'] = journal_results[i][7]
+            journal_element['lend_num'] = journal_results[i][8]
+            journal_element['total_num'] = journal_results[i][9]
+            journal_list.append(journal_element)
+        data = {
+            'journal_list':journal_list
+        }
+        return data
+
+
 
 
 class Reader(User):
