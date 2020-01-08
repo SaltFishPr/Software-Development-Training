@@ -1,6 +1,7 @@
 from database.db_base import DBBase
 from database.record import RecordDB
 
+
 class JournalDB(DBBase):
     @classmethod
     def get_journal(cls):
@@ -167,10 +168,10 @@ class JournalDB(DBBase):
         mydb.close()
 
     @classmethod
-    def search_journal(cls, str1):
+    def search_journal(cls, str1: str):
         mydb = DBBase.connect()
         mycursor = mydb.cursor()
-        sql = "SELECT * FROM journal WHERE name like " + r"'%" + str1 + r"%'"
+        sql = "SELECT * FROM journal WHERE name LIKE " + r"'%" + str1.capitalize() + r"%'" + " OR " + r"'%" + str1.lower() + r"%'"
         print(sql)
         mycursor.execute(sql)
         results = mycursor.fetchall()
@@ -180,6 +181,7 @@ class JournalDB(DBBase):
 
 
 if __name__ == '__main__':
+    print(JournalDB.search_journal("sc"))
     pass
     # journal_info = JournalDB.get_journal_by_name_year_stage('science', 1999, 1)
     # get_record_dict = {
