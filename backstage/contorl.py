@@ -174,7 +174,7 @@ class JsonPack(object):
         for i in range(len(results)):
             record_element = dict()
             key = (results[i][1])
-            record_element['user_name'] = account
+            record_element['user_name'] = results[i][0]
             record_element['journal_name'] = JournalDB.get_name_by_key(key)
             record_element['journal_year'] = JournalDB.get_year_by_key(key)
             record_element['journal_stage'] = JournalDB.get_stage_by_key(key)
@@ -196,8 +196,12 @@ class JsonPack(object):
     @classmethod
     def get_record_by_journal_name(cls, journal_name, status):
         get_journal_info = {
-            'name': journal_name
+
         }
+        if journal_name != "":
+            get_journal_info = {
+                'name': journal_name
+            }
         journal_results = JournalDB.get_info_by_dict('journal', get_journal_info)
         record_list = []
         for i in range(len(journal_results)):
