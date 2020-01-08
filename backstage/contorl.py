@@ -276,5 +276,5 @@ class JsonPack(object):
 
 
 if __name__ == '__main__':
-    print(JsonPack.line_chart_data())
+    print()
     pass

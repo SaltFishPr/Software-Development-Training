@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+from datetime import datetime
+
 from backstage.journals import Journal
 from database.user import UserDB
 from database.record import RecordDB
@@ -38,10 +40,10 @@ class User(object):
         if choice == 'account_name_grade':
             user['account'] = user_info_results[0][0]
             user['name'] = user_info_results[0][2]
-            user['grade'] = '等级:'+str(user_info_results[0][4])
+            user['grade'] = '等级:' + str(user_info_results[0][4])
         elif choice == 'name_grade':
             user['name'] = user_info_results[0][2]
-            user['grade'] = '等级:'+str(user_info_results[0][4])
+            user['grade'] = '等级:' + str(user_info_results[0][4])
 
         return data
 
@@ -142,7 +144,7 @@ class Admin(User):
         }
         user_info_results = UserDB.get_info_by_dict('User', get_user_dict)
         data['name'] = user_info_results[0][2]
-        data['grade'] = '等级:'+str(user_info_results[0][4])
+        data['grade'] = '等级:' + str(user_info_results[0][4])
         data['identity'] = user_info_results[0][3]
 
         return data
@@ -161,14 +163,14 @@ class Admin(User):
         for user_info in UserDB.get_info_by_dict('User', get_user_dict):
             reader_list.append({'account': list(user_info)[0],
                                 'name': list(user_info)[2],
-                                'grade': '等级:'+str(list(user_info)[4])})
+                                'grade': '等级:' + str(list(user_info)[4])})
         get_user_dict = {
             'identity': 'journal_admin'
         }
         for user_info in UserDB.get_info_by_dict('User', get_user_dict):
             journal_admin_list.append({'account': list(user_info)[0],
                                        'name': list(user_info)[2],
-                                       'grade': '等级:'+str(list(user_info)[4])})
+                                       'grade': '等级:' + str(list(user_info)[4])})
         data = {
             'reader_list': reader_list,
             'journal_admin_list': journal_admin_list,
@@ -212,10 +214,6 @@ class Admin(User):
             }
             return data
 
-    # 冻结账户
-    def _freeze_account(self):
-        pass
-
 
 class JournalAdmin(User):
     def __init__(self, account):
@@ -224,7 +222,7 @@ class JournalAdmin(User):
     def get_journal_admin_info(self, choice):
         user_info = {
             'name': UserDB.get_user_name(self._account),
-            'grade': '等级:'+str(UserDB.get_user_grade(self._account))
+            'grade': '等级:' + str(UserDB.get_user_grade(self._account))
         }
         record_list = []
         journal_list = []
@@ -245,7 +243,6 @@ class JournalAdmin(User):
             order_time = list(record_info)[2]
             borrow_time = list(record_info)[3]
             return_time = list(record_info)[4]
-            time = ""
             record_element['user_name'] = user_name
             record_element['status'] = status
             record_element['journal_name'] = JournalDB.get_name_by_key(key)
@@ -280,20 +277,19 @@ class JournalAdmin(User):
         for journal_info in JournalDB.get_info_by_dict('journal', {}):
             journal_element = dict()
             key = list(journal_info)[0]
-            journal_element['journal_name'] = list(journal_info)[4]
             journal_element['journal_year'] = list(journal_info)[2]
             journal_element['journal_stage'] = list(journal_info)[3]
-            journal_element['total_num'] = list(journal_info)[9]
-            journal_element['lend_num'] = list(journal_info)[8]
-            journal_element['order_num'] = list(journal_info)[7]
+            journal_element['journal_name'] = list(journal_info)[4]
             journal_element['stock_num'] = list(journal_info)[6]
+            journal_element['order_num'] = list(journal_info)[7]
+            journal_element['lend_num'] = list(journal_info)[8]
+            journal_element['total_num'] = list(journal_info)[9]
             journal_list.append(journal_element)
         data = {
             'record_list': record_list,
             'journal_list': journal_list,
             'user_info': user_info
         }
-
         return data
 
     def record_update(self, account, journal_name, journal_year, journal_stage, record_operation):
@@ -354,6 +350,9 @@ class JournalAdmin(User):
                                          journal_info[0][9])
             message = '归还成功'
             flag = 1
+            if (datetime.now() - RecordDB.str_to_datetime(result[0][3])).days > (15 + UserDB.get_user_grade(account)):
+                message = '逾期归还'
+                UserDB.update_user_grade(account, UserDB.get_user_grade(account) - 1)
         data = {
             'flag': flag,
             'message': message
@@ -390,14 +389,6 @@ class Reader(User):
     def __init__(self, account):
         super(Reader, self).__init__(account)
 
-    def _update_user_name(self, name):
-        self._name = name
-        # TODO:调用数据库update
-
-    def _update_user_password(self, password):
-        self._password = password
-        # TODO:调用数据库update
-
     def get_record_info(self):
         """
         返回读者当前的借阅期刊情况
@@ -407,7 +398,7 @@ class Reader(User):
         grarde = UserDB.get_user_grade(self._account)
         user_info = {
             'name': name,
-            'grade': '等级:'+str(grarde)
+            'grade': '等级:' + str(grarde)
         }
         borrow_list = []
         borrow = {
@@ -416,33 +407,32 @@ class Reader(User):
             'time_1': "",
             'time_2': ""
         }
-        info_len = RecordDB.get_info_length(self._account)
+        get_record_dict = {
+            'account': self._account
+        }
+        results = RecordDB.get_info_by_dict('record', get_record_dict)
         key_list = RecordDB.get_key_by_account(self._account)
+        info_len = len(key_list)
         for i in range(info_len):
             borrow = dict()
             borrow['name'] = JournalDB.get_name_by_key(key_list[i])
             # 1 0 0预约未借阅
             # x 1 0  借阅 未归还
             # x 1 1 归还
-            results = RecordDB.get_record_by_account(self._account)[i]
             if results[5] == 1 and results[6] == 0 and results[7] == 0:
                 borrow['status'] = '预约未借阅'
-            elif results[6] == 1 and results[7] == 0:
-                borrow['status'] = '借阅中'
-            elif results[6] == 1 and results[7] == 1:
-                borrow['status'] = '已归还'
-            else:
-                borrow['status'] = '异常情况'
-            if borrow['status'] == '预约未借阅':
                 borrow['time_1'] = '未借阅'
                 borrow['time_2'] = '未借阅'
-            elif borrow['status'] == '借阅中':
-                borrow['time_1'] = RecordDB.get_record_by_account(self._account)[i][3]
+            elif results[6] == 1 and results[7] == 0:
+                borrow['status'] = '借阅中'
+                borrow['time_1'] = results[i][3]
                 borrow['time_2'] = '未归还'
-            elif borrow['status'] == '已归还':
-                borrow['time_1'] = RecordDB.get_record_by_account(self._account)[i][3]
-                borrow['time_2'] = RecordDB.get_record_by_account(self._account)[i][4]
+            elif results[6] == 1 and results[7] == 1:
+                borrow['status'] = '已归还'
+                borrow['time_1'] = results[i][3]
+                borrow['time_2'] = results[i][4]
             else:
+                borrow['status'] = '异常情况'
                 borrow['time_1'] = '异常情况'
                 borrow['time_2'] = '异常情况'
             borrow_list.append(borrow)
@@ -467,7 +457,8 @@ class Reader(User):
         # 库存数大于预约数 可以预约
         if journal_info[0][6] > journal_info[0][7]:
             RecordDB.add_order(self._account, key)
-            JournalDB.update_journal_num(key,journal_info[0][6],journal_info[0][7]+1,journal_info[0][8],journal_info[0][9])
+            JournalDB.update_journal_num(key, journal_info[0][6], journal_info[0][7] + 1, journal_info[0][8],
+                                         journal_info[0][9])
             flag = 1
             message = '预约成功，请到书库借阅!'
         else:
@@ -480,6 +471,8 @@ class Reader(User):
         }
         return data
 
+
 if __name__ == '__main__':
-    user_obj = JournalAdmin('wws')
-    print(user_obj.record_update('badwoman', 'science', 1999, 1, '归还'))
+    # user_obj = JournalAdmin('wws')
+    # print(user_obj.record_update('badwoman', 'science', 1999, 1, '归还'))
+    print(datetime.now() - RecordDB.str_to_datetime('20200108195116'))
