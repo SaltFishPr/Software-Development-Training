@@ -5,7 +5,7 @@ from backstage.contorl import JsonPack
 
 # 跳转到注册界面
 def register_page(request):
-    return render(request, 'user_register_page.html')
+    return render(request, 'sign_up.html')
 
 
 # 注册确认
@@ -34,27 +34,27 @@ def register_judge(request):
 
 # 跳转到登陆界面
 def register_return(request):
-    return render(request, 'login_page.html')
+    return render(request, 'sign_in.html')
 
 
 # 跳转到登陆界面
-def login_page(request):
+def login(request):
     try:
         cur_account = request.get_signed_cookie('account', salt="666")
     except KeyError:
         print('no cookie')
-        return render(request, 'login_page.html')
+        return render(request, 'sign_in.html')
     else:
         user = JsonPack.get_object_by_account(cur_account)
         print(user.get_self_info('account_name_grade'))
         identity = user.get_identity()
         print(identity)
         if identity == 'reader':
-            return render(request, 'user_center_page.html')
+            return render(request, 'reader/main.html')
         elif identity == 'journal_admin':
-            return render(request, 'journal_admin_center_page.html')
+            return render(request, 'journal_admin/main.html')
         elif identity == 'admin':
-            return render(request, 'system_admin_center_page.html')
+            return render(request, 'admin/main.html')
 
 
 # 确认登陆
@@ -91,44 +91,44 @@ def login_return(request):
 
 # 跳转到用户中心
 def user_center_page(request):
-    return render(request, 'user_center_page.html')
+    return render(request, 'reader/main.html')
 
 
 # 跳转到系统管理员中心
 def system_admin_center_page(request):
-    return render(request, 'system_admin_center_page.html')
+    return render(request, 'admin/main.html')
 
 
 # 跳转到期刊管理员中心
 def journal_admin_center_page(request):
-    return render(request, 'journal_admin_center_page.html')
+    return render(request, 'journal_admin/main.html')
 
 
 # 跳转到用户数据界面
 def user_data_page(request):
-    return render(request, 'user_data_page.html')
+    return render(request, 'reader/personal_information.html')
 
 
 # 跳转到用户借阅界面
 def user_borrow_page(request):
-    return render(request, 'user_borrow_page.html')
+    return render(request, 'reader/borrow_page.html')
 
 
 def journal_admin_borrow_page(request):
-    return render(request, 'journal_admin_borrow_page.html')
+    return render(request, 'journal_admin/borrow_operation.html')
 
 
 def journal_admin_order_page(request):
-    return render(request, 'journal_admin_order_page.html')
+    return render(request, 'journal_admin/order_operation.html')
 
 
 def journal_admin_return_page(request):
-    return render(request, 'journal_admin_return_page.html')
+    return render(request, 'journal_admin/return_operation.html')
 
 
 #
 def journal_admin_store_page(request):
-    return render(request, 'journal_admin_store_page.html')
+    return render(request, 'journal_admin/store_operation.html')
 
 
 def user_center_info(request):
@@ -348,6 +348,7 @@ def journal_update(request):
     print(data)
     return JsonResponse(data)
 
+
 def user_journal_order(request):
     cur_account = request.get_signed_cookie('account', salt='666')
     user = JsonPack.get_object_by_account(cur_account)
@@ -357,13 +358,13 @@ def user_journal_order(request):
     print(request.GET.get('journal_stage'))
     journal_year = int(request.GET.get('journal_year'))
     journal_stage = int(request.GET.get('journal_stage'))
-    data = user.order(journal_name,journal_year,journal_stage)
+    data = user.order(journal_name, journal_year, journal_stage)
     print(data)
     return JsonResponse(data)
 
 
 def sign_out(request):
-    rep = redirect('/login_page')
+    rep = redirect('/login')
     rep.delete_cookie('account')
     return rep
 
