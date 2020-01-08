@@ -456,6 +456,6 @@ def register_by_email_return(request):
     pwd2 =request.GET.get('Password_2')
     account = request.GET.get('account')
     input_check = request.GET.get('check_code')
-    data = JsonPack.confirm_email_account(user_name,pwd1,pwd2,account,input_check)
+    data = JsonPack.confirm_email_account(user_name,pwd1,pwd2,account,correct_check,input_check)
     print(data)
     return JsonResponse(data)

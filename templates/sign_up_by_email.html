@@ -39,72 +39,71 @@
             <h2 class="text-center mb-4">Register</h2>
             <div class="auto-form-wrapper">
               <form action="register_return" id="myForm">
-
-
-                <div class="form-group">
-                  <div class="input-group">
-                    <input type="text" class="form-control" placeholder="name" name="user_name" id="user_name">
-                    <div class="input-group-append">
-                      <span class="input-group-text">
-
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="input-group">
-                    <input type="password" class="form-control" placeholder="Password" name="Password_1"
-                      id="Password_1">
-                    <div class="input-group-append">
-                      <span class="input-group-text">
-
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <input type="password" class="form-control" placeholder="Confirm Password" name="Password_2"
-                      id="Password_2">
-                    <div class="input-group-append">
-                      <span class="input-group-text">
-
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <input type="email" class="form-control" placeholder="email-address" name="account" id="account">
-                    <div class="input-group-append">
-                      <span class="input-group-text">
-
-                      </span>
-                    </div>
-                    <input class="btn btn-success mr-1" value="获取验证码" onclick="email_get()"></input>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <input type="password" class="form-control" placeholder="验证码" name="check_code" id="check_code">
-                    <div class="input-group-append">
-                      <span class="input-group-text">
-
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <input type="submit" class="btn btn-primary submit-btn btn-block" value="register"
-                    style="display: none;"></input>
-                </div>
-                <div class="text-block text-center my-3">
-                  <span class="text-small font-weight-semibold">Already have and account ?</span>
-                  <a href="login_page" class="text-black text-small">Login</a>
-                </div>
               </form>
+
+              <div class="form-group">
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="name" name="user_name" id="user_name">
+                  <div class="input-group-append">
+                    <span class="input-group-text">
+
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="input-group">
+                  <input type="password" class="form-control" placeholder="Password" name="Password_1" id="Password_1">
+                  <div class="input-group-append">
+                    <span class="input-group-text">
+
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group">
+                  <input type="password" class="form-control" placeholder="Confirm Password" name="Password_2"
+                    id="Password_2">
+                  <div class="input-group-append">
+                    <span class="input-group-text">
+
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group">
+                  <input type="email" class="form-control" placeholder="email-address" name="account" id="account">
+                  <div class="input-group-append">
+                    <span class="input-group-text">
+
+                    </span>
+                  </div>
+                  <input class="btn btn-success mr-1" value="获取验证码" onclick="email_get()"></input>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group">
+                  <input type="test" class="form-control" placeholder="验证码" name="check_code" id="check_code">
+                  <div class="input-group-append">
+                    <span class="input-group-text">
+
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <input type="submit" class="btn btn-primary submit-btn btn-block" value="register"
+                  style="display: none;"></input>
+              </div>
+              <div class="text-block text-center my-3">
+                <span class="text-small font-weight-semibold">Already have and account ?</span>
+                <a href="login_page" class="text-black text-small">Login</a>
+              </div>
+
               <div class="form-group">
                 <input type="submit" value="Register" class="btn btn-primary submit-btn btn-block" onclick="mymothed()">
               </div>
@@ -149,33 +148,27 @@
   }
 
   function mymothed() {
-    Password_1 = document.getElementById("Password_1").value
-    console.log(Password_1)
-    Password_2 = document.getElementById("Password_2").value
-    console.log(Password_2)
 
-    if (Password_1 != Password_2) {
-      alert("密码不一致")
-    } else {
-      var post_data = {
-        "user_name": user_name,
-        "Password_1": Password_1,
-        "Password_2": Password_2,
-        "account": account,
-        "check_code": check_code
-      };
-      $.ajax({
-        url: "register_by_email_return", data: post_data, success: function (data) {
-          if (data['flag'] == 1) {
-              console.log(data)
-            alert(data['message'])
-            document.getElementById("myForm").submit();
-          } else if (data['flag'] == 0) {
-            alert("注册失败")
-          }
+    var post_data = {
+      "user_name": document.getElementById("user_name").value,
+      "Password_1": document.getElementById("Password_1").value,
+      "Password_2": document.getElementById("Password_2").value,
+      "account": document.getElementById("account").value,
+      "check_code": document.getElementById("check_code").value
+    };
+    $.ajax({
+      url: "register_by_email_return", data: post_data, success: function (data) {
+        if (data['flag'] == 1) {
+          console.log(data)
+          alert(data['message'])
+          document.getElementById("myForm").submit();
+
+        } else if (data['flag'] == 0) {
+          alert(data['message'])
         }
-      });
-    }
+      }
+    });
+
   }
 
 </script>

@@ -394,7 +394,7 @@ class JsonPack(object):
             flag = 0
             message ='验证码错误'
         else:
-            if UserDB.check_user_exist(account) ==False:
+            if UserDB.check_user_exist(account) == True:
                 flag = 0
                 message = '当前邮箱账户已经存在'
             else:
@@ -402,8 +402,9 @@ class JsonPack(object):
                     flag = 0
                     message = '两次密码不符'
                 else:
-                    UserDB.add_user(account,pwd1,user_name,'reader')
-
+                    UserDB.add_user(account,pwd1,user_name,'reader',1)
+                    flag = 1
+                    message = '注册成功'
         data = {
             'flag':flag,
             'message':message
