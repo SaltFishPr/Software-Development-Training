@@ -345,6 +345,7 @@
   function user_name_input_change() {
     post_data = {
       'user_name': document.getElementById("user_name_input").value,
+      'status': "预约未借阅"
     }
     $.ajax({
       url: "record_table_by_user_name", data: post_data, success: function (data) {
@@ -355,6 +356,7 @@
   function user_name_input_change() {
     post_data = {
       'journal_name': document.getElementById("journal_name_input").value,
+      'status': "预约未借阅"
     }
     $.ajax({
       url: "record_table_by_journal_name", data: post_data, success: function (data) {
