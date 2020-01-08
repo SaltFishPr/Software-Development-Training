@@ -379,6 +379,7 @@ def record_table_by_user_name(request):
 def record_table_by_journal_name(request):
     journal_name = request.GET.get('journal_name')
     status = request.GET.get('status')
+    print(status)
     data = JsonPack.get_record_by_journal_name(journal_name, status)
 
     return JsonResponse(data)
