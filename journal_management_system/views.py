@@ -333,3 +333,17 @@ def journal_update(request):
     data = user.journal_total_num_update(journal_name, journal_year, journal_stage, record_operation, journal_num)
     print(data)
     return JsonResponse(data)
+
+def user_journal_order(request):
+    cur_account = request.get_signed_cookie('account', salt='666')
+    user = JsonPack.get_object_by_account(cur_account)
+    journal_name = (request.GET.get('journal_name'))
+    print(request.GET.get('journal_name'))
+    print(request.GET.get('journal_year'))
+    print(request.GET.get('journal_stage'))
+    journal_year = int(request.GET.get('journal_year'))
+    journal_stage = int(request.GET.get('journal_stage'))
+    data = user.order(journal_name,journal_year,journal_stage)
+    print(data)
+    return JsonResponse(data)
+
