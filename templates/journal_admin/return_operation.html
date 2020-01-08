@@ -126,8 +126,8 @@
                       <td> <input id="user_name_input" list="user_name_list" onkeydown="user_name_input_change()"
                           onchange="user_name_input_change()"></input><datalist id="user_name_list"></datalist> </td>
                       <td> <input id="journal_name_input" list="journal_name_list"
-                          onkeydown="journal_name_input_change()" onchange="user_name_input_change()"></input><datalist
-                          id="journal_name_list"></datalist>
+                          onkeydown="journal_name_input_change()"
+                          onchange="journal_name_input_change()"></input><datalist id="journal_name_list"></datalist>
                       </td>
                       <td> <input id="journal_year_input" list="journal_yearlist" type="number"
                           min=1978></input><datalist id="journal_yearlist"></datalist>
@@ -144,7 +144,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-12 stretch-card">
+          <div class="col-lg-12 stretch-card" id="record_table_card" style="display: none;">
             <div class="card">
               <div class="card-body">
                 <h4 class="card-title">期刊借阅信息</h4>
@@ -210,8 +210,38 @@
     document.getElementById("user_grade_img_place_0").innerText = user_grade
   }
   function record_table_load(data) {
+    // record_list = data['record_list']
+    // var table = document.getElementById("record_table");
+    // table.innerHTML = ""
+    // // table.deleteTFoot();
+    // // var footer = table.createTFoot();
+    // var record_list_length = 0;
+    // for (var item in record_list) {
+    //   record_list_length++;
+    // }
+    // for (var i = 0; i < record_list_length; i++) {
+    //   var row = table.insertRow(0);
+    //   var cell1 = row.insertCell(0);
+    //   var cell2 = row.insertCell(1);
+    //   var cell3 = row.insertCell(2);
+    //   var cell4 = row.insertCell(3);
+    //   var cell5 = row.insertCell(4);
+    //   var cell6 = row.insertCell(5);
+    //   cell1.innerText = record_list[i]['user_name'];
+    //   cell2.innerText = record_list[i]['journal_name'];
+    //   cell3.innerText = record_list[i]['journal_year'];
+    //   cell4.innerText = record_list[i]['journal_stage'];
+    //   cell5.innerText = record_list[i]['status'];
+    //   cell6.innerText = record_list[i]['time'];
+
+    // }
     record_list = data['record_list']
     var table = document.getElementById("record_table");
+    datalist_user_name = document.getElementById("user_name_list")
+    datalist_journal_name = document.getElementById("journal_name_list")
+
+    datalist_journal_name.innerHTML = ""
+    datalist_user_name.innerHTML = ""
     table.innerHTML = ""
     // table.deleteTFoot();
     // var footer = table.createTFoot();
@@ -219,6 +249,12 @@
     for (var item in record_list) {
       record_list_length++;
     }
+    if (record_list_length == 0) {
+      document.getElementById("record_table_card").setAttribute("style", "display: none;")
+    } else {
+      document.getElementById("record_table_card").setAttribute("style", "display: true;")
+    }
+
     for (var i = 0; i < record_list_length; i++) {
       var row = table.insertRow(0);
       var cell1 = row.insertCell(0);
@@ -228,13 +264,45 @@
       var cell5 = row.insertCell(4);
       var cell6 = row.insertCell(5);
       cell1.innerText = record_list[i]['user_name'];
+      var flag = 0
+      for (var j = 0; j < datalist_user_name.options.length; j++) {
+        var r = datalist_user_name.options[j].value
+        if (record_list[i]['user_name'] == r) {
+          flag = 1
+          break;
+        }
+      }
+      if (flag == 0) {
+        option_user_name = document.createElement("option")
+        option_user_name.setAttribute("value", record_list[i]['user_name'])
+        datalist_user_name.appendChild(option_user_name)
+      }
+
+
       cell2.innerText = record_list[i]['journal_name'];
+
+      var flag = 0
+      for (var j = 0; j < datalist_journal_name.options.length; j++) {
+        var r = datalist_journal_name.options[j].value
+        if (record_list[i]['journal_name'] == r) {
+          flag = 1
+          break;
+        }
+      }
+      if (flag == 0) {
+        option_journal_name = document.createElement("option")
+        option_journal_name.setAttribute("value", record_list[i]['journal_name'])
+        datalist_journal_name.appendChild(option_journal_name)
+      }
+
+
       cell3.innerText = record_list[i]['journal_year'];
       cell4.innerText = record_list[i]['journal_stage'];
       cell5.innerText = record_list[i]['status'];
       cell6.innerText = record_list[i]['time'];
 
     }
+
   }
 
 
@@ -260,34 +328,6 @@
     document.getElementById("journal_stage_input").value = table.rows[td.parentElement.rowIndex - 1].cells[3].innerText
   }
 
-  function account_select_load(data) {
-    account_list = data['account_list']
-    var account_list_length = 0;
-    for (var item in account_list) {
-      account_list_length++;
-    }
-    var sec = document.getElementById("account_select")
-    sec.innerHTML = ""
-    for (var i = 0; i < account_list_length; i++) {
-
-      var account = account_list[i]['account']
-      var flag = 0;
-      for (var j = 0; j < sec.options.length; j++) {
-        var r = sec.options[j].value
-        if (account == r) {
-          flag = 1
-          break;
-        }
-      }
-      if (flag == 1) {
-        continue;
-      }
-      var op = document.createElement("option")
-      op.setAttribute("value", account)
-      op.innerText = account
-      sec.appendChild(op)
-    }
-  }
 
   function record_update() {
     post_data = {
@@ -306,6 +346,30 @@
           alert(data['message'])
         }
 
+      }
+    });
+  }
+  function user_name_input_change() {
+    post_data = {
+      'user_name': document.getElementById("user_name_input").value,
+      'status': "借阅中"
+    }
+    $.ajax({
+      url: "record_table_by_user_name", data: post_data, success: function (data) {
+        console.log("NMSL")
+        record_table_load(data)
+      }
+    });
+  }
+  function journal_name_input_change() {
+    post_data = {
+      'journal_name': document.getElementById("journal_name_input").value,
+      'status': "借阅中"
+    }
+    $.ajax({
+      url: "record_table_by_journal_name", data: post_data, success: function (data) {
+        console.log(data)
+        record_table_load(data)
       }
     });
   }

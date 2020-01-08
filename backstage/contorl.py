@@ -163,7 +163,7 @@ class JsonPack(object):
         :return: data
         """
         get_record_info = {
-
+                'status':status
         }
         if account != "":
             get_record_info = {
