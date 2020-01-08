@@ -35,7 +35,8 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
             <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="true">
-              <img class="img-xs rounded-circle" src="../../static/assets/images/faces/face8.jpg" alt="Profile image"> </a>
+              <img class="img-xs rounded-circle" src="../../static/assets/images/faces/face8.jpg" alt="Profile image">
+            </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <div class="dropdown-header text-center">
                 <img class="img-md rounded-circle" src="../../static/assets/images/faces/face8.jpg" alt="Profile image">
@@ -116,29 +117,27 @@
                       <th>期刊名</th>
                       <th>年</th>
                       <th>期</th>
-                      <th>操作</th>
+
                       <th>执行</th>
                     </tr>
                   </thead>
                   <tbody id="borrow_table">
                     <tr class="table-info">
-                      <td> <input id="user_name_input"></input><select id="user_name_select">
-                          <option></option>
-                        </select> </td>
-                      <td> <input id="journal_name_input"></input><select id="journal_name_select">
-                          <option></option>
-                        </select> </td>
-                      <td> <input id="journal_year_input"></input><select id="journal_year_select">
-                          <option></option>
-                        </select> </td>
-                      <td> <input id="journal_stage_input"></input><select id="journal_stage_select">
-                          <option></option>
-                        </select> </td>
-                      <td><select id="record_update_method">
-                          <option>归还</option>
-                        </select></td>
-                      <td><input type="submit" value="执行" class="btn btn-success mr-2"
-                          onclick="record_uptade()"></input></td>
+                      <td> <input id="user_name_input" list="user_name_list" onkeydown="user_name_input_change()"
+                          onchange="user_name_input_change()"></input><datalist id="user_name_list"></datalist> </td>
+                      <td> <input id="journal_name_input" list="journal_name_list"
+                          onkeydown="journal_name_input_change()" onchange="user_name_input_change()"></input><datalist
+                          id="journal_name_list"></datalist>
+                      </td>
+                      <td> <input id="journal_year_input" list="journal_yearlist" type="number"
+                          min=1978></input><datalist id="journal_yearlist"></datalist>
+                      </td>
+                      <td> <input id="journal_stage_input" list="journal_stage_list" type="number"
+                          min=1></input><datalist id="journal_stage_list"></datalist>
+                      </td>
+
+                      <td><input type="submit" value="归还" class="btn btn-success mr-2"
+                          onclick="record_update()"></input></td>
                     </tr>
                   </tbody>
                 </table>
@@ -290,13 +289,13 @@
     }
   }
 
-  function record_uptade() {
+  function record_update() {
     post_data = {
       'user_name': document.getElementById("user_name_input").value,
       'journal_name': document.getElementById("journal_name_input").value,
       'journal_year': document.getElementById("journal_year_input").value,
       'journal_stage': document.getElementById("journal_stage_input").value,
-      'record_update_method': document.getElementById("record_update_method").value
+      'record_update_method': "归还"
     }
     $.ajax({
       url: "record_update", data: post_data, success: function (data) {

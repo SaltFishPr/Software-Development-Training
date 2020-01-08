@@ -380,6 +380,7 @@ def record_table_by_journal_name(request):
     journal_name = request.GET.get('journal_name')
     status = request.GET.get('status')
     data = JsonPack.get_record_by_journal_name(journal_name, status)
+
     return JsonResponse(data)
 
 
@@ -407,6 +408,7 @@ def journal_table_by_journal_name(request):
     journal_name = request.GET.get('journal_name')
     user = JsonPack.get_object_by_account(cur_account)
     data = user.get_journal_info_by_name(journal_name)
+    print(data)
     return JsonResponse(data)
 
 
