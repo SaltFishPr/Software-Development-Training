@@ -28,7 +28,7 @@ SECRET_KEY = 'zvn+oxvdp(fy1v7#k-$@czyo^faq*tt656%bpgr%k9)bba-kko'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
