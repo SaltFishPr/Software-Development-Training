@@ -144,7 +144,7 @@ class Admin(User):
         }
         user_info_results = UserDB.get_info_by_dict('User', get_user_dict)
         data['name'] = user_info_results[0][2]
-        data['grade'] = '等级:' + str(user_info_results[0][4])
+        data['grade'] = user_info_results[0][4]
         data['identity'] = user_info_results[0][3]
 
         return data
@@ -254,7 +254,7 @@ class JournalAdmin(User):
                 time = borrow_time
             else:
                 time = return_time
-            record_element['time'] = time
+            record_element['time'] = RecordDB.str_to_datetime(time).strftime('%Y-%m-%d %H:%M:%S')
 
             if choice == 'null':
                 continue
@@ -391,19 +391,19 @@ class JournalAdmin(User):
             # total_num=stock_num=num len_num=ordernum=0
             # 暂时不管其他的属性
             # 直接插入到数据库生成相应的key
-            JournalDB.insert_journal(journal_year,journal_stage,journal_name,'test',num,0,0,num)
+            JournalDB.insert_journal(journal_year, journal_stage, journal_name, 'test', num, 0, 0, num)
             flag = 1
             message = '成功'
         elif update_method == '销毁期刊':
             # 如果 len_num=0 order_num=0 执行数据库的del操作 把name year stage这一行删除
             get_journal_info = {
-                'name':journal_name,
-                'year':journal_year,
-                'stage':journal_stage
+                'name': journal_name,
+                'year': journal_year,
+                'stage': journal_stage
             }
-            journal_results = JournalDB.get_info_by_dict('journal',get_journal_info)
-            if journal_results[0][7]==0 and journal_results[0][8] ==0:
-                JournalDB.remove_journal(journal_name,journal_year,journal_stage)
+            journal_results = JournalDB.get_info_by_dict('journal', get_journal_info)
+            if journal_results[0][7] == 0 and journal_results[0][8] == 0:
+                JournalDB.remove_journal(journal_name, journal_year, journal_stage)
                 flag = 1
                 message = '销毁成功'
             else:
@@ -502,12 +502,12 @@ class Reader(User):
                 borrow['time_2'] = '未借阅'
             elif results[6] == 1 and results[7] == 0:
                 borrow['status'] = '借阅中'
-                borrow['time_1'] = results[i][3]
+                borrow['time_1'] = RecordDB.str_to_datetime(results[i][3]).strftime('%Y-%m-%d %H:%M:%S')
                 borrow['time_2'] = '未归还'
             elif results[6] == 1 and results[7] == 1:
                 borrow['status'] = '已归还'
-                borrow['time_1'] = results[i][3]
-                borrow['time_2'] = results[i][4]
+                borrow['time_1'] = RecordDB.str_to_datetime(results[i][3]).strftime('%Y-%m-%d %H:%M:%S')
+                borrow['time_2'] = RecordDB.str_to_datetime(results[i][4]).strftime('%Y-%m-%d %H:%M:%S')
             else:
                 borrow['status'] = '异常情况'
                 borrow['time_1'] = '异常情况'
@@ -557,5 +557,4 @@ class Reader(User):
 
 if __name__ == '__main__':
     user_obj = JournalAdmin('wws')
-    user_obj.journal_num_update('test', 1, 1,'销毁期刊',100)
-
+    user_obj.journal_num_update('test', 1, 1, '销毁期刊', 100)

@@ -162,18 +162,44 @@ class JsonPack(object):
         :param account: 借书的用户名
         :return: data
         """
-        get_record_info = {
-                'borrow_flag':1,
-                'return_flag':0
-        }
-        if account != "":
-            get_record_info = {
-                'account': account,
-                'borrow_flag':1,
-                'return_flag':0
-            }
+        if account == "":
+            if status == '预约未借阅':
+                get_record_info = {
+                    'order_flag': 1,
+                    'borrow_flag': 0,
+                    'return_flag': 0
+                }
+            elif status == '借阅中':
+                get_record_info = {
+                    'borrow_flag': 1,
+                    'return_flag': 0
+                }
+            else:
+                get_record_info = {
+                    'return_flag': 1
+                }
+        elif account != "":
+            if status == '预约未借阅':
+                get_record_info = {
+                    'account': account,
+                    'order_flag': 1,
+                    'borrow_flag': 0,
+                    'return_flag': 0
+                }
+            elif status == '借阅中':
+                get_record_info = {
+                    'account': account,
+                    'borrow_flag': 1,
+                    'return_flag': 0
+                }
+            else:
+                get_record_info = {
+                    'account': account,
+                    'return_flag': 1
+                }
         results = RecordDB.get_info_by_dict('record', get_record_info)
         record_list = []
+
         for i in range(len(results)):
             record_element = dict()
             key = (results[i][1])
@@ -202,7 +228,7 @@ class JsonPack(object):
         get_journal_info = {
 
         }
-        if journal_name!="":
+        if journal_name != "":
             get_journal_info = {
                 'name': journal_name
             }
@@ -211,11 +237,25 @@ class JsonPack(object):
         for i in range(len(journal_results)):
             record_element = dict()
             key = journal_results[i][0]
-            get_record_info = {
-                'key': key,
-                'borrow_flag':1,
-                'return_flag':0
-            }
+            if status == '预约未借阅':
+                get_record_info = {
+                    'key': key,
+                    'order_flag': 1,
+                    'borrow_flag': 0,
+                    'return_flag': 0
+                }
+            elif status == '借阅中':
+                get_record_info = {
+                    'key': key,
+                    'borrow_flag': 1,
+                    'return_flag': 0
+                }
+            else:
+                get_record_info = {
+                    'key': key,
+                    'return_flag': 1
+                }
+            print(get_record_info)
             record_results = RecordDB.get_info_by_dict('record', get_record_info)
             if len(record_results) == 0:
                 continue
