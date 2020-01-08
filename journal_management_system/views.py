@@ -342,7 +342,7 @@ def journal_update(request):
     journal_name = request.GET.get('journal_name')
     journal_year = int(request.GET.get('journal_year'))
     journal_stage = int(request.GET.get('journal_stage'))
-    record_operation = request.GET.get('record_update_method')
+    record_operation = request.GET.get('journal_update_method')
     journal_num = int(request.GET.get('journal_num'))
     data = user.journal_num_update(journal_name, journal_year, journal_stage, record_operation, journal_num)
     print(data)

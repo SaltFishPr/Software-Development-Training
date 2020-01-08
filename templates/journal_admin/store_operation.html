@@ -125,8 +125,8 @@
                   <tbody id="borrow_table">
                     <tr class="table-info">
                       <td> <input id="journal_name_input" list="journal_name_list"
-                          onchange="journal_table_load_by_journal_name()"></input><datalist id="journal_name_list"
-                          onclick="journal_table_load_by_journal_name()"></datalist>
+                          onchange="journal_name_input_change()"></input><datalist id="journal_name_list"
+                          onclick="journal_name_input_change()"></datalist>
                       </td>
                       <td> <input id="journal_year_input" list="journal_yearlist" type="number"
                           min=1978></input><datalist id="journal_yearlist"></datalist>
@@ -137,6 +137,8 @@
                       <td><select id="journal_update_method">
                           <option>库存增加</option>
                           <option>库存减少</option>
+                          <option>新增期刊</option>
+                          <option>销毁期刊</option>
                         </select></td>
                       <td> <input id="journal_num_input" type="number" min=1></input> </td>
                       <td><input type="submit" value="执行" class="btn btn-success mr-2"
@@ -280,6 +282,7 @@
 
 
   function journal_update() {
+    console.log(document.getElementById("journal_update_method").value)
     post_data = {
       'journal_name': document.getElementById("journal_name_input").value,
       'journal_year': document.getElementById("journal_year_input").value,
@@ -295,6 +298,17 @@
         } else {
           alert(data['message'])
         }
+      }
+    });
+  }
+
+  function journal_name_input_change() {
+    post_data = {
+      'journal_name': document.getElementById("journal_name_input").value,
+    }
+    $.ajax({
+      url: "stock_table_by_journal_name", data: post_data, success: function (data) {
+        journal_table_load(data)
       }
     });
   }

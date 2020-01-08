@@ -237,7 +237,7 @@
 
   function user_name_list_load() {
     $.ajax({
-      url: "user_name_datalist:", success: function (data) {
+      url: "user_name_datalist", success: function (data) {
         user_name_datalist = data['user_name_datalist']
         datalist_user_name = document.getElementById("user_name_list")
 
@@ -267,7 +267,7 @@
   }
   function journal_name_list_load() {
     $.ajax({
-      url: "journal_name_datalist:", success: function (data) {
+      url: "journal_name_datalist", success: function (data) {
         journal_name_datalist = data['journal_name_datalist']
         datalist_journal_name = document.getElementById("journal_name_list")
 
@@ -298,7 +298,7 @@
       'journal_name': document.getElementById("journal_name_input").value
     }
     $.ajax({
-      url: "journal_table_by_journal_name::", data: post_data, success: function (data) {
+      url: "journal_table_by_journal_name", data: post_data, success: function (data) {
         console.log(data)
         journal_list = data['journal_list']
         var table = document.getElementById("journal_table");
