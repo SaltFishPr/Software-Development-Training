@@ -195,10 +195,11 @@ class JsonPack(object):
 
     @classmethod
     def get_record_by_journal_name(cls, journal_name, status):
+
         get_journal_info = {
 
         }
-        if journal_name != "":
+        if journal_name!="":
             get_journal_info = {
                 'name': journal_name
             }
