@@ -38,7 +38,8 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
             <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="true">
-              <img class="img-xs rounded-circle" src="../../static/assets/images/faces/face8.jpg" alt="Profile image"> </a>
+              <img class="img-xs rounded-circle" src="../../static/assets/images/faces/face8.jpg" alt="Profile image">
+            </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <div class="dropdown-header text-center">
                 <img class="img-md rounded-circle" src="../../static/assets/images/faces/face8.jpg" alt="Profile image">
@@ -66,8 +67,8 @@
                 <!-- <div class="dot-indicator bg-success"></div> -->
               </div>
               <div class="text-wrapper">
-                <p class="profile-name" id="user_name_img_place">userName</p>
-                <p class="designation" id="user_grade_img_place">Premium user</p>
+                <p class="profile-name" id="user_name_img_place"></p>
+                <p class="designation" id="user_grade_img_place"></p>
               </div>
             </a>
           </li>
@@ -96,18 +97,11 @@
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
-
           <center>
-            <span>
-              <label id="user_name">
-              </label>
-            </span>
-            <span>
-              <label id="user_grade">
-
-              </label>
-            </span>
+            <h1>个人中心</h1>
           </center>
+
+
 
 
 
@@ -115,7 +109,7 @@
             <div class="card">
               <div class="card-body">
                 <h4 class="card-title">借阅信息</h4>
-                <p class="card-description"> Add class <code>.table</code> </p>
+
                 <table class="table">
                   <thead>
                     <tr>
@@ -164,9 +158,9 @@
     user = data['user_info']
     user_name = user['name']
     user_grade = user['grade']
-    document.getElementById("user_name").innerText = user_name
+
     document.getElementById("user_name_img_place").innerText = user_name
-    document.getElementById("user_grade").innerText = user_grade
+
     document.getElementById("user_grade_img_place").innerText = user_grade
     document.getElementById("user_name_img_place_0").innerText = user_name
     document.getElementById("user_grade_img_place_0").innerText = user_grade

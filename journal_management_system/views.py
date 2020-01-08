@@ -420,3 +420,11 @@ def stock_table_by_journal_name(request):
     user = JsonPack.get_object_by_account(cur_account)
     data = user.get_stock_table_info(journal_name)
     return JsonResponse(data)
+
+
+def sign_up_operation(request):
+    return render(request,'admin/sign_up_operation.html')
+
+
+def update_operation(request):
+    return render(request,'admin/update_operation.html')

@@ -78,5 +78,7 @@ urlpatterns = [
     url('user_name_datalist',views.user_name_datalist),
     url('journal_name_datalist',views.journal_name_datalist),
     url('journal_table_by_journal_name',views.journal_table_by_journal_name),
+    url('sign_up_operation',views.sign_up_operation),
+    url('update_operation',views.update_operation),
     url('', views.login)
 ]

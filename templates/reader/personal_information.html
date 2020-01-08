@@ -38,7 +38,8 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
             <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="true">
-              <img class="img-xs rounded-circle" src="../../static/assets/images/faces/face8.jpg" alt="Profile image"> </a>
+              <img class="img-xs rounded-circle" src="../../static/assets/images/faces/face8.jpg" alt="Profile image">
+            </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <div class="dropdown-header text-center">
                 <img class="img-md rounded-circle" src="../../static/assets/images/faces/face8.jpg" alt="Profile image">
@@ -66,8 +67,8 @@
                 <!-- <div class="dot-indicator bg-success"></div> -->
               </div>
               <div class="text-wrapper">
-                <p class="profile-name" id="user_name_img_place">userName</p>
-                <p class="designation" id="user_grade_img_place">Premium user</p>
+                <p class="profile-name" id="user_name_img_place"></p>
+                <p class="designation" id="user_grade_img_place"></p>
               </div>
             </a>
           </li>
@@ -96,11 +97,12 @@
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
+          <center>
+            <h1>信息修改</h1>
+          </center>
           <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">Basic form</h4>
-                <p class="card-description"> Basic form elements </p>
                 <div class="form-group">
                   <label for="exampleInputName1">Account</label>
                   <input type="text" class="form-control" id="account" placeholder="Name" readonly="readonly">
@@ -112,7 +114,7 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword4">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Password">
+                    <input type="password" class="form-control" id="password">
                   </div>
                   <!-- <button class="btn btn-success mr-2" onclick="user_data_update()">Submit</button> -->
                 </form>
