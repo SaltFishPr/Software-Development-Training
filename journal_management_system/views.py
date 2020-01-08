@@ -361,3 +361,11 @@ def user_journal_order(request):
     print(data)
     return JsonResponse(data)
 
+
+def sign_out(request):
+    cur_account = request.get_signed_cookie('account',salt='666')
+    rep = redirect('/login_page')
+    rep.delete_cookie('account')
+    return render(request,'')
+
+
