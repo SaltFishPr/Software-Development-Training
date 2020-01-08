@@ -63,20 +63,23 @@ class DBBase(object):
         name_dicts = [
             {'issn': '0036-8075', 'name': 'Science', 'tag': '科学', 'press': '美国科学促进会', 'editor': 'Marcia McNutt'},
             {'issn': '1476-4687', 'name': 'Nature', 'tag': '科学', 'press': '美国科学促进会', 'editor': 'No'},
-            {'issn': '0893-6080', 'name': 'Neural Networks', 'tag': '人工智能', 'press': 'test',
-             'editor': 'Bob'},
-            {'issn': '1566-2535', 'name': 'Information Fusion', 'tag': '人工智能', 'press': 'test',
-             'editor': 'Linus'},
-            {'issn': '2168-2267', 'name': 'IEEE Transactions on Cybernetics', 'tag': '人工智能', 'press': 'test',
-             'editor': 'ALiang'},
-            {'issn': '1063-6706', 'name': 'IEEE Transactions on fuzzy systems', 'tag': '人工智能', 'press': 'test',
-             'editor': 'Saltfish'},
-            {'issn': '1057-7149', 'name': 'IEEE Transactions on image processing', 'tag': '人工智能', 'press': 'test',
-             'editor': 'OvO'}]
+            {'issn': '0893-6080', 'name': 'Neural Networks', 'tag': '人工智能', 'press': 'press_test',
+             'editor': 'editor_test'},
+            {'issn': '1566-2535', 'name': 'Information Fusion', 'tag': '人工智能', 'press': 'press_test',
+             'editor': 'editor_test'},
+            {'issn': '2168-2267', 'name': 'IEEE Transactions on Cybernetics', 'tag': '人工智能', 'press': 'press_test',
+             'editor': 'editor_test'},
+            {'issn': '1613-6810', 'name': 'small', 'tag': '化学', 'press': 'press_test', 'editor': 'editor_test'},
+            {'issn': '0005-1098', 'name': 'Automatic', 'tag': '自动化', 'press': 'press_test', 'editor': 'editor_test'},
+            {'issn': '0142-9612', 'name': 'Biomaterials', 'tag': '生物医学', 'press': 'press_test',
+             'editor': 'editor_test'},
+            {'issn': '2095-8009', 'name': 'Engineering', 'tag': '综合', 'press': 'press_test', 'editor': 'editor_test'},
+            {'issn': '2169-5172', 'name': 'Soft Robotics', 'tag': '机器人学', 'press': 'press_test',
+             'editor': 'editor_test'}]
 
         res = []
-        for i in range(100):
-            info = name_dicts[random.randint(0, 6)]
+        for i in range(150):
+            info = name_dicts[random.randint(0, 9)]
             year = random.randint(1999, 2020)
             stage = random.randint(1, 12)
             sql = "INSERT INTO journal (issn, year, stage, name, tag, stock_num, order_num, lend_num, total_num, press," \

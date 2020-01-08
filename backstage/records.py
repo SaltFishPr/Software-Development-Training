@@ -1,5 +1,4 @@
 from database.record import RecordDB
-from database.journal import JournalDB
 
 
 class Record(object):
