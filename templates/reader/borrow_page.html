@@ -35,7 +35,8 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
             <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="true">
-              <img class="img-xs rounded-circle" src="../../static/assets/images/faces/face8.jpg" alt="Profile image"> </a>
+              <img class="img-xs rounded-circle" src="../../static/assets/images/faces/face8.jpg" alt="Profile image">
+            </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <div class="dropdown-header text-center">
                 <img class="img-md rounded-circle" src="../../static/assets/images/faces/face8.jpg" alt="Profile image">
@@ -157,9 +158,11 @@
                       <!-- <td> <input id="user_name_input"></input><select id="user_name_select">
                           <option></option>
                         </select> </td> -->
-                      <td> <input id="journal_name_input" readonly="readonly"></input></td>
-                      <td> <input id="journal_year_input" readonly="readonly"></input></td>
-                      <td> <input id="journal_stage_input" readonly="readonly"></input></td>
+                      <td> <input id="journal_name_input" list="journal_name_list"
+                          onchange="journal_table_load_by_journal_name()"></input><datalist
+                          id="journal_name_list"></datalist></td>
+                      <td> <input id="journal_year_input"></input></td>
+                      <td> <input id="journal_stage_input"></input></td>
                       <!-- <td><select id="record_update_mothed">
                           <option>借阅</option>
                         </select></td> -->
@@ -171,7 +174,7 @@
               </div>
             </div>
           </div>
-          <div class="col-12 grid-margin">
+          <div class="col-12 grid-margin" id="journal_table_card" style="display: none;">
             <div class="card">
               <div class="card-body">
                 <table class="table table-bordered">
@@ -309,6 +312,11 @@
     for (var item in journal_list) {
       journal_list_length++;
     }
+    if (journal_list_length == 0) {
+      document.getElementById("journal_table_card").setAttribute("style", "display: none;")
+    } else {
+      document.getElementById("journal_table_card").setAttribute("style", "display: true;")
+    }
     for (var i = 0; i < journal_list_length; i++) {
       var row = table.insertRow(0);
       var cell1 = row.insertCell(0);
@@ -369,6 +377,8 @@
         user_borrow_info(data)
       }
     });
+    journal_name_list_load()
+
   }
   function journal_name_search() {
     document.getElementById("year_select").options.length = 1
@@ -379,9 +389,9 @@
     }
     $.ajax({
       url: "journal_name_search", data: post_data, success: function (data) {
-          if(document.getElementById("name_select").value!=""){
-              journal_year_select_load(data)
-          }
+        if (document.getElementById("name_select").value != "") {
+          journal_year_select_load(data)
+        }
 
         journal_card_load(data)
 
@@ -396,9 +406,9 @@
     }
     $.ajax({
       url: "journal_year_search", data: post_data, success: function (data) {
-          if(document.getElementById("name_select").value!=""&&document.getElementById("year_select").value!=""){
-              journal_stage_select_load(data)
-          }
+        if (document.getElementById("name_select").value != "" && document.getElementById("year_select").value != "") {
+          journal_stage_select_load(data)
+        }
 
         journal_card_load(data)
       }
@@ -417,6 +427,71 @@
     });
 
 
+  }
+
+  function journal_name_list_load() {
+    $.ajax({
+      url: "journal_name_datalist", success: function (data) {
+        journal_name_datalist = data['journal_name_datalist']
+        datalist_journal_name = document.getElementById("journal_name_list")
+
+        var journal_name_datalist_length = 0;
+        for (var item in journal_name_datalist) {
+          journal_name_datalist_length++;
+        }
+        for (var i = 0; i < journal_name_datalist_length; i++) {
+          var flag = 0
+          for (var j = 0; j < datalist_journal_name.options.length; j++) {
+            var r = datalist_journal_name.options[j].value
+            if (journal_name_datalist[i] == r) {
+              flag = 1
+              break;
+            }
+          }
+          if (flag == 0) {
+            option_journal_name = document.createElement("option")
+            option_journal_name.setAttribute("value", journal_name_datalist[i])
+            datalist_journal_name.appendChild(option_journal_name)
+          }
+        }
+      }
+    });
+  }
+
+  function journal_table_load_by_journal_name() {
+    // post_data = {
+    //   'journal_name': document.getElementById("journal_name_input").value
+    // }
+    // $.ajax({
+    //   url: "journal_table_by_journal_name", data: post_data, success: function (data) {
+    //     console.log(data)
+    //     journal_list = data['journal_list']
+    //     var table = document.getElementById("journal_table");
+    //     table.innerHTML = ""
+    //     var journal_list_length = 0;
+    //     for (var item in journal_list) {
+    //       journal_list_length++;
+    //     }
+    //     if (journal_list_length == 0) {
+    //       document.getElementById("journal_table_card").setAttribute("style", "display: none;")
+    //     } else {
+    //       document.getElementById("journal_table_card").setAttribute("style", "display: true;")
+    //     }
+    //     for (var i = 0; i < journal_list_length; i++) {
+    //       var row = table.insertRow(0);
+    //       var cell1 = row.insertCell(0);
+    //       var cell2 = row.insertCell(1);
+    //       var cell3 = row.insertCell(2);
+
+    //       cell1.innerText = journal_list[i]['journal_name'];
+    //       cell2.innerText = journal_list[i]['journal_year'];
+    //       cell3.innerText = journal_list[i]['journal_stage'];
+    //     }
+    //   }
+    // });
+    document.getElementById("name_select").value = document.getElementById("journal_name_input").value
+    journal_name_search()
+    console.log(document.getElementById("name_select").value)
   }
 
 

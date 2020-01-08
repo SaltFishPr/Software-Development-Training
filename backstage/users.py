@@ -19,6 +19,23 @@ class User(object):
         """
         return self._identity
 
+    def get_journal_info_by_name(self, journal_name):
+        journal_list = []
+        get_journal_info = {
+            'name': journal_name
+        }
+        journal_results = JournalDB.get_info_by_dict('journal', get_journal_info)
+        for i in range(len(journal_results)):
+            journal_element = dict()
+            journal_element['journal_name'] = journal_name
+            journal_element['journal_year'] = journal_results[i][2]
+            journal_element['journal_stage'] = journal_results[i][3]
+            journal_list.append(journal_element)
+        data = {
+            'journal_list': journal_list
+        }
+        return data
+
     def get_self_info(self, choice):
         """
         根据choice得到本账户的信息
@@ -86,6 +103,19 @@ class User(object):
                     UserDB.update_user_password(account, pwd)
                     UserDB.update_user_name(account, name)
                     dict1['flag'] = 1
+        return data
+
+    def get_journal_name_info(self):
+        journal_name_list = []
+        get_journal_info = {
+
+        }
+        journal_results = JournalDB.get_info_by_dict('journal', get_journal_info)
+        for i in range(len(journal_results)):
+            journal_name_list.append(journal_results[i][4])
+        data = {
+            "journal_name_datalist": journal_name_list
+        }
         return data
 
 
@@ -433,36 +463,6 @@ class JournalAdmin(User):
             user_account_list.append(user_results[i][0])
         data = {
             'user_name_datalist': user_account_list
-        }
-        return data
-
-    def get_journal_name_info(self):
-        journal_name_list = []
-        get_journal_info = {
-
-        }
-        journal_results = JournalDB.get_info_by_dict('journal', get_journal_info)
-        for i in range(len(journal_results)):
-            journal_name_list.append(journal_results[i][4])
-        data = {
-            "journal_name_datalist": journal_name_list
-        }
-        return data
-
-    def get_journal_info_by_name(self, journal_name):
-        journal_list = []
-        get_journal_info = {
-            'name': journal_name
-        }
-        journal_results = JournalDB.get_info_by_dict('journal', get_journal_info)
-        for i in range(len(journal_results)):
-            journal_element = dict()
-            journal_element['journal_name'] = journal_name
-            journal_element['journal_year'] = journal_results[i][2]
-            journal_element['journal_stage'] = journal_results[i][3]
-            journal_list.append(journal_element)
-        data = {
-            'journal_list': journal_list
         }
         return data
 

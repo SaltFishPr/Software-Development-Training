@@ -397,6 +397,7 @@ def user_name_datalist(request):
     return JsonResponse(data)
 
 def journal_name_datalist(request):
+    print("123")
     cur_account = request.get_signed_cookie('account', salt='666')
     user = JsonPack.get_object_by_account(cur_account)
     data = user.get_journal_name_info()
