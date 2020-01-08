@@ -70,5 +70,6 @@ urlpatterns = [
     url('record_update', views.record_update),
     url('journal_update', views.journal_update),
     url('user_journal_order',views.user_journal_order),
+    url('sign_out',views.sign_out),
     url('', views.login_page)
 ]
