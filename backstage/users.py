@@ -2,11 +2,9 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 
-from backstage.journals import Journal
 from database.user import UserDB
 from database.record import RecordDB
 from database.journal import JournalDB
-from backstage.records import Record
 
 
 class User(object):

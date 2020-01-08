@@ -78,8 +78,8 @@ class DBBase(object):
              'editor': 'editor_test'}]
 
         res = []
-        for i in range(100):
-            info = name_dicts[random.randint(0, 10)]
+        for i in range(150):
+            info = name_dicts[random.randint(0, 9)]
             year = random.randint(1999, 2020)
             stage = random.randint(1, 12)
             sql = "INSERT INTO journal (issn, year, stage, name, tag, stock_num, order_num, lend_num, total_num, press," \

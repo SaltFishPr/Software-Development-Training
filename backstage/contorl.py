@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import datetime
-import time
 from database.user import UserDB
 from database.record import RecordDB
 from database.journal import JournalDB
-from backstage.users import User
 from backstage.users import Reader
 from backstage.users import JournalAdmin
 from backstage.users import Admin
