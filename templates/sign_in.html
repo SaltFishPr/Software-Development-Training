@@ -24,34 +24,35 @@
 
 
   <!-- 登录 -->
-  <script>
-    function mymothed_1() {
-      var post_data = {
-        "username": (document.getElementById("username").value),
-        "password": (document.getElementById("password").value)
-      };
-      $.ajax({
-        url: "login_judge", data: post_data, success: function (data) {
-          if (data['dict']['flag'] == 1) {
-            document.getElementById("password").value = 1;
-            document.getElementById("myForm_1").submit();
-          } else if (data['dict']['flag'] == 2) {
-            document.getElementById("password").value = 2;
-            document.getElementById("myForm_1").submit();
-          } else if (data['dict']['flag'] == 3) {
-            document.getElementById("password").value = 3;
-            document.getElementById("myForm_1").submit();
-          } else {
-            alert("账号或密码错误")
-          }
+    <script>
+        function mymothed_1() {
+            var post_data = {
+                "username": (document.getElementById("username").value),
+                "password": (document.getElementById("password").value)
+            };
+            $.ajax({
+                url: "login_judge", data: post_data, success: function (data) {
+                    if (data['dict']['flag'] == 1) {
+                        document.getElementById("password").value = 1;
+                        document.getElementById("myForm_1").submit();
+                    } else if (data['dict']['flag'] == 2) {
+                        document.getElementById("password").value = 2;
+                        document.getElementById("myForm_1").submit();
+                    } else if (data['dict']['flag'] == 3) {
+                        document.getElementById("password").value = 3;
+                        document.getElementById("myForm_1").submit();
+                    } else {
+                        alert("账号或密码错误")
+                    }
+                }
+            });
         }
-      });
-    }
 
-  </script>
+
+    </script>
 </head>
 
-<body>
+<body id="myBody">
   <div class="container-scroller">
     <div class="container-fluid page-body-wrapper full-page-wrapper">
       <div class="content-wrapper d-flex align-items-center auth auth-bg-1 theme-one">
