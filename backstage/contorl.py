@@ -109,7 +109,7 @@ class JsonPack(object):
         get_journal_dict = {
 
         }
-        if name != "":
+        if name !="":
             get_journal_dict = {
                 'name': name
             }
@@ -136,15 +136,15 @@ class JsonPack(object):
             'journal_list': journal_list
         }
         get_journal_info = {
-            'name': name
+            'name':name
         }
         if year != "":
             get_journal_info = {
                 'name': name,
-                'year': year
+                'year':year
             }
             year = int(year)
-        results = JournalDB.get_info_by_dict('journal', get_journal_info)
+        results = JournalDB.get_info_by_dict('journal',get_journal_info)
         for i in range(len(results)):
             journal_element = dict()
             journal_element['name'] = results[i][4]
@@ -256,7 +256,6 @@ class JsonPack(object):
         for i in range(len(journal_results)):
             record_element = dict()
             key = journal_results[i][0]
-            get_record_info = {}
             if status == '预约未借阅':
                 get_record_info = {
                     'key': key,
@@ -275,6 +274,7 @@ class JsonPack(object):
                     'key': key,
                     'return_flag': 1
                 }
+            print(get_record_info)
             record_results = RecordDB.get_info_by_dict('record', get_record_info)
             if len(record_results) == 0:
                 continue
@@ -343,15 +343,15 @@ class JsonPack(object):
 
         return data
 
+
     @classmethod
-    def validateEmail(cls, email_address):
-        check_code = ""
+    def validateEmail(cls,email_address):
+        check_code=""
         if len(email_address) > 7:
             if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", email_address) != None:
                 sender = config.sender_email_address
                 pwd = config.email_password
                 receivers = email_address
-
                 def get_check_code():
                     list1 = []
                     for i in range(6):
@@ -370,9 +370,8 @@ class JsonPack(object):
                             list1.append(str(r))
                     ver_code = "".join(list1)
                     return ver_code
-
                 check_code = get_check_code()
-                message = MIMEText(check_code, 'plain', 'utf-8')
+                message = MIMEText(check_code,'plain','utf-8')
                 message['Subject'] = '期刊借阅系统验证码'
                 message['From'] = sender
                 message['To'] = receivers
@@ -380,21 +379,22 @@ class JsonPack(object):
                 smtp.login(sender, pwd)
                 smtp.sendmail(sender, receivers, message.as_string())
                 smtp.quit()
-                flag = 1
+                flag =1
         else:
             flag = 0
             check_code = '0'
         data = {
-            'flag': flag,
-            'check_code': check_code
+            'flag' :flag,
+            'check_code':check_code
         }
         return data
 
+
     @classmethod
-    def confirm_email_account(cls, user_name, pwd1, pwd2, account, correct_check, input_check):
+    def confirm_email_account(cls,user_name,pwd1,pwd2,account,correct_check,input_check):
         if correct_check != input_check:
             flag = 0
-            message = '验证码错误'
+            message ='验证码错误'
         else:
             if UserDB.check_user_exist(account) == True:
                 flag = 0
@@ -404,14 +404,15 @@ class JsonPack(object):
                     flag = 0
                     message = '两次密码不符'
                 else:
-                    UserDB.add_user(account, pwd1, user_name, 'reader', 1)
+                    UserDB.add_user(account,pwd1,user_name,'reader',1)
                     flag = 1
                     message = '注册成功'
         data = {
-            'flag': flag,
-            'message': message
+            'flag':flag,
+            'message':message
         }
         return data
+
 
 
 if __name__ == '__main__':
