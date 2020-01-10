@@ -9,10 +9,12 @@ from database.journal import JournalDB
 from backstage.users import Reader
 from backstage.users import JournalAdmin
 from backstage.users import Admin
+from backstage import config
 import re
 import smtplib
 from email.mime.text import MIMEText
 from email.header import Header
+
 
 class JsonPack(object):
     @classmethod
@@ -348,7 +350,7 @@ class JsonPack(object):
         if len(email_address) > 7:
             if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", email_address) != None:
                 sender = 'saltfishprr@163.com'
-                pwd = '321654AA'
+                pwd = '123456aa'
                 receivers = email_address
                 def get_check_code():
                     list1 = []

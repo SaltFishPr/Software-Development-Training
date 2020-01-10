@@ -138,3 +138,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# My files to ignore
+/backstage/config.py

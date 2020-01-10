@@ -364,10 +364,10 @@
   function journal_name_input_change() {
     post_data = {
       'journal_name': document.getElementById("journal_name_input").value,
-      'status': "获取库存状态"
+      'status': "借阅中"
     }
     $.ajax({
-      url: "journal_table_by_journal_name", data: post_data, success: function (data) {
+      url: "record_table_by_journal_name", data: post_data, success: function (data) {
         console.log(data)
         record_table_load(data)
       }

@@ -21,21 +21,23 @@ import time
 # # 转为时间戳
 # # timeStamp = int(time.mktime(timeArray))
 # # print (timeStamp)  # 1381419600
-import random
-list1 = []
-for i in range(6):
 
-    statu = random.randint(1,3)
-    if statu == 1:#随机大写字母
-        a = random.randint(65,90)
-        a_chr = chr(a)
-        list1.append(a_chr)
-    elif statu == 2:#随机小写字母
-        b = random.randint(97, 122)
-        b_chr = chr(b)
-        list1.append(b_chr)
-    elif statu == 3:#0-9的随机数
-        r = random.randint(0,9)
-        list1.append(str(r))
-ver_code = "".join(list1)
-print(ver_code)
+
+import random
+# list1 = []
+# for i in range(6):
+#
+#     statu = random.randint(1,3)
+#     if statu == 1:#随机大写字母
+#         a = random.randint(65,90)
+#         a_chr = chr(a)
+#         list1.append(a_chr)
+#     elif statu == 2:#随机小写字母
+#         b = random.randint(97, 122)
+#         b_chr = chr(b)
+#         list1.append(b_chr)
+#     elif statu == 3:#0-9的随机数
+#         r = random.randint(0,9)
+#         list1.append(str(r))
+# ver_code = "".join(list1)
+print()
