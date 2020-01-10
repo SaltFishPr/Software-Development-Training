@@ -426,9 +426,15 @@ class JournalAdmin(User):
             # total_num=stock_num=num len_num=ordernum=0
             # 暂时不管其他的属性
             # 直接插入到数据库生成相应的key
-            JournalDB.insert_journal(journal_year, journal_stage, journal_name, 'test', num, 0, 0, num)
-            flag = 1
-            message = '成功'
+            results = JournalDB.get_journal_by_name_year_stage(journal_name, journal_year, journal_stage)
+            if (not results[0]):
+                JournalDB.insert_journal(journal_year, journal_stage, journal_name, 'test', num, 0, 0, num)
+                flag = 1
+                message = '成功'
+            else:
+                flag = 0
+                message = '该期刊已存在'
+
         elif update_method == '销毁期刊':
             # 如果 len_num=0 order_num=0 执行数据库的del操作 把name year stage这一行删除
             get_journal_info = {
