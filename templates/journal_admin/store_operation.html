@@ -292,7 +292,8 @@
     $.ajax({
       url: "journal_update", data: post_data, success: function (data) {
         if (data['flag'] == 1) {
-          journal_store_info_load()
+          {#journal_store_info_load()#}
+            journal_name_input_change()
           alert(data['message'])
         } else {
           alert(data['message'])
@@ -307,6 +308,7 @@
     }
     $.ajax({
       url: "stock_table_by_journal_name", data: post_data, success: function (data) {
+          console.log(document.getElementById("journal_name_input").value)
         journal_table_load(data)
       }
     });
