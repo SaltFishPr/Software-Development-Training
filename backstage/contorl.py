@@ -349,8 +349,8 @@ class JsonPack(object):
         check_code=""
         if len(email_address) > 7:
             if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", email_address) != None:
-                sender = 'saltfishprr@163.com'
-                pwd = '123456aa'
+                sender = config.sender_email_address
+                pwd = config.email_password
                 receivers = email_address
                 def get_check_code():
                     list1 = []
