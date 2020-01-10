@@ -141,7 +141,7 @@
                     <div class="form-group row">
                       <label class="col-sm-2 col-form-label">grade</label>
                       <div class="col-sm-4">
-                        <input type="text" class="form-control" id="user_register_grade">
+                        <input type="number" min=0 class="form-control" id="user_register_grade">
                       </div>
 
                     </div>
@@ -368,6 +368,26 @@
   }
 
   function user_register() {
+      if(document.getElementById("user_register_account").value==""){
+          alert("注册失败，账户信息不能为空")
+          return
+      }
+      if(document.getElementById("user_register_name").value==""){
+          alert("注册失败，姓名信息不能为空")
+          return
+      }
+      if(document.getElementById("user_register_password").value==""){
+          alert("注册失败，密码信息不能为空")
+          return
+      }
+      if(document.getElementById("user_register_grade").value==""){
+          alert("注册失败，等级信息不能为空")
+          return
+      }
+      if(document.getElementById("user_register_identity").value==""){
+          alert("注册失败，身份信息为空")
+          return
+      }
     post_data = {
       'account': document.getElementById("user_register_account").value,
       'name': document.getElementById("user_register_name").value,
